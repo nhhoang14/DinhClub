@@ -1,0 +1,159 @@
+.footer {
+    height: 350px;
+    width: 100%;
+    bottom: 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: #E1DEAA;
+    color: #333;
+    text-align: center;
+    clip-path: ellipse(120% 100% at 50% 100%);
+    padding: 72px 0 24px;
+    overflow: hidden;
+}
+
+.main-footer {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+    gap: 32px;
+}
+
+.info-container {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.info-container .footer-title {
+    font-family: 'BagelFatOne';
+    font-size: 32px;
+    color: rgb(110, 166, 245);
+}
+
+.info-container .footer-logo {
+    width: 32px;
+    height: auto;
+}
+
+.info-footer {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.info-footer .social-button {
+    border: 2px solid #5F3C10;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.social-button .social-icon {
+    width: 24px;
+    height: auto;
+    pointer-events: none;
+}
+
+.main-footer .footer-rights {
+    position: relative;
+    bottom: 0;
+    color: #727272;
+}
+
+.sub-footer {
+    position: relative;
+    width: 600px;
+    height: 600px;
+}
+
+.earth {
+    width: 100%;
+    height: 100%;
+    animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.sub-footer .floating-text {
+    position: absolute;
+    background-color: #ABDBF9;
+    padding: 10px 15px;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+.sub-footer .text1 {
+    top: 0%;
+    left: 15%;
+    --r: -10deg;
+    font-family: 'BagelFatOne';
+    animation-delay: 0.3s;
+    animation: float-wobble 3.5s ease-in-out infinite alternate;
+}
+
+.sub-footer .text2 {
+    top: 0%;
+    right: 20%;
+    --r: 10deg;
+    font-weight: bold;
+    animation-delay: 1.1s;
+    animation: float-wobble 4s ease-in-out infinite alternate;
+}
+
+.sub-footer .text3 {
+    top: 24%;
+    right: 0%;
+    --r: -15deg;
+    font-family: 'BagelFatOne';
+    animation-delay: 0.7s;
+    animation: float-wobble 4.5s ease-in-out infinite alternate;
+}
+
+.sub-footer .text4 {
+    top: 25%;
+    left: 5%;
+    --r: -15deg;
+    font-weight: bold;
+    animation-delay: 2.4s;
+    animation: float-wobble 3.5s ease-in-out infinite alternate;
+}
+
+.sub-footer .text5 {
+    top: 8%;
+    left: -5%;
+    --r: 10deg;
+    font-weight: bold;
+    animation-delay: 1.8s;
+    animation: float-wobble 4s ease-in-out infinite alternate;
+}
+
+.sub-footer .text6 {
+    top: 8%;
+    right: 0%;
+    --r: 15deg;
+    font-family: 'BagelFatOne';
+    animation-delay: 0.5s;
+    animation: float-wobble 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes float-wobble {
+  0%   { transform: translateX(0) translateY(0) rotate(var(--r, 0deg)); }
+  25%  { transform: translateX(-6px) translateY(-8px) rotate(calc(var(--r, 0deg) - 3deg)); }
+  50%  { transform: translateX(0) translateY(0) rotate(var(--r, 0deg)); }
+  75%  { transform: translateX(6px) translateY(-8px) rotate(calc(var(--r, 0deg) + 3deg)); }
+  100% { transform: translateX(0) translateY(0) rotate(var(--r, 0deg)); }
+}
