@@ -122,7 +122,6 @@
 .homepage-location {
     min-height: calc(100vh);
     clip-path: url(#location-clip);
-    /* background-color: #ABDBF9; */
     background-color: #ABDBF9;
     color: #0B70FE;
     display: flex;
