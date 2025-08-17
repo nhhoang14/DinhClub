@@ -32,7 +32,8 @@
 .info-container .footer-title {
     font-family: 'BagelFatOne';
     font-size: 32px;
-    color: rgb(110, 166, 245);
+    color: #297DF0;
+    line-height: 1.2;
 }
 
 .info-container .footer-logo {
@@ -55,6 +56,7 @@
 }
 
 .social-button .social-icon {
+    display: flex;
     width: 24px;
     height: auto;
     pointer-events: none;
