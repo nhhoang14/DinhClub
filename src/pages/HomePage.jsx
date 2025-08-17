@@ -2,6 +2,9 @@ import '../css/HomePage.css';
 import { useNavigate } from 'react-router-dom';
 import bannerImage from '../images/banner_pic.png';
 import contactImage from '../images/contact_homepage.png';
+import hanoi from '../images/logo_hanoi.jpg';
+import hcm from '../images/logo_hcm.jpg';
+import taiwan from '../images/logo_taiwan.jpg';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -37,8 +40,20 @@ function HomePage() {
         </defs>
       </svg>
       <div className="homepage-location">
-        <h2 className="location-title">Các hội viên có thể gặp trực tiếp các pé tại</h2>
-        <p className="location-subtitle">Câu lạc bộ Dính chính thức kí gửi một số con vợ tuyển chọn</p>
+        <div className="location-content">
+          <h2 className="location-title">Các hội viên có thể gặp trực tiếp các pé tại đây ạaaa!</h2>
+          <p className="location-subtitle">Câu lạc bộ Dính chính thức kí gửi một số con vợ tuyển chọn</p>
+        </div>
+        <div className="location-logos">
+          <img src={hanoi} className="location-logo logo-hanoi" alt="Hanoi" onClick={() => window.location.href = 'https://www.instagram.com/dinh.collective/'}/>
+          <img src={hcm} className="location-logo logo-hcm" alt="HCM" onClick={() => window.location.href = 'https://www.instagram.com/ohquao/'}/>
+          <img src={taiwan} className="location-logo logo-taiwan" alt="Taiwan" onClick={() => window.location.href = 'https://www.instagram.com/robi.select/'}/>
+          <div className="floating-location">
+            <p className="location-name hanoi">Hà Nội</p>
+            <p className="location-name hcm">Hồ Chí Minh</p>
+            <p className="location-name taiwan">Taiwan</p>
+          </div>
+        </div>
       </div>
 
       {/* contact */}

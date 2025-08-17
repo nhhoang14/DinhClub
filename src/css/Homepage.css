@@ -107,7 +107,6 @@
     --r: 15deg;
     animation-delay: 0.5s;
     animation: float-wobble 4.5s ease-in-out infinite alternate;
-
 }
 
 @keyframes float-wobble {
@@ -123,26 +122,91 @@
     min-height: calc(100vh);
     clip-path: url(#location-clip);
     background-color: #ABDBF9;
-    color: #0B70FE;
     display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
-    gap: 24px;
+    gap: 72px;
     padding-top: 120px;
 }
 
-.homepage-location .location-title {
+.location-content{
+    display: flex;
+    color: #0B70FE;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+.location-content .location-title {
     width: 600px;
     font-size: 72px;
-    text-align: center;
     margin-left: auto;
     margin-right: auto;
 }
 
-.homepage-location .location-subtitle {
+.location-content .location-subtitle {
     font-family: 'DFVN Bagel Fat One', sans-serif;
     font-weight: bold;
     color: #939192;
+}
+
+.location-logos{
+    position: relative;
+    width: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.location-logos .location-logo {
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+    margin: 40px 120px 60px;
+    cursor: pointer;
+}
+
+.floating-location .location-name{
+    position: absolute;
+    border-radius: 50%;
+    font-size: 24px;
+    color: #0B70FE;
+    padding: 15px 20px;
+}
+
+.location-logos .logo-hanoi,
+.floating-location .hanoi{
+    top: 30%;
+    left: 20%;
+    --r: 5deg;
+    background-color: #D4C9FF;
+    animation-delay: 0.3s;
+    animation-duration: 3.5s;
+    animation: float-wobble 3.5s ease-in-out infinite alternate;
+
+}
+
+.location-logos .logo-hcm,
+.floating-location .hcm{
+    top: 32%;
+    right: 18%;
+    --r: -1deg;
+    background-color: #A2C760;
+    animation-delay: 1.1s;
+    animation-duration: 4s;
+    animation: float-wobble 4s ease-in-out infinite alternate;
+}
+
+.location-logos .logo-taiwan,
+.floating-location .taiwan{
+    bottom: 5%;
+    right: 42%;
+    --r: -5deg;
+    background-color: #FF9ED2;
+    animation-delay: 0.7s;
+    animation-duration: 4.5s;
+    animation: float-wobble 4.5s ease-in-out infinite alternate;
 }
 
 /* contact */
