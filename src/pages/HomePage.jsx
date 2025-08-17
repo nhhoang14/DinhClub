@@ -28,6 +28,19 @@ function HomePage() {
         </div>
       </div>
 
+      {/* location */}
+      <svg width="0" height="0">
+        <defs>
+          <clipPath id="location-clip" clipPathUnits="objectBoundingBox">
+            <path d="M0,0 Q0.5,0.1 1,0 L1,0.9 Q0.5,1 0,0.9 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+      <div className="homepage-location">
+        <h2 className="location-title">Các hội viên có thể gặp trực tiếp các pé tại</h2>
+        <p className="location-subtitle">Câu lạc bộ Dính chính thức kí gửi một số con vợ tuyển chọn</p>
+      </div>
+
       {/* contact */}
       <div className="homepage-contact">
         <div className="img-contact">

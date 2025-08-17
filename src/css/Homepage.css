@@ -118,9 +118,38 @@
   100% { transform: translateX(0) translateY(0) rotate(var(--r, 0deg)); }
 }
 
+/* location */
+.homepage-location {
+    min-height: calc(100vh);
+    clip-path: url(#location-clip);
+    /* background-color: #ABDBF9; */
+    background-color: #ABDBF9;
+    color: #0B70FE;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+    padding-top: 120px;
+}
+
+.homepage-location .location-title {
+    width: 600px;
+    font-size: 72px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.homepage-location .location-subtitle {
+    font-family: 'DFVN Bagel Fat One', sans-serif;
+    font-weight: bold;
+    color: #939192;
+}
+
 /* contact */
 .homepage-contact {
-    min-height: calc(100vh - 200px);
+    transform: translateY(-25px);
+    min-height: calc(100vh - 300px);
     display: flex;
     justify-content: space-evenly;
     align-items: center;
