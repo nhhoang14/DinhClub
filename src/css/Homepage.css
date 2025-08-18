@@ -4,8 +4,7 @@
     min-height: calc(100vh - 120px);
     overflow-x: hidden;
 }
-
-/* banner */
+/* ==================== banner ==================== */
 .homepage-banner {
     position: relative;
     display: flex;
@@ -118,14 +117,14 @@
   100% { transform: translateX(0) translateY(0) rotate(var(--r, 0deg)); }
 }
 
-/* list-products */
+/* ==================== list-products ==================== */
 .homepage-products {
     min-height: calc(90vh);
     background-color: #D3C5F2;
     clip-path: url(#products-clip);
 }
 
-/* feedback */
+/* ==================== feedback ==================== */
 .homepage-feedback{
     min-height: calc(80vh);
     display: flex;
@@ -178,7 +177,7 @@
     height: auto;
 }
 
-/* location */
+/* ==================== location ==================== */
 .homepage-location {
     min-height: calc(100vh);
     clip-path: url(#location-clip);
@@ -269,7 +268,7 @@
     animation: float-wobble 4.5s ease-in-out infinite alternate;
 }
 
-/* contact */
+/* ==================== contact ==================== */
 .homepage-contact {
     transform: translateY(-25px);
     min-height: calc(100vh - 300px);
