@@ -8,6 +8,7 @@ import taiwan from '../images/logo_taiwan.jpg';
 import feedback from '../images/feedback.jpg';
 import back_btn from '../images/back_btn.png';
 import next_btn from '../images/next_btn.png';
+import FeedbackCard from '../components/FeedbackCard.jsx';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -66,9 +67,10 @@ function HomePage() {
           </div>
         </div>
         <div className="feedback-content">
-          <p>"Sản phẩm tuyệt vời, tôi rất hài lòng!" - Khách hàng A</p>
-          <p>"Dịch vụ chăm sóc khách hàng rất tốt!" - Khách hàng B</p>
-          <p>"Tôi sẽ quay lại mua sắm tiếp!" - Khách hàng C</p>
+          <FeedbackCard feedback={{ text: "Sản phẩm tuyệt vời, tôi rất hài lòng!", author: "Khách hàng A", bgColor: "#D4C9FF" , textColor: "#7A7198" }} />
+          <FeedbackCard feedback={{ text: "Dịch vụ chăm sóc khách hàng rất tốt!", author: "Khách hàng B", bgColor: "#D7F46E", textColor: "#148A4D" }} />
+          <FeedbackCard feedback={{ text: "Tôi sẽ quay lại mua sắm tiếp!", author: "Khách hàng C", bgColor: "#FF9BE3", textColor: "#4F81FA" }} />
+          <FeedbackCard feedback={{ text: "Các Pé nhà mình bên ngoài trông cưng cáaa!", author: "Khách hàng D", bgColor: "#5182F9", textColor: "#F1E28D" }} />
         </div>
       </div>
 

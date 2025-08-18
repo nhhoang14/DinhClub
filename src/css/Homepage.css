@@ -130,6 +130,7 @@
     display: flex;
     flex-direction: column;
     padding-top: 80px;
+    gap: 100px;
 }
 
 .feedback-nav{
@@ -175,6 +176,13 @@
 .feedback-btn .feedback-icon {
     width: 50px;
     height: auto;
+}
+
+.feedback-content{
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    padding: 0 80px;
 }
 
 /* ==================== location ==================== */

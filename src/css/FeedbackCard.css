@@ -1,0 +1,24 @@
+.feedback-card{
+    width: 500px;
+    height: 250px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #eee;
+    border-radius: 25px;
+}
+
+.fbcard-content{
+    width: 60%;
+    padding: 32px;
+}
+
+.fbcard-author{
+    font-size: 20px;
+    padding: 12px 0 32px;
+}
+
+.fbcard-text{
+    font-size: 24px;
+    line-height: 1.5;
+}
+
