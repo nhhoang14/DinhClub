@@ -5,6 +5,9 @@ import contactImage from '../images/contact_homepage.png';
 import hanoi from '../images/logo_hanoi.jpg';
 import hcm from '../images/logo_hcm.jpg';
 import taiwan from '../images/logo_taiwan.jpg';
+import feedback from '../images/feedback.jpg';
+import back_btn from '../images/back_btn.png';
+import next_btn from '../images/next_btn.png';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -31,6 +34,44 @@ function HomePage() {
         </div>
       </div>
 
+      {/* list-products */}
+      <svg width="0" height="0">
+        <defs>
+          <clipPath id="products-clip" clipPathUnits="objectBoundingBox">
+            <path d="M0,0 Q0.5,0.1 1,0 L1,1 Q0.5,0.9 0,1 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+      <div className="homepage-products">
+        <h2 className="products-title">Sản phẩm nổi bật</h2>
+        <div className="products-list">
+          {/* Render product items here */}
+        </div>
+      </div>
+
+      {/* feedback */}
+      <div className="homepage-feedback">
+        <div className="feedback-nav">
+          <div className="feedback-heading">
+            <img src={feedback} className="feedback-image" alt="Feedback" />
+            <h2 className="feedback-title">Phách bít của các hội viên</h2>
+          </div>
+          <div className="feedback-ctrl">
+            <button className="feedback-btn">
+              <img src={back_btn} className="feedback-icon" alt="feedback-left" />
+            </button>
+            <button className="feedback-btn">
+              <img src={next_btn} className="feedback-icon" alt="feedback-right" />
+            </button>
+          </div>
+        </div>
+        <div className="feedback-content">
+          <p>"Sản phẩm tuyệt vời, tôi rất hài lòng!" - Khách hàng A</p>
+          <p>"Dịch vụ chăm sóc khách hàng rất tốt!" - Khách hàng B</p>
+          <p>"Tôi sẽ quay lại mua sắm tiếp!" - Khách hàng C</p>
+        </div>
+      </div>
+
       {/* location */}
       <svg width="0" height="0">
         <defs>
@@ -45,9 +86,9 @@ function HomePage() {
           <p className="location-subtitle">Câu lạc bộ Dính chính thức kí gửi một số con vợ tuyển chọn</p>
         </div>
         <div className="location-logos">
-          <img src={hanoi} className="location-logo logo-hanoi" alt="Hanoi" onClick={() => window.location.href = 'https://www.instagram.com/dinh.collective/'}/>
-          <img src={hcm} className="location-logo logo-hcm" alt="HCM" onClick={() => window.location.href = 'https://www.instagram.com/ohquao/'}/>
-          <img src={taiwan} className="location-logo logo-taiwan" alt="Taiwan" onClick={() => window.location.href = 'https://www.instagram.com/robi.select/'}/>
+          <img src={hanoi} className="location-logo logo-hanoi" alt="Hanoi" onClick={() => window.location.href = 'https://www.instagram.com/dinh.collective/'} />
+          <img src={hcm} className="location-logo logo-hcm" alt="HCM" onClick={() => window.location.href = 'https://www.instagram.com/ohquao/'} />
+          <img src={taiwan} className="location-logo logo-taiwan" alt="Taiwan" onClick={() => window.location.href = 'https://www.instagram.com/robi.select/'} />
           <div className="floating-location">
             <p className="location-name hanoi">Hà Nội</p>
             <p className="location-name hcm">Hồ Chí Minh</p>

@@ -2,6 +2,7 @@
     background-color: #ffffff;
     font-family: 'BagelFatOne';
     min-height: calc(100vh - 120px);
+    overflow-x: hidden;
 }
 
 /* banner */
@@ -117,6 +118,66 @@
   100% { transform: translateX(0) translateY(0) rotate(var(--r, 0deg)); }
 }
 
+/* list-products */
+.homepage-products {
+    min-height: calc(90vh);
+    background-color: #D3C5F2;
+    clip-path: url(#products-clip);
+}
+
+/* feedback */
+.homepage-feedback{
+    min-height: calc(80vh);
+    display: flex;
+    flex-direction: column;
+    padding-top: 80px;
+}
+
+.feedback-nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin: 0 80px;
+}
+
+.feedback-heading{
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.feedback-heading .feedback-image{
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.feedback-heading .feedback-title{
+    font-size: 48px;
+    width: 300px;
+    line-height: 1.2;
+}
+
+.feedback-ctrl .feedback-btn {
+    margin-left: 12px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.feedback-ctrl .feedback-btn:hover {
+    opacity: 0.8;
+}
+
+.feedback-ctrl .feedback-btn:active {
+    opacity: 1;
+}
+
+.feedback-btn .feedback-icon {
+    width: 50px;
+    height: auto;
+}
+
 /* location */
 .homepage-location {
     min-height: calc(100vh);
@@ -184,7 +245,6 @@
     animation-delay: 0.3s;
     animation-duration: 3.5s;
     animation: float-wobble 3.5s ease-in-out infinite alternate;
-
 }
 
 .location-logos .logo-hcm,
