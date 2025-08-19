@@ -1,0 +1,28 @@
+.contact {
+    position: relative;
+    background-image: url('../images/contact_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 25px;
+    min-height: 88vh;
+    margin: 60px;
+    filter: brightness(70%);
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contact-content {
+    width: 40%;
+}
+
+.contact-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

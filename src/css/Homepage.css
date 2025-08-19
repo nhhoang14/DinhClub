@@ -285,12 +285,12 @@
     align-items: center;
 }
 
-.img-contact .contact-homepage{
+.img-hpcontact .contact-homepage{
     width: 600px;
     height: auto;
 }
 
-.homepage-contact .info-contact{
+.homepage-contact .info-hpcontact{
     display: flex;
     width: 550px;
     flex-direction: column;
@@ -299,12 +299,12 @@
     gap: 24px
 }
 
-.homepage-contact .contact-title {
+.homepage-contact .hpcontact-title {
     font-size: 48px;
     line-height: 1.2;
 }
 
-.contact-btn {
+.hpcontact-btn {
     background-color: #0B70FE;
     color: #ffffff;
     border: none;
@@ -315,10 +315,10 @@
     transition: background-color 0.3s;
 }
 
-.contact-btn:hover {
+.hpcontact-btn:hover {
     background-color: #1B4AB4;
 }
 
-.contact-btn:active {
+.hpcontact-btn:active {
     background-color: #90C9EB;
 }

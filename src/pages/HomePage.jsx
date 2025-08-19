@@ -101,12 +101,12 @@ function HomePage() {
 
       {/* contact */}
       <div className="homepage-contact">
-        <div className="img-contact">
+        <div className="img-hpcontact">
           <img src={contactImage} className='contact-homepage' alt="Contact" />
         </div>
-        <div className="info-contact">
-          <h2 className="contact-title">Các mom có thắc mắc gì? Hãy liên hệ cho tụi mình nháaaa!</h2>
-          <button className="contact-btn" onClick={() => navigate('/contact')}>
+        <div className="info-hpcontact">
+          <h2 className="hpcontact-title">Các mom có thắc mắc gì? Hãy liên hệ cho tụi mình nháaaa!</h2>
+          <button className="hpcontact-btn" onClick={() => navigate('/contact')}>
             Contact Us
           </button>
         </div>
