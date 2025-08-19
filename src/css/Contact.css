@@ -94,11 +94,11 @@
 
 /* Drop area styles */
 .drop-area {
-    border: 2px dashed #0b70fe;
+    border: 2px dashed #312e29;
     border-radius: 15px;
     padding: 20px;
     text-align: center;
-    color: #0b70fe;
+    color: #312e29;
     cursor: pointer;
     transition: background 0.2s;
 }
@@ -111,7 +111,7 @@
     display: inline-block;
     margin-top: 10px;
     padding: 6px 12px;
-    background: #0b70fe;
+    background: #312e29;
     color: white;
     border-radius: 6px;
     cursor: pointer;
@@ -121,6 +121,7 @@
     margin-top: 10px;
     font-size: 14px;
     text-align: left;
+    font-weight: bold;
 }
 
 .file-item .remove-btn {
