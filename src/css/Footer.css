@@ -55,6 +55,14 @@
     padding: 8px;
 }
 
+.info-footer .social-button:hover {
+    opacity: 0.8;
+}
+
+.info-footer .social-button:active {
+    opacity: 0.5;
+}
+
 .social-button .social-icon {
     display: flex;
     width: 24px;
