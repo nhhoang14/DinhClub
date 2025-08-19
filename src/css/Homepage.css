@@ -4,6 +4,7 @@
     min-height: calc(100vh - 120px);
     overflow-x: hidden;
 }
+
 /* ==================== banner ==================== */
 .homepage-banner {
     position: relative;

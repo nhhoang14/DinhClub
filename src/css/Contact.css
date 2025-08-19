@@ -10,19 +10,117 @@
     overflow: hidden;
     display: flex;
     justify-content: space-between;
+    font-family: 'DFVN Bagel Fat One', sans-serif;
+    color: #112200;
 }
 
 .contact-content {
     width: 40%;
 }
 
-.contact-form {
+.contact-content .contact-form {
+    padding: 60px 60px 80px;
+    gap: 32px;
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 12px;
+    gap: 32px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact-content .form-heading {
+    font-family: 'DFVN Bagel Fat One', sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group p {
+    font-weight: bold;
+    margin-left: 12px;
+    margin-bottom: 16px;
+}
+
+.name-form input,
+.email-form input {
+    width: 100%;
+    min-height: 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    padding: 10px 14px;
+    font-family: monospace;
+}
+
+.message-form textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: none;
+    font-size: 16px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Drop area styles */
+.drop-area {
+    border: 2px dashed #0b70fe;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    color: #0b70fe;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.drop-area:hover {
+    background: #f0f8ff;
+}
+
+.file-label {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: #0b70fe;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.file-list {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: left;
+}
+/* Drop area styles end */
+
+.contact-form .contact-btn {
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 0;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.contact-form .contact-btn:hover {
+    background: #0b70fe;
+    color: white;
+}
+
+.contact-form .contact-btn:active {
+    background: #0b70fe;
+    color: white;
 }
