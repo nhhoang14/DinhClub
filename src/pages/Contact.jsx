@@ -96,7 +96,7 @@ function Contact() {
             {/* Drop area end */}
           </div>
           <button className="contact-btn" type="submit">
-            Send Message
+            Gửi thông tin
           </button>
         </form>
       </div>
