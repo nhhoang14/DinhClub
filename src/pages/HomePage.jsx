@@ -12,6 +12,7 @@ import FeedbackCard from '../components/FeedbackCard.jsx';
 
 function HomePage() {
   const navigate = useNavigate();
+  
   return (
     <div className="homepage">
 

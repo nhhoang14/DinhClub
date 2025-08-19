@@ -6,12 +6,27 @@
     border-radius: 25px;
     min-height: 88vh;
     margin: 60px;
-    filter: brightness(90%);
+    filter: brightness(95%);
     overflow: hidden;
     display: flex;
     justify-content: space-between;
     font-family: 'DFVN Bagel Fat One', sans-serif;
     color: #112200;
+}
+
+.contact .contact-info {
+    width: 60%;
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    padding-left: 48px;
+    padding-bottom: 12px;
+}
+
+.contact-info .logo {
+    opacity: 0.8;
+    max-width: 15%;
+    height: auto;
 }
 
 .contact-content {
@@ -26,9 +41,9 @@
     flex-direction: column;
     gap: 32px;
     background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     border-radius: 25px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .contact-content .form-heading {
@@ -37,6 +52,11 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.contact-content .form-heading p {
+    font-size: 16px;
+    color: #797575;
 }
 
 .form-group {
@@ -76,7 +96,7 @@
 /* Drop area styles */
 .drop-area {
     border: 2px dashed #0b70fe;
-    border-radius: 12px;
+    border-radius: 15px;
     padding: 20px;
     text-align: center;
     color: #0b70fe;
@@ -103,13 +123,34 @@
     font-size: 14px;
     text-align: left;
 }
+
+.file-item .remove-btn {
+    text-align: center;
+    margin-left: 4px;
+    background: transparent;
+    padding: 4px 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.file-item .remove-btn:hover {
+    background: rgba(255, 0, 0, 0.1);
+}
+
+.file-item .remove-btn:active {
+    background: rgba(255, 0, 0, 0.2);
+}
+
 /* Drop area styles end */
 
 .contact-form .contact-btn {
     width: 100%;
-    margin: 0 auto;
+    margin-top: 16px;
     padding: 10px 0;
     font-size: 16px;
+    background: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 25px;
     transition: background 0.2s, color 0.2s;
@@ -121,6 +162,6 @@
 }
 
 .contact-form .contact-btn:active {
-    background: #0b70fe;
+    background: rgba(11, 112, 254, 0.5);
     color: white;
 }
