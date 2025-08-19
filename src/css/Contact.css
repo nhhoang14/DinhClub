@@ -6,7 +6,6 @@
     border-radius: 25px;
     min-height: 88vh;
     margin: 60px;
-    filter: brightness(95%);
     overflow: hidden;
     display: flex;
     justify-content: space-between;
