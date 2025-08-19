@@ -6,7 +6,7 @@
     border-radius: 25px;
     min-height: 88vh;
     margin: 60px;
-    filter: brightness(70%);
+    filter: brightness(90%);
     overflow: hidden;
     display: flex;
     justify-content: space-between;
@@ -47,7 +47,7 @@
 
 .form-group p {
     font-weight: bold;
-    margin-left: 12px;
+    margin-left: 8px;
     margin-bottom: 16px;
 }
 
