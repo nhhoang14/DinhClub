@@ -7,7 +7,9 @@ function FeedbackCard({ feedback }) {
         <p className="fbcard-author">{feedback.author}</p>
         <p className="fbcard-text">{feedback.text}</p>
       </div>
-      <div style={{ backgroundImage: `url(${feedback.image})` }} className="fbcard-img"></div>
+      <div className="fbcard-subcontent">
+        <img src={feedback.image} alt={feedback.author} className='fbcard-img' />
+      </div>
     </div>
   );
 }

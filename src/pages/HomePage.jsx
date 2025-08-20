@@ -1,6 +1,6 @@
 import '../css/HomePage.css';
 import { useRef } from 'react';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import bannerImage from '../images/banner_pic.png';
 import contactImage from '../images/contact_homepage.png';
 import hanoi from '../images/logo_hanoi.jpg';
@@ -10,8 +10,16 @@ import feedback from '../images/feedback.jpg';
 import back_btn from '../images/back_btn.png';
 import next_btn from '../images/next_btn.png';
 import FeedbackCard from '../components/FeedbackCard.jsx';
+import overall from '../images/overall.jpg';
 
 function HomePage() {
+  const feedbacks = [
+    { text: "Sản phẩm tuyệt vời, tôi rất hài lòng!", author: "Khách hàng A", bgColor: "#D4C9FF", textColor: "#7A7198" },
+    { text: "Dịch vụ chăm sóc khách hàng rất tốt!", author: "Khách hàng B", bgColor: "#D7F46E", textColor: "#148A4D" },
+    { text: "Tôi sẽ quay lại mua sắm tiếp!", author: "Khách hàng C", bgColor: "#FF9BE3", textColor: "#4F81FA" },
+    { text: "Các Pé nhà mình bên ngoài trông cưng cáaa!", author: "Khách hàng D", bgColor: "#5182F9", textColor: "#F1E28D" }
+  ];
+
   const navigate = useNavigate();
   const slideRef = useRef(null);
 
@@ -52,6 +60,18 @@ function HomePage() {
         </div>
       </div>
 
+      {/* overall */}
+      <svg width="0" height="0">
+        <defs>
+          <clipPath id="overall-clip" clipPathUnits="objectBoundingBox">
+            <path d="M0,0 Q0.5,0.15 1,0 L1,0.85 Q0.5,1 0,0.85 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+      <div className="homepage-overall">
+        <img src={overall} className="overall-image" alt="Overall" />
+      </div>
+
       {/* list-products */}
       <svg width="0" height="0">
         <defs>
@@ -84,10 +104,9 @@ function HomePage() {
           </div>
         </div>
         <div className="feedback-content" ref={slideRef}>
-          <FeedbackCard feedback={{ text: "Sản phẩm tuyệt vời, tôi rất hài lòng!", author: "Khách hàng A", bgColor: "#D4C9FF" , textColor: "#7A7198" }} />
-          <FeedbackCard feedback={{ text: "Dịch vụ chăm sóc khách hàng rất tốt!", author: "Khách hàng B", bgColor: "#D7F46E", textColor: "#148A4D" }} />
-          <FeedbackCard feedback={{ text: "Tôi sẽ quay lại mua sắm tiếp!", author: "Khách hàng C", bgColor: "#FF9BE3", textColor: "#4F81FA" }} />
-          <FeedbackCard feedback={{ text: "Các Pé nhà mình bên ngoài trông cưng cáaa!", author: "Khách hàng D", bgColor: "#5182F9", textColor: "#F1E28D" }} />
+          {feedbacks.map((feedback) => (
+            <FeedbackCard feedback={feedback} />
+          ))}
         </div>
       </div>
 

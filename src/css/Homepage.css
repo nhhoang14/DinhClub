@@ -22,7 +22,7 @@
 
 .homepage-banner .banner-content {
     position: absolute;
-    bottom: -130px;
+    bottom: -135px;
     display: flex;
     width: 100%;
     justify-content: space-around;
@@ -116,6 +116,18 @@
   50%  { transform: translateX(0) translateY(0) rotate(var(--r, 0deg)); }
   75%  { transform: translateX(6px) translateY(-8px) rotate(calc(var(--r, 0deg) + 3deg)); }
   100% { transform: translateX(0) translateY(0) rotate(var(--r, 0deg)); }
+}
+
+/* ==================== overall ==================== */
+.homepage-overall {
+    clip-path: url(#overall-clip);
+    min-height: calc(385px);
+    background-color: #D3C5F2;
+}
+
+.homepage-overall .overall-image {
+    width: 100%;
+    height: auto;
 }
 
 /* ==================== list-products ==================== */
