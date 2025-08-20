@@ -1,6 +1,7 @@
 .navbar{
     position: fixed;
     background-color: transparent;
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     font-family: 'DFVN Bagel Fat One', sans-serif;
