@@ -1,5 +1,6 @@
 import '../css/HomePage.css';
-import { useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+import { useNavigate} from 'react-router-dom';
 import bannerImage from '../images/banner_pic.png';
 import contactImage from '../images/contact_homepage.png';
 import hanoi from '../images/logo_hanoi.jpg';
@@ -12,7 +13,22 @@ import FeedbackCard from '../components/FeedbackCard.jsx';
 
 function HomePage() {
   const navigate = useNavigate();
-  
+  const slideRef = useRef(null);
+
+  const scrollDistance = 500 + 32;
+
+  const handleScrollLeft = () => {
+    if (slideRef.current) {
+      slideRef.current.scrollBy({ left: -scrollDistance, behavior: "smooth" });
+    }
+  };
+
+  const handleScrollRight = () => {
+    if (slideRef.current) {
+      slideRef.current.scrollBy({ left: scrollDistance, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="homepage">
 
@@ -59,15 +75,15 @@ function HomePage() {
             <h2 className="feedback-title">Phách bít của các hội viên</h2>
           </div>
           <div className="feedback-ctrl">
-            <button className="feedback-btn">
+            <button className="feedback-btn" onClick={handleScrollLeft}>
               <img src={back_btn} className="feedback-icon" alt="feedback-left" />
             </button>
-            <button className="feedback-btn">
+            <button className="feedback-btn" onClick={handleScrollRight}>
               <img src={next_btn} className="feedback-icon" alt="feedback-right" />
             </button>
           </div>
         </div>
-        <div className="feedback-content">
+        <div className="feedback-content" ref={slideRef}>
           <FeedbackCard feedback={{ text: "Sản phẩm tuyệt vời, tôi rất hài lòng!", author: "Khách hàng A", bgColor: "#D4C9FF" , textColor: "#7A7198" }} />
           <FeedbackCard feedback={{ text: "Dịch vụ chăm sóc khách hàng rất tốt!", author: "Khách hàng B", bgColor: "#D7F46E", textColor: "#148A4D" }} />
           <FeedbackCard feedback={{ text: "Tôi sẽ quay lại mua sắm tiếp!", author: "Khách hàng C", bgColor: "#FF9BE3", textColor: "#4F81FA" }} />

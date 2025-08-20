@@ -184,6 +184,13 @@
     flex-direction: row;
     gap: 32px;
     padding: 0 80px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+.feedback-content::-webkit-scrollbar {
+    display: none;
 }
 
 /* ==================== location ==================== */
