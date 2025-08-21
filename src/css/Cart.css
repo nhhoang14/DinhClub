@@ -1,0 +1,22 @@
+.cart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: opacity 0.2s ease;
+}
+
+.cart-btn:hover {
+    opacity: 0.5;
+}
+
+.cart-btn:active {
+    opacity: 1;
+}
+
+
+.cart-btn .cart-icon {
+    color: #0B70FE;
+    font-size: 24px;
+}

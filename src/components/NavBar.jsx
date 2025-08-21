@@ -1,6 +1,7 @@
 import '../css/NavBar.css';
 import logo from '../images/logo.png';
 import { Link, useLocation } from 'react-router-dom';
+import Cart from '../components/Cart';
 
 function NavBar() {
   const location = useLocation();
@@ -25,10 +26,8 @@ function NavBar() {
         <li><p className='divide'>x</p></li>
         <li><Link to="/contact" onClick={handleTopClick}>Contact Us</Link></li>
       </ul>
-      <div className="cart-icon">
-        <span className="material-symbols-outlined">
-          shopping_cart
-        </span>
+      <div className="nav-cart">
+        <Cart />
       </div>
     </nav>
   );
