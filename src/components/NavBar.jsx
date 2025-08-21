@@ -1,20 +1,29 @@
 import '../css/NavBar.css';
 import logo from '../images/logo.png';
+import { Link, useLocation } from 'react-router-dom';
 
 function NavBar() {
+  const location = useLocation();
+
+   const handleTopClick = () => {
+    if (location.pathname === location.pathname) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="logo-container">
-        <a href="/">
+        <Link to="/" onClick={handleTopClick}>
           <img src={logo} alt="Dinh Club Logo" className='logo-pic' />
-        </a>
+        </Link>
       </div>
       <ul className="nav-links">
-        <li><a href="/">Home Page</a></li>
+        <li><Link to="/" onClick={handleTopClick}>Home Page</Link></li>
         <li><p className='divide'>x</p></li>
-        <li><a href="/products">Products</a></li>
+        <li><Link to="/products" onClick={handleTopClick}>Products</Link></li>
         <li><p className='divide'>x</p></li>
-        <li><a href="/contact">Contact Us</a></li>
+        <li><Link to="/contact" onClick={handleTopClick}>Contact Us</Link></li>
       </ul>
       <div className="cart-icon">
         <span className="material-symbols-outlined">
