@@ -142,7 +142,7 @@
     min-height: calc(80vh);
     display: flex;
     flex-direction: column;
-    padding-top: 80px;
+    padding: 80px 0;
     gap: 100px;
 }
 
