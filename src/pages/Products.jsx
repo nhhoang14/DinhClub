@@ -3,9 +3,13 @@ import { useState } from 'react';
 import banner from '../images/overall.jpg';
 import ProductCard from '../components/ProductCard';
 import bedao from '../images/bedao.jpg';
+import bedao_hover from '../images/bedao_hover.jpg';
 import bemai from '../images/bemai.jpg';
+import bemai_hover from '../images/bemai_hover.jpg';
 import bequat from '../images/bequat.jpg';
+import bequat_hover from '../images/bequat_hover.jpg';
 import bety from '../images/bety.jpg';
+import bety_hover from '../images/bety_hover.jpg';
 import begung from '../images/begung.jpg';
 import belong from '../images/belong.jpg';
 import betung from '../images/betung.jpg';
@@ -24,10 +28,10 @@ import dbblack_st from '../images/dbblack_st.jpg';
 
 function Products() {
   const ProductCards = [
-    { id: 1, image: bedao, title: "BÉ ĐÀO", type: "Keychain", price: "150.000" },
-    { id: 2, image: bemai, title: "BÉ MAI", type: "Keychain", price: "150.000" },
-    { id: 3, image: bequat, title: "BÉ QUÁT", type: "Keychain", price: "150.000" },
-    { id: 4, image: bety, title: "BÉ TY", type: "Keychain", price: "150.000" },
+    { id: 1, image: bedao, hoverImage: bedao_hover, title: "BÉ ĐÀO", type: "Keychain", price: "150.000" },
+    { id: 2, image: bemai, hoverImage: bemai_hover, title: "BÉ MAI", type: "Keychain", price: "150.000" },
+    { id: 3, image: bequat, hoverImage: bequat_hover, title: "BÉ QUÁT", type: "Keychain", price: "150.000" },
+    { id: 4, image: bety, hoverImage: bety_hover, title: "BÉ TY", type: "Keychain", price: "150.000" },
     { id: 5, image: begung, title: "BÉ GỪNG", type: "Keychain", price: "145.000" },
     { id: 6, image: belong, title: "BÉ LONG", type: "Keychain", price: "145.000" },
     { id: 7, image: betung, title: "BÉ TÙNG", type: "Keychain", price: "145.000" },
@@ -75,6 +79,7 @@ function Products() {
             <ProductCard
               key={product.id}
               image={product.image}
+              hoverImage={product.hoverImage}
               title={product.title}
               type={product.type}
               price={product.price}
