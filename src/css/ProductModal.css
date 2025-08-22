@@ -26,7 +26,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 60px;
+    font-family: "Noto Sans JP", sans-serif;
+    padding: 8px 60px 0;
     color: var(--product-color);
     z-index: 2000;
 }
@@ -38,7 +39,7 @@
     cursor: pointer;
 }
 
-.close-btn .close-icon{
+.close-btn .close-icon {
     color: var(--product-color);
     font-weight: bold;
 }
@@ -47,7 +48,7 @@
     filter: brightness(0.8);
 }
 
-.close-btn:active  .close-icon {
+.close-btn:active .close-icon {
     opacity: 0.8;
 }
 
@@ -57,7 +58,7 @@
     gap: 8px;
 }
 
-.modal-follow .modal-arrow-icon{
+.modal-follow .modal-arrow-icon {
     font-size: 16px;
 }
 
@@ -105,8 +106,15 @@
     color: #797575;
 }
 
+.modal-detail .modal-quantity {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+}
+
 .modal-detail .add-to-cart,
 .modal-detail .order-btn {
+    font-family: "Noto Sans JP", sans-serif;
     margin-top: 15px;
     padding: 10px 20px;
     background: var(--product-color);
