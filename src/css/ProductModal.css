@@ -1,0 +1,114 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 85%;
+    height: 90%;
+}
+
+.modal-nav {
+    position: fixed;
+    width: 85%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 60px;
+    color: var(--product-color);
+    z-index: 2000;
+}
+
+.modal-nav .close-btn {
+    font-size: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.close-btn .close-icon{
+    color: var(--product-color);
+    font-weight: bold;
+}
+
+.close-btn:hover .close-icon {
+    filter: brightness(0.8);
+}
+
+.close-btn:active  .close-icon {
+    opacity: 0.8;
+}
+
+.modal-main {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    padding: 60px;
+}
+
+.modal-main .modal-img {
+    max-width: auto;
+    height: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-right: 100px;
+}
+
+.modal-main .modal-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    width: 100%;
+    padding: 100px 20px;
+    gap: 24px;
+}
+
+.modal-detail .modal-title {
+    font-size: 48px;
+    font-family: 'BagelFatOne';
+    color: var(--product-color);
+}
+
+.modal-detail .modal-price {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #797575;
+}
+
+.modal-detail .add-to-cart,
+.modal-detail .order-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: var(--product-color);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.modal-detail .add-to-cart:hover,
+.modal-detail .order-btn:hover {
+    filter: brightness(0.9);
+}
+
+.modal-detail .add-to-cart:active,
+.modal-detail .order-btn:active {
+    opacity: 0.8;
+}

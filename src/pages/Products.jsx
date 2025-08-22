@@ -1,5 +1,6 @@
 import '../css/Products.css';
 import { useState } from 'react';
+import ProductModal from '../components/ProductModal';
 import banner from '../images/overall.jpg';
 import ProductCard from '../components/ProductCard';
 import bedao from '../images/bedao.jpg';
@@ -28,16 +29,16 @@ import dbblack_st from '../images/dbblack_st.jpg';
 
 function Products() {
   const ProductCards = [
-    { id: 1, image: bedao, hoverImage: bedao_hover, title: "BÉ ĐÀO", type: "Keychain", price: "150.000" },
-    { id: 2, image: bemai, hoverImage: bemai_hover, title: "BÉ MAI", type: "Keychain", price: "150.000" },
-    { id: 3, image: bequat, hoverImage: bequat_hover, title: "BÉ QUÁT", type: "Keychain", price: "150.000" },
-    { id: 4, image: bety, hoverImage: bety_hover, title: "BÉ TY", type: "Keychain", price: "150.000" },
-    { id: 5, image: begung, title: "BÉ GỪNG", type: "Keychain", price: "145.000" },
-    { id: 6, image: belong, title: "BÉ LONG", type: "Keychain", price: "145.000" },
-    { id: 7, image: betung, title: "BÉ TÙNG", type: "Keychain", price: "145.000" },
-    { id: 8, image: bena, title: "BÉ NA", type: "Keychain", price: "145.000" },
-    { id: 9, image: bethong, title: "BÉ THÔNG", type: "Keychain", price: "145.000" },
-    { id: 10, image: bevy, title: "BÉ VY", type: "Keychain", price: "145.000" },
+    { id: 1, image: bedao, hoverImage: bedao_hover, title: "BÉ ĐÀO", type: "Keychain", price: "150.000", color: "#FA6AA1" },
+    { id: 2, image: bemai, hoverImage: bemai_hover, title: "BÉ MAI", type: "Keychain", price: "150.000", color: "#C4A8EF" },
+    { id: 3, image: bequat, hoverImage: bequat_hover, title: "BÉ QUÁT", type: "Keychain", price: "150.000", color: "#228F4C" },
+    { id: 4, image: bety, hoverImage: bety_hover, title: "BÉ TỴ", type: "Keychain", price: "150.000", color: "#FE8CE4" },
+    { id: 5, image: begung, title: "BÉ GỪNG", type: "Keychain", price: "145.000", color: "#C8AE9D" },
+    { id: 6, image: belong, title: "BÉ LONG", type: "Keychain", price: "145.000", color: "#D3031B" },
+    { id: 7, image: betung, title: "BÉ TÙNG", type: "Keychain", price: "145.000", color: "#BEC6B1" },
+    { id: 8, image: bena, title: "BÉ NA", type: "Keychain", price: "145.000", color: "#D81925" },
+    { id: 9, image: bethong, title: "BÉ THÔNG", type: "Keychain", price: "145.000", color: "#385455" },
+    { id: 10, image: bevy, title: "BÉ VY", type: "Keychain", price: "145.000", color: "#D6021B" },
     { id: 11, image: summer_st, title: "HÈ TUYỆT ĐỐI", type: "Sticker", price: "39.000" },
     { id: 12, image: xmas_st, title: "GIÁNG SINH AN GIẤC", type: "Sticker", price: "39.000" },
     { id: 13, image: ninhbo_st, title: "DÍNH NỊNH BỢ", type: "Sticker", price: "59.000" },
@@ -53,6 +54,8 @@ function Products() {
   const filteredProducts = selectedType === "All"
     ? ProductCards
     : ProductCards.filter(product => product.type === selectedType);
+
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <div className="products">
@@ -83,10 +86,19 @@ function Products() {
               title={product.title}
               type={product.type}
               price={product.price}
+              color={product.color}
+              onOpen={() => setSelectedProduct(product)}
             />
           ))}
         </div>
       </div>
+
+      <ProductModal
+        isOpen={!!selectedProduct}
+        product={selectedProduct || {}}
+        onClose={() => setSelectedProduct(null)}
+      />
+
     </div>
   );
 }
