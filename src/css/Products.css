@@ -31,6 +31,11 @@
     padding: 24px;
     margin-bottom: 24px;
 }
+.product-nav p {
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+}
 
 .product-nav .product-all,
 .product-nav .product-keychains{
@@ -41,4 +46,9 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
+}
+
+.product-nav .active {
+    font-weight: bold;
+    text-decoration: underline;
 }
