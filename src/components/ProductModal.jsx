@@ -10,11 +10,13 @@ function ProductModal({ isOpen, product, onClose }) {
         >
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-nav">
-                    <p className="modal-heading">Products
+                    <div className="modal-follow">
+                        <p className="modal-heading">Products</p>
                         <span className="material-symbols-outlined modal-arrow-icon">
                             arrow_forward_ios
                         </span>
-                        {product.type}</p>
+                        <p className="modal-heading">{product.type}</p>
+                    </div>
                     <button className="close-btn" onClick={onClose}>
                         <span className="material-symbols-outlined close-icon">
                             close

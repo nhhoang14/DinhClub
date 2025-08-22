@@ -51,6 +51,21 @@
     opacity: 0.8;
 }
 
+.modal-follow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-follow .modal-arrow-icon{
+    font-size: 16px;
+}
+
+.modal-follow .modal-heading {
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .modal-main {
     position: relative;
     height: 100%;
