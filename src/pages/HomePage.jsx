@@ -142,12 +142,15 @@ function HomePage() {
         </div>
         <div className="info-hpcontact">
           <h2 className="hpcontact-title">Các mom có thắc mắc gì? Hãy liên hệ cho tụi mình nháaaa!</h2>
-          <button className="hpcontact-btn" onClick={() => navigate('/contact')}>
-            Contact Us
-          </button>
-        </div>
+          <button className="hpcontact-btn" onClick={() => {
+            window.scrollTo(0, 0);
+            navigate('/contact');
+          }}>
+          Contact Us
+        </button>
       </div>
     </div>
+    </div >
   );
 }
 
