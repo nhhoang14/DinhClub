@@ -37,7 +37,7 @@ function Contact() {
   return (
     <div className="contact">
       <div className="contact-info">
-          <img src={logo} alt="Dính Club Logo" className="logo" />
+        <img src={logo} alt="Dính Club Logo" className="logo" />
       </div>
       <div className="contact-content">
         <form className="contact-form" action="">

@@ -49,7 +49,7 @@
                                             remove
                                         </span>
                                     </button> 
-                                    <input id="qty" type="text" value={qty} readOnly />
+                                    <input id="qty" type="text" value={qty} onChange={e => setQty(Number(e.target.value) || 1)} />
                                     <button type="button" className="qty-btn" onClick={increase}>
                                         <span className="material-symbols-outlined qty-icon">
                                             add_2

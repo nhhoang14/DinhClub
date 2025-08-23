@@ -166,7 +166,7 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-size: 14px;
     font-weight: bold;
 }
