@@ -34,7 +34,6 @@
 .product-nav p {
     cursor: pointer;
     padding: 8px 16px;
-    transition: all 0.2s ease;
 }
 
 .product-nav .product-all,
@@ -48,7 +47,16 @@
     gap: 24px;
 }
 
-.product-nav .active {
+.not-active .active-btn:hover {
+    color: #0B70FE;
+    opacity: 0.8;
     font-weight: bold;
-    text-decoration: underline;
+    border-bottom: 3px solid #0B70FE;
+}
+
+.active .active-btn {
+    color: #0B70FE;
+    font-weight: bold;
+    border-bottom: 3px solid #0B70FE;
+
 }

@@ -64,17 +64,17 @@ function Products() {
       </div>
       <div className="product-content">
         <div className="product-nav">
-          <p className={`product-all ${selectedType === "All" ? "active" : ""}`}
+          <p className={`product-all ${selectedType === "All" ? "active" : "not-active"}`}
             onClick={() => setSelectedType("All")}>
-            ALL PRODUCTS
+            <span className="active-btn">ALL PRODUCTS</span>
           </p>
-          <p className={`product-keychains ${selectedType === "Keychain" ? "active" : ""}`}
+          <p className={`product-keychains ${selectedType === "Keychain" ? "active" : "not-active"}`}
             onClick={() => setSelectedType("Keychain")}>
-            KEYCHAIN
+            <span className="active-btn">KEYCHAIN</span>
           </p>
-          <p className={`product-stickers ${selectedType === "Sticker" ? "active" : ""}`}
+          <p className={`product-stickers ${selectedType === "Sticker" ? "active" : "not-active"}`}
             onClick={() => setSelectedType("Sticker")}>
-            STICKER
+            <span className="active-btn">STICKER</span>
           </p>
         </div>
         <div className="product-list">
