@@ -1,12 +1,42 @@
-# React + Vite
+# Dinh Club
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Website of **Dinh Club**, built with **React + Vite** and deployed on:  
+👉 [https://dinh-club.vercel.app/](https://dinh-club.vercel.app/)
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Framework:** [React](https://react.dev/) + [Vite](https://vitejs.dev/)  
+- **Languages:** JavaScript, HTML, CSS  
+- **Hosting:** [Vercel](https://vercel.com/)  
+- **Goal:** Lightweight, fast-loading website that’s easy to scale and maintain.
 
-## Expanding the ESLint configuration
+## Recommended IDE Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- [VSCode](https://code.visualstudio.com/)  
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for code linting
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for auto-formatting
+
+## Project Setup
+
+### Clone the repository:  
+```sh
+git clone https://github.com/nhhoang14/DinhClub.git
+cd DinhClub
+```
+
+### Install dependencies:
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
