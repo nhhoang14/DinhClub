@@ -4,6 +4,7 @@
     function ProductModal({ isOpen, product, onClose }) {
         if (!isOpen) return null;
 
+        const [cartItems, setCartItems] = useState([]);
         const [qty, setQty] = useState(1);
 
         const increase = () => setQty(qty + 1);
@@ -57,7 +58,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <button className="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
+                            <button className="add-to-cart" >THÊM VÀO GIỎ HÀNG</button>
                             <button className="order-btn">THANH TOÁN</button>
                         </div>
                     </div>
