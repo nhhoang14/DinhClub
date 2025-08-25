@@ -19,10 +19,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 24px;
+    gap: 32px;
 }
 
-.nav-links a {
+.nav-links .nav-link {
+    position: relative;
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
