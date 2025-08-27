@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: calc(100vh - 80px);
+    min-height: calc(100vh - 120px);
     background-color: #ABDBF9;
     color: #0B70FE;
     clip-path: ellipse(150% 100% at 50% 0%);
@@ -122,7 +122,6 @@
 .homepage-overall {
     clip-path: url(#overall-clip);
     min-height: calc(385px);
-    background-color: #D3C5F2;
 }
 
 .homepage-overall .overall-image {
@@ -340,5 +339,5 @@
 }
 
 .hpcontact-btn:active {
-    background: rgba(11, 112, 254, 0.5);
+    background-color: rgba(11, 112, 254, 0.5);
 }

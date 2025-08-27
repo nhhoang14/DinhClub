@@ -1,17 +1,48 @@
 .contact {
-    position: relative;
-    background-image: url('../images/contact_bg.jpg');
-    background-size: cover;
-    background-position: center;
-    border-radius: 25px;
-    min-height: 88vh;
-    margin: 60px;
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    font-family: 'DFVN Bagel Fat One', sans-serif;
-    color: #112200;
+        position: relative;
+        background-image: url('../images/contact_bg.jpg');
+        background-size: cover;
+        background-position: center;
+        border-radius: 25px;
+        margin: 60px;
+        max-height: 100vh;
+        height: calc(100vh - 120px);
+        width: calc(100vw - 120px);
+        max-width: 100vw;
+        box-sizing: border-box;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'DFVN Bagel Fat One', sans-serif;
+        color: #112200;
 }
+
+@media (max-width: 900px) {
+    .contact {
+        margin: 60px 0 0;
+        border-radius: 25px;
+        min-width: 100vw;
+        min-height: 100vh;
+        display: block;
+    }
+
+    .contact .contact-info {
+        display: none !important;
+    }
+
+    .contact-content {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .contact-content .contact-form {
+        width: 100%;
+        height: 100%;
+        padding: 24px 8px 32px;
+        border-radius: 0;
+    }
+}
+
 
 .contact .contact-info {
     width: 60%;
@@ -40,9 +71,9 @@
     flex-direction: column;
     gap: 32px;
     background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
     border-radius: 25px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .contact-content .form-heading {
@@ -53,11 +84,6 @@
     gap: 16px;
 }
 
-.contact-content .form-heading p {
-    font-size: 16px;
-    color: #797575;
-}
-
 .form-group {
     display: flex;
     flex-direction: column;
@@ -66,7 +92,7 @@
 
 .form-group p {
     font-weight: bold;
-    margin-left: 8px;
+    margin-left: 12px;
     margin-bottom: 16px;
 }
 
@@ -94,24 +120,24 @@
 
 /* Drop area styles */
 .drop-area {
-    border: 2px dashed #312e29;
-    border-radius: 15px;
+    border: 2px dashed #0b70fe;
+    border-radius: 12px;
     padding: 20px;
     text-align: center;
-    color: #312e29;
+    color: #0b70fe;
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .drop-area:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: #f0f8ff;
 }
 
 .file-label {
     display: inline-block;
     margin-top: 10px;
     padding: 6px 12px;
-    background: #312e29;
+    background: #0b70fe;
     color: white;
     border-radius: 6px;
     cursor: pointer;
@@ -121,49 +147,25 @@
     margin-top: 10px;
     font-size: 14px;
     text-align: left;
-    font-weight: bold;
 }
-
-.file-item .remove-btn {
-    text-align: center;
-    margin-left: 4px;
-    background: transparent;
-    padding: 4px 8px;
-    border: none;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background 0.2s;
-}
-
-.file-item .remove-btn:hover {
-    background: rgba(255, 0, 0, 0.1);
-}
-
-.file-item .remove-btn:active {
-    background: rgba(255, 0, 0, 0.2);
-}
-
 /* Drop area styles end */
 
 .contact-form .contact-btn {
     width: 100%;
-    margin-top: 16px;
+    margin: 0 auto;
     padding: 10px 0;
     font-size: 16px;
-    background: rgba(255, 255, 255, 0.6);
-    color: #312e29;
-    font-weight: bold;
     border: 1px solid #ccc;
     border-radius: 25px;
     transition: background 0.2s, color 0.2s;
 }
 
 .contact-form .contact-btn:hover {
-    background: #312e29;
+    background: #0b70fe;
     color: white;
 }
 
 .contact-form .contact-btn:active {
-    background: rgba(49, 46, 41, 0.5);
+    background: #0b70fe;
     color: white;
 }

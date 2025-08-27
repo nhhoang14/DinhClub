@@ -81,10 +81,7 @@ function HomePage() {
         </defs>
       </svg>
       <div className="homepage-products">
-        <h2 className="products-title">Sản phẩm nổi bật</h2>
-        <div className="products-list">
-          {/* Render product items here */}
-        </div>
+        {/* <ListProducts /> */}
       </div>
 
       {/* feedback */}
