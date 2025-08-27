@@ -41,7 +41,7 @@
                         <div className="modal-detail">
                             <h2 className="modal-title">{product.title}</h2>
                             <p className="modal-code">Mã sản phẩm: <strong>{product.code}</strong></p>
-                            <p className="modal-price">{product.price} VND</p>
+                            <p className="modal-price">{product.price.toLocaleString('vi-VN')} VND</p>
                             <div className="modal-quantity">
                                 <label htmlFor="qty">SỐ LƯỢNG</label>
                                 <div className="quantity">
