@@ -1,0 +1,18 @@
+.recommend-item{
+    height: 150px;
+    flex: 0 0 375px;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.recommend-item img{
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.recommend-item .recommend-info{
+    width: 100%;
+}

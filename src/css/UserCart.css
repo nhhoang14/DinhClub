@@ -6,11 +6,21 @@
     font-family: 'DFVN Bagel Fat One', sans-serif;
     border-bottom: 1px solid #eee;
     margin: 60px auto;
+    justify-content: center;
 }
 
-.list-cart {
+.cart-content {
     width: 60%;
     max-width: 800px;
+}
+
+.recommend-card .recommend-list{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    width: 100%;
 }
 
 .bill-cart {
