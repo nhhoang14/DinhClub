@@ -46,26 +46,3 @@
 .nav-cart{
     position: relative;
 }
-
-.nav-cart .cart-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 50%;
-    transition: opacity 0.2s ease;
-}
-
-.nav-cart .cart-btn:hover {
-    opacity: 0.5;
-}
-
-.nav-cart .cart-btn:active {
-    opacity: 1;
-}
-
-
-.nav-cart .cart-btn .cart-icon {
-    color: #0B70FE;
-    font-size: 24px;
-}
