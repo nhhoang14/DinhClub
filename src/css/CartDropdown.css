@@ -1,0 +1,78 @@
+.cart-dropdown {
+  position: absolute;
+  right: -120px;
+  top: 46px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  min-width: 300px;
+  z-index: 100;
+  font-family: 'DFVN Bagel Fat One', sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cart-dropdown h4 {
+  font-size: 18px;
+  border-bottom: 3px solid #000;
+  margin: 16px 16px 0;
+  padding-bottom: 8px;
+}
+
+.cart-dropdown .cart-items-list {
+  padding: 12px 16px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.cart-items-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cart-items-list::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.cart-items-list::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+
+.cart-dropdown .cart-dropdown-footer {
+  border-top: 3px solid #000;
+  margin: 0 16px 16px;
+  padding-top: 12px;
+}
+
+.price-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.price-detail .total-price {
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  color: #0B70FE;
+}
+
+.cart-dropdown-footer .checkout-btn {
+  width: 100%;
+  background-color: #0B70FE;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cart-dropdown-footer .checkout-btn:hover {
+  background-color: #1B4AB4;
+}
+
+.cart-dropdown-footer .checkout-btn:active {
+  background-color: rgba(11, 112, 254, 0.5);
+}

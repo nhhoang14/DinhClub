@@ -1,0 +1,77 @@
+.cart-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #000;
+    margin-bottom: 12px;
+}
+
+.cart-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.cart-item .cart-item-img{
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+.item-details{
+    margin-left: 8px;
+    line-height: 1.5;
+}
+
+.item-details .item-title{
+    font-weight: bolder;
+    font-size: 14px;
+}
+
+.item-details .item-price{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.item-qty{
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.item-qty #qty{
+    background-color: transparent;
+    width: 40px;
+    max-width: 50px;
+    text-align: center;
+    padding: 2px 4px;
+    font-size: 12px;
+    font-family: "Noto Sans JP", sans-serif;
+    border: 1px solid #000;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.item-qty .qty-btn {
+    background-color: transparent;
+    display: flex;
+    border-radius: 50%;
+    padding: 4px;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.qty-btn .qty-icon{
+    font-size: 12px;
+}
+
+.item-details .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}

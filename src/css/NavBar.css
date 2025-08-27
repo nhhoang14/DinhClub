@@ -43,6 +43,10 @@
     line-height: 0.5;
 }
 
+.nav-cart{
+    position: relative;
+}
+
 .nav-cart .cart-btn {
     background: none;
     border: none;
