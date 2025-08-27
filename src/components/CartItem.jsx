@@ -1,14 +1,18 @@
 import '../css/CartItem.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function CartItem({ item }) {
-
-  const [qty, setQty] = useState(item.qty);
+function CartItem({ item, qty, updateQty }) {
   const [error, setError] = useState('');
+  const [inputQty, setInputQty] = useState(qty);
+
+  useEffect(() => {
+    setInputQty(qty);
+  }, [qty]);
+
 
   const increase = () => {
     if (qty < item.stock) {
-      setQty(qty + 1);
+      updateQty(qty + 1);
       setError('');
     } else {
       setError('Vượt quá số hàng trong kho');
@@ -17,15 +21,15 @@ function CartItem({ item }) {
 
   const decrease = () => {
     if (qty > 1) {
-      setQty(qty - 1);
+      updateQty(qty - 1);
       setError('');
     } else if (qty === 1) {
-      setQty(0);
+      updateQty(0);
       setError('');
     }
   };
 
-  if (qty <= 0) return null;
+  if (qty == 0) return null;
 
   return (
     <div className="cart-item">
@@ -42,13 +46,22 @@ function CartItem({ item }) {
           <input
             id="qty"
             type="text"
-            value={qty}
+            value={inputQty}
             onChange={e => {
               const val = Number(e.target.value) || 0;
-              setQty(val);
+              setInputQty(val);
               setError(val > item.stock ? 'Vượt quá số hàng trong kho' : '');
             }}
+             onBlur={() => {
+              updateQty(inputQty);
+            }}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                updateQty(inputQty);
+              }
+            }}
           />
+
           <button type="button" className="qty-btn" onClick={increase}>
             <span className="material-symbols-outlined qty-icon">
               add_2

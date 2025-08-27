@@ -15,7 +15,6 @@
     opacity: 1;
 }
 
-
 .cart-wrapper .cart-btn .cart-icon {
     color: #0B70FE;
     font-size: 24px;
@@ -52,6 +51,12 @@
   max-height: 320px;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+.cart-items-list .empty-cart-message{
+  text-align: center;
+  color: #999;
+  padding: 8px 0;
 }
 
 .cart-items-list::-webkit-scrollbar {

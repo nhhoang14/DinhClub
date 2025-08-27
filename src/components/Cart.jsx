@@ -11,8 +11,7 @@ import ninhbo_st from '../images/ninhbo_st.jpg';
 
 function Cart() {
   const [showCart, setShowCart] = useState(false);
-
-  const cartItems = [
+  const [cartItems, setCartItems] = useState([
     { image: bedao, title: "BÉ ĐÀO", price: 150000, qty: 2, stock: 10 },
     { image: bemai, title: "BÉ MAI", price: 150000, qty: 1, stock: 5 },
     { image: bequat, title: "BÉ QUẤT", price: 150000, qty: 3, stock: 8 },
@@ -20,7 +19,16 @@ function Cart() {
     { image: summer_st, title: "HÈ TUYỆT ĐỐI", price: 39000, qty: 5, stock: 12 },
     { image: xmas_st, title: "GIÁNG SINH AN GIẤC", price: 39000, qty: 4, stock: 9 },
     { image: ninhbo_st, title: "DÍNH NỊNH BỢ", price: 59000, qty: 2, stock: 7 },
-  ];
+  ]);
+
+  // Hàm cập nhật số lượng
+  const updateQty = (idx, newQty) => {
+    setCartItems(items =>
+      items.map((item, i) =>
+        i === idx ? { ...item, qty: newQty } : item
+      ).filter(item => item.qty > 0)
+    );
+  };
 
   return (
     <div className="cart-wrapper">
@@ -35,11 +43,16 @@ function Cart() {
 
         <div className="cart-items-list">
           {cartItems.length === 0 ? (
-            <p>Chưa có sản phẩm nào</p>
+            <p className="empty-cart-message">Chưa có sản phẩm nào</p>
           ) : (
             <ul>
               {cartItems.map((item, idx) => (
-                <CartItem key={idx} item={item} />
+                <CartItem
+                  key={idx}
+                  item={item}
+                  qty={item.qty}
+                  updateQty={newQty => updateQty(idx, newQty)}
+                />
               ))}
             </ul>
           )}
