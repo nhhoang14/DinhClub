@@ -1,70 +1,72 @@
-    import '../css/ProductModal.css';
-    import { useState } from 'react';
+import '../css/ProductModal.css';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-    function ProductModal({ isOpen, product, onClose }) {
-        if (!isOpen) return null;
+function ProductModal({ isOpen, product, onClose }) {
+    if (!isOpen) return null;
 
-        const [cartItems, setCartItems] = useState([]);
-        const [qty, setQty] = useState(1);
+    const navigate = useNavigate();
 
-        const increase = () => setQty(qty + 1);
-        const decrease = () => {
-            if (qty > 1) setQty(qty - 1);
-        };
+    const [qty, setQty] = useState(1);
 
-        return (
-            <div className="modal-overlay"
-                onClick={onClose}
-                style={{ '--product-color': product.color }}
-            >
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <div className="modal-nav">
-                        <div className="modal-follow">
-                            <p className="modal-heading">PRODUCTS</p>
-                            <span className="material-symbols-outlined modal-arrow-icon">
-                                arrow_forward_ios
-                            </span>
-                            <p className="modal-heading">{product.type.toUpperCase()}</p>
-                            <span className="material-symbols-outlined modal-arrow-icon">
-                                arrow_forward_ios
-                            </span>
-                            <p className="modal-heading">{product.code}</p>
-                        </div>
-                        <button className="close-btn" onClick={onClose}>
-                            <span className="material-symbols-outlined close-icon">
-                                close
-                            </span>
-                        </button>
+    const increase = () => setQty(qty + 1);
+    const decrease = () => {
+        if (qty > 1) setQty(qty - 1);
+    };
+
+    return (
+        <div className="modal-overlay"
+            onClick={onClose}
+            style={{ '--product-color': product.color }}
+        >
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-nav">
+                    <div className="modal-follow">
+                        <p className="modal-heading">PRODUCTS</p>
+                        <span className="material-symbols-outlined modal-arrow-icon">
+                            arrow_forward_ios
+                        </span>
+                        <p className="modal-heading">{product.type.toUpperCase()}</p>
+                        <span className="material-symbols-outlined modal-arrow-icon">
+                            arrow_forward_ios
+                        </span>
+                        <p className="modal-heading">{product.code}</p>
                     </div>
-                    <div className="modal-main">
-                        <img src={product.image} className="modal-img" alt={product.title} />
-                        <div className="modal-detail">
-                            <h2 className="modal-title">{product.title}</h2>
-                            <p className="modal-code">Mã sản phẩm: <strong>{product.code}</strong></p>
-                            <p className="modal-price">{product.price.toLocaleString('vi-VN')} VND</p>
-                            <div className="modal-quantity">
-                                <label htmlFor="qty">SỐ LƯỢNG</label>
-                                <div className="quantity">
-                                    <button type="button" className="qty-btn" onClick={decrease}>
-                                        <span className="material-symbols-outlined qty-icon">
-                                            remove
-                                        </span>
-                                    </button> 
-                                    <input id="qty" type="text" value={qty} onChange={e => setQty(Number(e.target.value) || 1)} />
-                                    <button type="button" className="qty-btn" onClick={increase}>
-                                        <span className="material-symbols-outlined qty-icon">
-                                            add_2
-                                        </span>
-                                    </button>
-                                </div>
+                    <button className="close-btn" onClick={onClose}>
+                        <span className="material-symbols-outlined close-icon">
+                            close
+                        </span>
+                    </button>
+                </div>
+                <div className="modal-main">
+                    <img src={product.image} className="modal-img" alt={product.title} />
+                    <div className="modal-detail">
+                        <h2 className="modal-title">{product.title}</h2>
+                        <p className="modal-code">Mã sản phẩm: <strong>{product.code}</strong></p>
+                        <p className="modal-price">{product.price.toLocaleString('vi-VN')} VND</p>
+                        <div className="modal-quantity">
+                            <label htmlFor="qty">SỐ LƯỢNG</label>
+                            <div className="quantity">
+                                <button type="button" className="qty-btn" onClick={decrease}>
+                                    <span className="material-symbols-outlined qty-icon">
+                                        remove
+                                    </span>
+                                </button>
+                                <input id="qty" type="text" value={qty} onChange={e => setQty(Number(e.target.value) || 1)} />
+                                <button type="button" className="qty-btn" onClick={increase}>
+                                    <span className="material-symbols-outlined qty-icon">
+                                        add_2
+                                    </span>
+                                </button>
                             </div>
-                            <button className="add-to-cart" >THÊM VÀO GIỎ HÀNG</button>
-                            <button className="order-btn">THANH TOÁN</button>
                         </div>
+                        <button className="add-to-cart" >THÊM VÀO GIỎ HÀNG</button>
+                        <button className="order-btn" onClick={() => navigate('/your-cart')}>THANH TOÁN</button>
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
+}
 
-    export default ProductModal;
+export default ProductModal;

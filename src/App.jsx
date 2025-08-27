@@ -5,6 +5,8 @@ import Footer from './components/Footer.jsx'
 import HomePage from './pages/HomePage.jsx'
 import Products from './pages/Products.jsx'
 import Contact from './pages/Contact.jsx'
+import UserCart from './pages/UserCart.jsx'
+import Checkout from './pages/Checkout.jsx'
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<Products />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/your-cart" element={<UserCart />} />
+            <Route path="/shipping-information" element={<Checkout />} />
           </Routes>
         </div>
         <Footer />
@@ -24,4 +28,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

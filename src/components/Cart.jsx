@@ -1,5 +1,6 @@
 import '../css/Cart.css'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CartItem from './CartItem.jsx';
 import bedao from '../images/bedao.jpg';
 import bemai from '../images/bemai.jpg';
@@ -10,6 +11,7 @@ import xmas_st from '../images/xmas_st.jpg';
 import ninhbo_st from '../images/ninhbo_st.jpg';
 
 function Cart() {
+  const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([
     { image: bedao, title: "BÉ ĐÀO", price: 150000, qty: 2, stock: 10 },
@@ -60,15 +62,15 @@ function Cart() {
 
         <div className="cart-dropdown-footer">
           <div className="price-detail">
-            <p><strong>Tổng tiền:</strong></p>
-            <p className="total-price">
+            <span>Tổng tiền:</span>
+            <span className="total-price">
               {cartItems
                 .reduce((total, item) => total + item.price * item.qty, 0)
                 .toLocaleString('vi-VN')
               } VND
-            </p>
+            </span>
           </div>
-          <button className="checkout-btn">THANH TOÁN</button>
+          <button className="checkout-btn" onClick={() => navigate('/your-cart')}>THANH TOÁN</button>
         </div>
 
       </div>
