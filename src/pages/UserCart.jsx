@@ -55,8 +55,7 @@ function UserCart() {
         left: 0,
         behavior: "smooth",
       });
-    }
-    else {
+    } else {
       list.scrollBy({
         left: scrollDistance,
         behavior: "smooth",
@@ -120,9 +119,9 @@ function UserCart() {
         <div className="main-cart">
           <p className="main-cart-title">GIỎ HÀNG</p>
           <div className="list-cart">
-              {cartItems.map((item, idx) => (
-                <UserCartCard key={idx} item={item} />
-              ))}
+            {cartItems.map((item, idx) => (
+              <UserCartCard key={idx} item={item} />
+            ))}
           </div>
           <div className="cart-nav">
             <button className="remove-all-btn">XOÁ HẾT</button>
