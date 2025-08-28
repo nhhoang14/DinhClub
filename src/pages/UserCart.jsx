@@ -1,5 +1,5 @@
 import '../css/UserCart.css';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecommendItem from '../components/RecommendItem';
 import bedao from '../images/bedao.jpg';
@@ -13,7 +13,7 @@ import ninhbo_st from '../images/ninhbo_st.jpg';
 function UserCart() {
   const navigate = useNavigate();
 
-  const cartItems = [
+  const allProducts = [
     { image: bedao, title: "BÉ ĐÀO", price: 150000, qty: 2, stock: 10 },
     { image: bemai, title: "BÉ MAI", price: 150000, qty: 1, stock: 5 },
     { image: bequat, title: "BÉ QUẤT", price: 150000, qty: 3, stock: 8 },
@@ -23,26 +23,65 @@ function UserCart() {
     { image: ninhbo_st, title: "DÍNH NỊNH BỢ", price: 59000, qty: 2, stock: 7 },
   ];
 
+  const [cartItems, setCartItems] = useState(allProducts);
+
   const recommendListRef = useRef(null);
+  const [activeBtn, setActiveBtn] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const scrollDistance = 750; 
-  const handleScrollLeft = () => { 
-    if (recommendListRef.current) { 
-      recommendListRef.current.scrollBy({ 
-        left: -scrollDistance, 
-        behavior: 'smooth' 
-      }); 
-    } 
-  }; 
+  const scrollDistance = 750;
 
-  const handleScrollRight = () => { 
-    if (recommendListRef.current) { 
-      recommendListRef.current.scrollBy({ 
-        left: scrollDistance, 
-        behavior: 'smooth' 
-      }); 
-    } 
+  const handleScrollLeft = () => {
+    if (recommendListRef.current) {
+      recommendListRef.current.scrollBy({
+        left: -scrollDistance,
+        behavior: "smooth",
+      });
+    }
+
+    setActiveBtn("prev");
+    setIsPaused(true);
+    setTimeout(() => {
+      setActiveBtn(null);
+      setIsPaused(false);
+    }, 3000);
   };
+
+  const handleScrollRight = () => {
+    const list = recommendListRef.current;
+    if (!list) return;
+
+    if (list.scrollWidth - list.scrollLeft === list.clientWidth) {
+      list.scrollTo({
+        left: 0,
+        behavior: "smooth",
+      });
+    }
+    else {
+      list.scrollBy({
+        left: scrollDistance,
+        behavior: "smooth",
+      });
+    }
+
+    setActiveBtn("next");
+    setIsPaused(true);
+    setTimeout(() => {
+      setActiveBtn(null);
+      setIsPaused(false);
+    }, 3000);
+  };
+
+  // Auto scroll chỉ chạy khi không paused
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      handleScrollRight();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, cartItems]);
 
   return (
     <div className="user-cart">
@@ -51,7 +90,7 @@ function UserCart() {
           <p className="recommend-title">BẠN CÓ CẦN THÊM?</p>
           <div className="recommend-wrapper">
             <div className="recommend-list" ref={recommendListRef}>
-              {[...cartItems, ...cartItems].map((item, idx) => (
+              {cartItems.map((item, idx) => (
                 <RecommendItem
                   key={idx}
                   title={item.title}
@@ -61,12 +100,12 @@ function UserCart() {
               ))}
             </div>
             <div className="recommend-ctrl">
-              <button className="recommend-btn recommend-prev" onClick={handleScrollLeft}>
+              <button className={`recommend-btn recommend-prev ${activeBtn === "prev" ? "active" : ""}`} onClick={handleScrollLeft}>
                 <span className="material-symbols-outlined recommend-icon">
                   arrow_back_ios_new
                 </span>
               </button>
-              <button className="recommend-btn recommend-next" onClick={handleScrollRight}>
+              <button className={`recommend-btn recommend-next ${activeBtn === "next" ? "active" : ""}`} onClick={handleScrollRight}>
                 <span className="material-symbols-outlined recommend-icon">
                   arrow_forward_ios
                 </span>
