@@ -2,6 +2,7 @@ import '../css/UserCart.css';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecommendItem from '../components/RecommendItem';
+import UserCartCard from '../components/UserCartCard';
 import bedao from '../images/bedao.jpg';
 import bemai from '../images/bemai.jpg';
 import bequat from '../images/bequat.jpg';
@@ -119,7 +120,9 @@ function UserCart() {
         <div className="main-cart">
           <p className="main-cart-title">GIỎ HÀNG</p>
           <div className="list-cart">
-
+              {cartItems.map((item, idx) => (
+                <UserCartCard key={idx} item={item} />
+              ))}
           </div>
           <div className="cart-nav">
             <button className="remove-all-btn">XOÁ HẾT</button>
@@ -133,8 +136,10 @@ function UserCart() {
         <p className="bill-title">ĐƠN HÀNG</p>
         <div className="voucher-bill">
           <p className="voucher-title">NHẬP MÃ KHUYẾN MÃI</p>
-          <input type="text" />
-          <button className="apply-voucher-btn">ÁP DỤNG</button>
+          <div className="voucher-input">
+            <input type="text" />
+            <button className="apply-voucher-btn">ÁP DỤNG</button>
+          </div>
         </div>
         <ul className="bill-detail">
           <li>
