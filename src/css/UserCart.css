@@ -14,13 +14,57 @@
     max-width: 800px;
 }
 
+.recommend-card .recommend-title{
+    font-weight: bold;
+    font-size: 20px;
+    padding: 20px 0 12px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+}
+
 .recommend-card .recommend-list{
     display: flex;
     flex-direction: row;
-    gap: 16px;
-    overflow-x: auto;
+    gap: 25px;
+    padding: 0 20px 0 50px;
+    overflow-x: hidden;
     flex-wrap: nowrap;
     width: 100%;
+}
+
+.recommend-wrapper {
+    position: relative;
+}
+
+.recommend-ctrl .recommend-btn{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.recommend-ctrl .recommend-btn:hover {
+    opacity: 1;
+}
+
+.recommend-ctrl .recommend-btn:active {
+    opacity: 0.8;
+}
+
+.recommend-ctrl .recommend-prev{
+    left: 0;
+}
+
+.recommend-ctrl .recommend-next{
+    right: 0;
+}
+
+.recommend-btn .recommend-icon{
+    font-size: 32px;
+    
 }
 
 .bill-cart {

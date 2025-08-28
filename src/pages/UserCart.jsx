@@ -1,5 +1,5 @@
 import '../css/UserCart.css';
-import { useState } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecommendItem from '../components/RecommendItem';
 import bedao from '../images/bedao.jpg';
@@ -13,7 +13,6 @@ import ninhbo_st from '../images/ninhbo_st.jpg';
 function UserCart() {
   const navigate = useNavigate();
 
-  // const [cartItems, setCartItems] = useState([
   const cartItems = [
     { image: bedao, title: "BÉ ĐÀO", price: 150000, qty: 2, stock: 10 },
     { image: bemai, title: "BÉ MAI", price: 150000, qty: 1, stock: 5 },
@@ -24,16 +23,56 @@ function UserCart() {
     { image: ninhbo_st, title: "DÍNH NỊNH BỢ", price: 59000, qty: 2, stock: 7 },
   ];
 
+  const recommendListRef = useRef(null);
+
+  const scrollDistance = 750; 
+  const handleScrollLeft = () => { 
+    if (recommendListRef.current) { 
+      recommendListRef.current.scrollBy({ 
+        left: -scrollDistance, 
+        behavior: 'smooth' 
+      }); 
+    } 
+  }; 
+
+  const handleScrollRight = () => { 
+    if (recommendListRef.current) { 
+      recommendListRef.current.scrollBy({ 
+        left: scrollDistance, 
+        behavior: 'smooth' 
+      }); 
+    } 
+  };
+
   return (
     <div className="user-cart">
       <div className="cart-content">
         <div className="recommend-card">
-            <p>BẠN CÓ CẦN THÊM?</p>
-            <div className="recommend-list">
-                {cartItems.map((item) => (
-                    <RecommendItem key={item.title} image={item.image} title={item.title} price={item.price} />
-                ))}
+          <p className="recommend-title">BẠN CÓ CẦN THÊM?</p>
+          <div className="recommend-wrapper">
+            <div className="recommend-list" ref={recommendListRef}>
+              {[...cartItems, ...cartItems].map((item, idx) => (
+                <RecommendItem
+                  key={idx}
+                  title={item.title}
+                  price={item.price}
+                  image={item.image}
+                />
+              ))}
             </div>
+            <div className="recommend-ctrl">
+              <button className="recommend-btn recommend-prev" onClick={handleScrollLeft}>
+                <span className="material-symbols-outlined recommend-icon">
+                  arrow_back_ios_new
+                </span>
+              </button>
+              <button className="recommend-btn recommend-next" onClick={handleScrollRight}>
+                <span className="material-symbols-outlined recommend-icon">
+                  arrow_forward_ios
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="main-cart">
           <h4>GIỎ HÀNG</h4>
