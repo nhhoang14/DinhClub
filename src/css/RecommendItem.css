@@ -30,16 +30,16 @@
 }
 
 .recommend-info p:hover {
-    background-color: #1B4AB4;
+    color: #1B4AB4;
 }
 
 .recommend-info p:active {
-    background-color: rgba(11, 112, 254, 0.5);
+    color: rgba(11, 112, 254, 0.5);
 }
 
 .recommend-info span {
     font-family: "Noto Sans JP", sans-serif;
-    background-color: #007bff;
+    color: #007bff;
 }
 
 .recommend-info button {
@@ -49,7 +49,7 @@
     border: none;
     border-radius: 12px;
     font-weight: bold;
-    background-color: #007bff;
+    color: #007bff;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
