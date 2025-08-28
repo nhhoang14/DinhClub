@@ -26,10 +26,20 @@
 
 .recommend-info p {
     line-height: 1.2;
+    transition: background-color 0.3s;
+}
+
+.recommend-info p:hover {
+    background-color: #1B4AB4;
+}
+
+.recommend-info p:active {
+    background-color: rgba(11, 112, 254, 0.5);
 }
 
 .recommend-info span {
     font-family: "Noto Sans JP", sans-serif;
+    background-color: #007bff;
 }
 
 .recommend-info button {
