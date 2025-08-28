@@ -4,17 +4,19 @@
     flex-direction: row;
     gap: 32px;
     font-family: 'DFVN Bagel Fat One', sans-serif;
-    border-bottom: 1px solid #eee;
+    border: none;
     margin: 60px auto;
     justify-content: center;
 }
 
+/* ==================== cart-content ==================== */
 .cart-content {
     width: 60%;
     max-width: 800px;
 }
 
-.recommend-card .recommend-title{
+/* ======== recommend-cart ======== */
+.recommend-cart .recommend-title{
     font-weight: bold;
     font-size: 20px;
     padding: 20px 0 12px;
@@ -22,7 +24,7 @@
     border-bottom: 2px solid #000;
 }
 
-.recommend-card .recommend-list{
+.recommend-cart .recommend-list{
     display: flex;
     flex-direction: row;
     gap: 25px;
@@ -66,9 +68,67 @@
     font-size: 32px;
 }
 
+/* ======== main-cart ======== */
+.main-cart {
+    margin-top: 32px;
+    /* border-bottom: 2px solid #eee; */
+}
+
+.main-cart .main-cart-title {
+    background-color: #F1F1F1;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 12px;
+    padding: 12px 24px;
+}
+
+.list-cart{
+    height: 400px;
+}
+
+.cart-nav {
+    border-top: 2px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 32px;
+    margin-bottom: 12px;
+}
+
+.cart-nav .remove-all-btn,
+.cart-nav .continue-shopping-btn{
+    width: 240px;
+    height: 40px;
+    background-color: #303030;
+    font-size: 14px;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cart-nav .remove-all-btn:hover{
+    background-color: #D6021B;
+}
+
+.cart-nav .remove-all-btn:active{
+    background-color: rgba(255, 77, 77, 0.5);
+}
+
+.cart-nav .continue-shopping-btn:hover {
+    background-color: #0B70FE;
+}
+
+.cart-nav .continue-shopping-btn:active {
+    background-color: rgba(11, 112, 254, 0.5);
+}
+
+/* ==================== bill-cart ==================== */
 .bill-cart {
     width: 40%;
     max-width: 400px;
+    height: auto;
+    max-height: 466px;
     background-color: #f1f1f1;
     padding: 20px;
     display: flex;

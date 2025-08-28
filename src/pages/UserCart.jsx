@@ -13,7 +13,7 @@ import ninhbo_st from '../images/ninhbo_st.jpg';
 function UserCart() {
   const navigate = useNavigate();
 
-  const allProducts = [
+  const cartItems = [
     { image: bedao, title: "BÉ ĐÀO", price: 150000, qty: 2, stock: 10 },
     { image: bemai, title: "BÉ MAI", price: 150000, qty: 1, stock: 5 },
     { image: bequat, title: "BÉ QUẤT", price: 150000, qty: 3, stock: 8 },
@@ -22,8 +22,6 @@ function UserCart() {
     { image: xmas_st, title: "GIÁNG SINH AN GIẤC", price: 39000, qty: 4, stock: 9 },
     { image: ninhbo_st, title: "DÍNH NỊNH BỢ", price: 59000, qty: 2, stock: 7 },
   ];
-
-  const [cartItems, setCartItems] = useState(allProducts);
 
   const recommendListRef = useRef(null);
   const [activeBtn, setActiveBtn] = useState(null);
@@ -44,7 +42,7 @@ function UserCart() {
     setTimeout(() => {
       setActiveBtn(null);
       setIsPaused(false);
-    }, 3000);
+    }, 2000);
   };
 
   const handleScrollRight = () => {
@@ -69,24 +67,27 @@ function UserCart() {
     setTimeout(() => {
       setActiveBtn(null);
       setIsPaused(false);
-    }, 3000);
+    }, 2000);
   };
 
-  // Auto scroll chỉ chạy khi không paused
   useEffect(() => {
     if (isPaused) return;
 
     const interval = setInterval(() => {
       handleScrollRight();
-    }, 3000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [isPaused, cartItems]);
 
   return (
     <div className="user-cart">
+
+      {/* cart-content */}
       <div className="cart-content">
-        <div className="recommend-card">
+
+        {/* recommend-cart */}
+        <div className="recommend-cart">
           <p className="recommend-title">BẠN CÓ CẦN THÊM?</p>
           <div className="recommend-wrapper">
             <div className="recommend-list" ref={recommendListRef}>
@@ -113,17 +114,21 @@ function UserCart() {
             </div>
           </div>
         </div>
+
+        {/* main-cart */}
         <div className="main-cart">
-          <h4>GIỎ HÀNG</h4>
+          <p className="main-cart-title">GIỎ HÀNG</p>
           <div className="list-cart">
 
           </div>
           <div className="cart-nav">
-            <button>XOÁ HẾT</button>
+            <button className="remove-all-btn">XOÁ HẾT</button>
             <button className="continue-shopping-btn" onClick={() => navigate('/products')}>QUAY LẠI MUA HÀNG</button>
           </div>
         </div>
       </div>
+
+      {/* bill-cart */}
       <div className="bill-cart">
         <p className="bill-title">ĐƠN HÀNG</p>
         <div className="voucher-bill">
