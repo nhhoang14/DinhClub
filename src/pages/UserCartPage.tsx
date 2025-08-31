@@ -1,34 +1,31 @@
-import '../css/UserCart.css';
+import '../css/UserCartPage.css';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecommendItem from '../components/RecommendItem';
 import UserCartCard from '../components/UserCartCard';
-import bedao from '../images/bedao.jpg';
-import bemai from '../images/bemai.jpg';
-import bequat from '../images/bequat.jpg';
-import bety from '../images/bety.jpg';
-import summer_st from '../images/summer_st.jpg';
-import xmas_st from '../images/xmas_st.jpg';
-import ninhbo_st from '../images/ninhbo_st.jpg';
+import CartItem from '../models/CartItem';
+import Product from '../models/Product';
 
-function UserCart() {
+interface UserCartPageProps {
+  products: Product[];
+  userCart: CartItem[];
+  getCartTotal: () => number;
+  addToCart: (product: Product, qty: number) => void;
+  updateQty: (code: string, qty: number) => void;
+  removeFromCart: (code: string) => void;
+}
+
+function UserCartPage({ products, userCart, getCartTotal, addToCart, updateQty, removeFromCart }: UserCartPageProps) {
   const navigate = useNavigate();
-
-  const cartItems = [
-    { image: bedao, title: "BÉ ĐÀO", price: 150000, qty: 2, stock: 10 },
-    { image: bemai, title: "BÉ MAI", price: 150000, qty: 1, stock: 5 },
-    { image: bequat, title: "BÉ QUẤT", price: 150000, qty: 3, stock: 8 },
-    { image: bety, title: "BÉ TỴ", price: 150000, qty: 2, stock: 6 },
-    { image: summer_st, title: "HÈ TUYỆT ĐỐI", price: 39000, qty: 5, stock: 12 },
-    { image: xmas_st, title: "GIÁNG SINH AN GIẤC", price: 39000, qty: 4, stock: 9 },
-    { image: ninhbo_st, title: "DÍNH NỊNH BỢ", price: 59000, qty: 2, stock: 7 },
-  ];
-
-  const recommendListRef = useRef(null);
-  const [activeBtn, setActiveBtn] = useState(null);
+  const recommendListRef = useRef<HTMLDivElement>(null);
+  const [activeBtn, setActiveBtn] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
 
   const scrollDistance = 750;
+
+  const recommendItems: Product[] = products.filter(
+    product => !userCart.some(cartItem => cartItem.code === product.code)
+  );
 
   const handleScrollLeft = () => {
     if (recommendListRef.current) {
@@ -78,25 +75,22 @@ function UserCart() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [isPaused, cartItems]);
+  }, [isPaused, userCart]);
 
   return (
     <div className="user-cart">
-
       {/* cart-content */}
       <div className="cart-content">
-
         {/* recommend-cart */}
         <div className="recommend-cart">
           <p className="recommend-title">BẠN CÓ CẦN THÊM?</p>
           <div className="recommend-wrapper">
             <div className="recommend-list" ref={recommendListRef}>
-              {cartItems.map((item, idx) => (
+              {recommendItems.map((item, idx) => (
                 <RecommendItem
                   key={idx}
-                  title={item.title}
-                  price={item.price}
-                  image={item.image}
+                  recommendItem={item}
+                  addToCart={(qty) => void addToCart(item, qty)}
                 />
               ))}
             </div>
@@ -119,8 +113,13 @@ function UserCart() {
         <div className="main-cart">
           <p className="main-cart-title">GIỎ HÀNG</p>
           <div className="list-cart">
-            {cartItems.map((item, idx) => (
-              <UserCartCard key={idx} item={item} />
+            {userCart.map((item, idx) => (
+              <UserCartCard
+                key={idx}
+                cartItem={item}
+                updateQty={qty => updateQty(item.code, qty)}
+                removeFromCart={() => removeFromCart(item.code)}
+              />
             ))}
           </div>
           <div className="cart-nav">
@@ -143,7 +142,7 @@ function UserCart() {
         <ul className="bill-detail">
           <li>
             <span>Đơn hàng</span>
-            <span className="bill-price bill-total">0 VND</span>
+            <span className="bill-price bill-total">{getCartTotal().toLocaleString('vi-VN')} VND</span>
           </li>
           <li>
             <span>Giảm</span>
@@ -152,7 +151,7 @@ function UserCart() {
         </ul>
         <div className="bill-tmp">
           <span>TẠM TÍNH</span>
-          <span className="bill-price tmp-price">0 VND</span>
+          <span className="bill-price tmp-price">{getCartTotal().toLocaleString('vi-VN')} VND</span>
         </div>
         <button className="checkout-btn" onClick={() => navigate('/shipping-information')}>TIẾP TỤC THANH TOÁN</button>
       </div>
@@ -160,4 +159,4 @@ function UserCart() {
   );
 }
 
-export default UserCart;
+export default UserCartPage;

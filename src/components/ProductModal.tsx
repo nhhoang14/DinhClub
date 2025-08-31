@@ -1,14 +1,21 @@
 import '../css/ProductModal.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Product from '../models/Product';
+import CartItem from '../models/CartItem';
 
-function ProductModal({ isOpen, product, onClose }) {
+interface ProductModalProps {
+    isOpen: boolean;
+    product: Product;
+    userCart: CartItem[];
+    addToCart: (product: Product, qty: number) => void;
+    onClose: () => void;
+}
+
+function ProductModal({ isOpen, product, addToCart, onClose }: ProductModalProps) {
     if (!isOpen) return null;
-
     const navigate = useNavigate();
-
     const [qty, setQty] = useState(1);
-
     const increase = () => setQty(qty + 1);
     const decrease = () => {
         if (qty > 1) setQty(qty - 1);
@@ -17,7 +24,7 @@ function ProductModal({ isOpen, product, onClose }) {
     return (
         <div className="modal-overlay"
             onClick={onClose}
-            style={{ '--product-color': product.color }}
+            style={{ ['--product-color' as string]: product.color }}
         >
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-nav">
@@ -39,9 +46,9 @@ function ProductModal({ isOpen, product, onClose }) {
                     </button>
                 </div>
                 <div className="modal-main">
-                    <img src={product.image} className="modal-img" alt={product.title} />
+                    <img src={product.image} className="modal-img" alt={product.name} />
                     <div className="modal-detail">
-                        <h2 className="modal-title">{product.title}</h2>
+                        <h2 className="modal-title">{product.name}</h2>
                         <p className="modal-code">Mã sản phẩm: <strong>{product.code}</strong></p>
                         <p className="modal-price">{product.price.toLocaleString('vi-VN')} VND</p>
                         <div className="modal-quantity">
@@ -60,7 +67,12 @@ function ProductModal({ isOpen, product, onClose }) {
                                 </button>
                             </div>
                         </div>
-                        <button className="add-to-cart" >THÊM VÀO GIỎ HÀNG</button>
+                        <button className="add-to-cart" onClick={() => {
+                            addToCart(product, qty);
+                            setQty(1);
+                        }}>
+                            THÊM VÀO GIỎ HÀNG
+                        </button>
                         <button className="order-btn" onClick={() => navigate('/your-cart')}>THANH TOÁN</button>
                     </div>
                 </div>

@@ -9,11 +9,18 @@ import taiwan from '../images/logo_taiwan.jpg';
 import feedback from '../images/feedback.jpg';
 import back_btn from '../images/back_btn.png';
 import next_btn from '../images/next_btn.png';
-import FeedbackCard from '../components/FeedbackCard.jsx';
+import FeedbackCard from '../components/FeedbackCard';
 import overall from '../images/overall.jpg';
 
+export interface Feedback {
+  text: string;
+  author: string;
+  bgColor: string;
+  textColor: string;
+}
+
 function HomePage() {
-  const feedbacks = [
+  const feedbacks: Feedback[] = [
     { text: "Sản phẩm tuyệt vời, tôi rất hài lòng!", author: "Khách hàng A", bgColor: "#D4C9FF", textColor: "#7A7198" },
     { text: "Dịch vụ chăm sóc khách hàng rất tốt!", author: "Khách hàng B", bgColor: "#D7F46E", textColor: "#148A4D" },
     { text: "Tôi sẽ quay lại mua sắm tiếp!", author: "Khách hàng C", bgColor: "#FF9BE3", textColor: "#4F81FA" },
@@ -21,9 +28,9 @@ function HomePage() {
   ];
 
   const navigate = useNavigate();
-  const slideRef = useRef(null);
+  const slideRef = useRef<HTMLDivElement>(null);
 
-  const scrollDistance = 500 + 32;
+  const scrollDistance = 532;
 
   const handleScrollLeft = () => {
     if (slideRef.current) {
@@ -101,8 +108,8 @@ function HomePage() {
           </div>
         </div>
         <div className="feedback-content" ref={slideRef}>
-          {feedbacks.map((feedback) => (
-            <FeedbackCard feedback={feedback} />
+          {feedbacks.map((feedback, idx) => (
+            <FeedbackCard key={idx} feedback={feedback} />
           ))}
         </div>
       </div>
@@ -143,10 +150,10 @@ function HomePage() {
             window.scrollTo(0, 0);
             navigate('/contact');
           }}>
-          Contact Us
-        </button>
+            Contact Us
+          </button>
+        </div>
       </div>
-    </div>
     </div >
   );
 }

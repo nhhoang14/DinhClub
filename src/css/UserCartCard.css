@@ -1,0 +1,14 @@
+.user-cart-card{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.user-cart-card .main-cart-img{
+    width: 180px;
+    height: 180px;
+    /* border-radius: 12px; */
+    object-fit: cover;
+}

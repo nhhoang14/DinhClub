@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, ChangeEvent, DragEvent } from "react";
 import '../css/Contact.css';
 import logo from '../images/logo_white.png';
 
 function Contact() {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<File[]>([]);
 
-  const addFiles = (newFiles) => {
+  const addFiles = (newFiles: File[]) => {
     setFiles((prev) => {
       const existing = prev.map((f) => f.name + f.size);
       const filtered = newFiles.filter(
@@ -15,22 +15,22 @@ function Contact() {
     });
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const droppedFiles = Array.from(e.dataTransfer.files);
-    addFiles(droppedFiles);
+    addFiles(droppedFiles as File[]);
   };
 
-  const handleFileSelect = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    addFiles(selectedFiles);
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files ?? []);
+    addFiles(selectedFiles as File[]);
   };
 
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
 
-  const removeFile = (index) => {
+  const removeFile = (index: number) => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -91,7 +91,6 @@ function Contact() {
                   </div>
                 ))}
               </div>
-
             </div>
             {/* Drop area end */}
           </div>
