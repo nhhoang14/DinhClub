@@ -10,6 +10,7 @@
     width: 150px;
     height: 150px;
     border-radius: 12px;
+    cursor: pointer;
     object-fit: cover;
 }
 
@@ -27,6 +28,17 @@
 .recommend-info p {
     line-height: 1.2;
     transition: background-color 0.3s;
+    cursor: pointer;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .recommend-info p:hover {

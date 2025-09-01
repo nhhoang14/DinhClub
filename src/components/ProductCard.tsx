@@ -15,14 +15,18 @@ function ProductCard({ product, onOpen }: ProductCardProps) {
       onMouseEnter={() => setCurrentImage(product.hoverImage || product.image)}
       onMouseLeave={() => setCurrentImage(product.image)}
     >
-      <img src={currentImage}
-        className="product-image"
+      <div
+        className={`product-stock-label ${product.stock < 1 ? "out-of-stock" : ""}`}
         onClick={() => onOpen(product)}
-        alt={product.name}
-      />
+      >
+        <img src={currentImage}
+          className="product-image"
+          alt={product.name}
+        />
+      </div>
       <div className="product-info">
         <p className="product-title" onClick={() => onOpen(product)}>{product.name}</p>
-        <p className="product-price">{product.price} VND</p>
+        <p className="product-price">{product.price.toLocaleString('vi-VN')} VND</p>
         <p className="product-type">{product.type}</p>
       </div>
     </div>

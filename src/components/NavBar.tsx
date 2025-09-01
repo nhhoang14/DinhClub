@@ -2,16 +2,18 @@ import '../css/NavBar.css';
 import logo from '../images/logo.png';
 import { Link, useLocation } from 'react-router-dom';
 import MiniCart from './MiniCart';
-import CartItem from '../models/CartItem'
+import Product from '../models/Product';
+import { CartDetail } from '../models/CartDetail';
 
 interface NavBarProps {
-  userCart: CartItem[];
+  userCart: CartDetail[];
   getCartTotal: () => number;
   updateQty: (code: string, qty: number) => void;
   removeFromCart: (code: string) => void;
+  onOpen: (product: Product) => void;
 }
 
-function NavBar({ userCart, getCartTotal, updateQty, removeFromCart }: NavBarProps) {
+function NavBar({ userCart, getCartTotal, updateQty, removeFromCart, onOpen }: NavBarProps) {
   const location = useLocation();
 
   const handleTopClick = () => {
@@ -47,6 +49,7 @@ function NavBar({ userCart, getCartTotal, updateQty, removeFromCart }: NavBarPro
           getCartTotal={getCartTotal}
           updateQty={updateQty}
           removeFromCart={removeFromCart}
+          onOpen={onOpen}
         />
       </div>
     </nav>

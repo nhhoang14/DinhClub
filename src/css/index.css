@@ -15,5 +15,24 @@
 input:focus,
 textarea:focus {
   caret-color: auto;
+}
 
+.out-of-stock {
+  position: relative;
+}
+
+.out-of-stock img:first-child {
+  filter: brightness(0.6);
+}
+
+.out-of-stock::after {
+  content: "Hết hàng";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DFVN Bagel Fat One', sans-serif;
+  color: white;
+  font-weight: bold;
 }

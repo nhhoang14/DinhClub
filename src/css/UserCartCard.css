@@ -1,14 +1,169 @@
-.user-cart-card{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
+.user-cart-overlay {
     padding: 20px 0;
     border-bottom: 1px solid #ccc;
 }
 
-.user-cart-card .main-cart-img{
+.user-cart-overlay .error-message {
+    margin-top: 20px;
+    text-align: center;
+    padding: 6px 12px;
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+    border: 1px solid #007bff;
+}
+
+.user-cart-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 20px;
+}
+
+.card-content {
+    flex: 7;
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+}
+
+.user-cart-card .out-of-stock::after {
+    font-size: 28px;
+}
+
+.user-cart-img {
     width: 180px;
     height: 180px;
-    /* border-radius: 12px; */
+    flex-shrink: 0;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.user-cart-img .main-cart-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+}
+
+.card-detail-info {
+    width: 100%;
+    min-width: 0;
+    margin-left: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-detail-info .card-name {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.card-detail-info .card-name:hover {
+    color: #007bff;
+}
+
+.card-detail-info .card-name:active {
+    color: rgba(11, 112, 254, 0.5);
+}
+
+.card-detail-info .card-price {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 18px;
+    color: #797575;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.card-detail-info .card-qty {
+    margin-top: auto;
+}
+
+.card-overall-info {
+    flex: 3;
+    color: #007bff;
+    font-family: "Noto Sans JP", sans-serif;
+    text-align: right;
+    display: grid;
+    grid-template-rows: 2fr 1.5fr 2fr 2fr;
+}
+
+.card-overall-info .card-total-price {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.card-overall-info .card-status {
+    font-size: 16px;
+}
+
+.card-overall-info .card-status-btn {
+    width: 125px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+    margin-left: auto;
+}
+
+.card-overall-info .card-check-btn.active {
+    background-color: #f1f1f1;
+    color: #007bff;
+}
+
+.card-overall-info .card-check-btn.active:hover {
+    background-color: rgba(241, 241, 241, 0.664);
+    color: #007bff;
+}
+
+.card-overall-info .card-check-btn.active:active {
+    background-color: rgba(48, 48, 48, 0.664);
+    color: white;
+}
+
+.card-overall-info .card-check-btn {
+    background-color: #303030;
+    color: white;
+}
+
+.card-overall-info .card-check-btn:hover {
+    background-color: rgba(48, 48, 48, 0.664);
+    color: white;
+}
+
+.card-overall-info .card-check-btn:active {
+    background-color: rgba(241, 241, 241, 0.664);
+    color: #007bff;
+}
+
+.card-overall-info .card-remove-btn {
+    background-color: #303030;
+    color: white;
+}
+
+.card-overall-info .card-remove-btn:hover {
+    background-color: #D6021B;
+}
+
+.card-overall-info .card-remove-btn:active {
+    background-color: rgba(255, 77, 77, 0.5);
+}
+
+.card-overall-info .card-check-icon {
+    font-size: 32px;
+    vertical-align: middle;
+}
+
+.card-overall-info .card-remove-icon {
+    font-size: 24px;
+    vertical-align: middle;
 }

@@ -2,12 +2,10 @@ import '../css/ProductModal.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Product from '../models/Product';
-import CartItem from '../models/CartItem';
 
 interface ProductModalProps {
     isOpen: boolean;
     product: Product;
-    userCart: CartItem[];
     addToCart: (product: Product, qty: number) => void;
     onClose: () => void;
 }
@@ -26,7 +24,7 @@ function ProductModal({ isOpen, product, addToCart, onClose }: ProductModalProps
             onClick={onClose}
             style={{ ['--product-color' as string]: product.color }}
         >
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <div className="modal-nav">
                     <div className="modal-follow">
                         <p className="modal-heading">PRODUCTS</p>
@@ -67,10 +65,12 @@ function ProductModal({ isOpen, product, addToCart, onClose }: ProductModalProps
                                 </button>
                             </div>
                         </div>
-                        <button className="add-to-cart" onClick={() => {
-                            addToCart(product, qty);
-                            setQty(1);
-                        }}>
+                        <button
+                            className="add-to-cart"
+                            onClick={() => {
+                                addToCart(product, qty);
+                                setQty(1);
+                            }}>
                             THÊM VÀO GIỎ HÀNG
                         </button>
                         <button className="order-btn" onClick={() => navigate('/your-cart')}>THANH TOÁN</button>

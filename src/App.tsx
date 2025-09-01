@@ -1,6 +1,7 @@
 import './css/App.css'
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { useCart } from './utils/useCart'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
@@ -9,7 +10,7 @@ import Contact from './pages/Contact'
 import UserCartPage from './pages/UserCartPage'
 import Checkout from './pages/Checkout'
 import Product from './models/Product'
-import CartItem from './models/CartItem'
+import ProductModal from './components/ProductModal'
 import bedao from './images/bedao.jpg';
 import bedao_hover from './images/bedao_hover.jpg';
 import bemai from './images/bemai.jpg';
@@ -36,7 +37,7 @@ import dbblack_st from './images/dbblack_st.jpg';
 
 const Products: Product[] = [
   new Product(1, bedao, bedao_hover, "BÉ ĐÀO", "Keychain", "KC01", 10, 150000, "#FA6AA1"),
-  new Product(2, bemai, bemai_hover, "BÉ MAI", "Keychain", "KC02", 5, 150000, "#C4A8EF"),
+  new Product(2, bemai, bemai_hover, "BÉ MAI", "Keychain", "KC02", 0, 150000, "#C4A8EF"),
   new Product(3, bequat, bequat_hover, "BÉ QUẤT", "Keychain", "KC03", 8, 150000, "#228F4C"),
   new Product(4, bety, bety_hover, "BÉ TỴ", "Keychain", "KC04", 6, 150000, "#FE8CE4"),
   new Product(5, begung, null, "BÉ GỪNG", "Keychain", "KC05", 8, 145000, "#C8AE9D"),
@@ -57,50 +58,17 @@ const Products: Product[] = [
 ];
 
 function App() {
-  const [userCart, setUserCart] = useState<CartItem[]>([]);
-
-  const addToCart = (product: Product, qty: number) => {
-    setUserCart(prev => {
-      const idx = prev.findIndex(item => item.code === product.code);
-      if (idx >= 0) {
-        const updated = [...prev];
-        const newQty = updated[idx].qty + qty;
-        if (newQty <= product.stock) {
-          updated[idx] = new CartItem(product, newQty);
-          return updated;
-        } else {
-          const max = product.stock - updated[idx].qty;
-          alert(`Bạn chỉ có thể thêm tối đa ${max} sản phẩm nữa`);
-          return prev;
-        }
-      }
-      return [...prev, new CartItem(product, Math.min(qty, product.stock))];
-    });
-  };
-
-  const removeFromCart = (code: string) => {
-    setUserCart(prev => prev.filter(item => item.code !== code));
-  };
-
-  const updateQty = (code: string, qty: number) => {
-    setUserCart(prev =>
-      prev.map(item =>
-        item.code === code ? new CartItem(item, qty) : item
-      ).filter(item => item.qty > 0)
-    );
-  };
-
-  const getCartTotal = () => {
-    return userCart.reduce((total, item) => total + item.qty * item.price, 0);
-  };
+  const {cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, getCartTotal } = useCart(Products);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   return (
     <div className="App">
       <NavBar
-        userCart={userCart}
+        userCart={cartDetails}
         getCartTotal={getCartTotal}
         updateQty={updateQty}
         removeFromCart={removeFromCart}
+        onOpen={setSelectedProduct}
       />
       <div className="App-content">
         <Routes>
@@ -108,25 +76,33 @@ function App() {
           <Route path="/products" element={
             <ProductsPage
               products={Products}
-              userCart={userCart}
-              addToCart={addToCart}
+              onOpen={setSelectedProduct}
             />
           } />
           <Route path="/contact" element={<Contact />} />
           <Route path="/your-cart" element={
             <UserCartPage
               products={Products}
-              userCart={userCart}
-              getCartTotal={getCartTotal}
+              userCart={cartDetails}
+              getItemTotal={getItemTotal}
               addToCart={addToCart}
               updateQty={updateQty}
               removeFromCart={removeFromCart}
+              onOpen={setSelectedProduct}
             />
           } />
           <Route path="/shipping-information" element={<Checkout />} />
         </Routes>
       </div>
       <Footer />
+      {selectedProduct && (
+        <ProductModal
+          isOpen={true}
+          product={selectedProduct}
+          addToCart={addToCart}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </div>
   );
 }

@@ -1,24 +1,21 @@
 import '../css/ProductsPage.css';
 import { useState } from 'react';
-import ProductModal from '../components/ProductModal';
+import { sortProducts } from '../utils/sortHelpers';
 import banner from '../images/overall.jpg';
 import ProductCard from '../components/ProductCard';
 import Product from '../models/Product';
-import CartItem from '../models/CartItem';
 
 interface ProductsPageProps {
   products: Product[];
-  userCart: CartItem[];
-  addToCart: (product: Product, qty: number) => void;
+  onOpen: (product: Product) => void;
 }
 
-function ProductsPage({ products, userCart, addToCart }: ProductsPageProps) {
+function ProductsPage({ products, onOpen }: ProductsPageProps) {
   const [selectedType, setSelectedType] = useState<string>("All");
   const filteredProducts = selectedType === "All"
     ? products
     : products.filter(product => product.type === selectedType);
-
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const sortedProducts = sortProducts(filteredProducts);
 
   return (
     <div className="products">
@@ -41,26 +38,15 @@ function ProductsPage({ products, userCart, addToCart }: ProductsPageProps) {
           </p>
         </div>
         <div className="product-list">
-          {filteredProducts.map((product) => (
+          {sortedProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
-              onOpen={setSelectedProduct}
+              onOpen={onOpen}
             />
           ))}
         </div>
       </div>
-
-      {selectedProduct && (
-        <ProductModal
-          isOpen={true}
-          product={selectedProduct}
-          userCart={userCart}
-          addToCart={addToCart}
-          onClose={() => setSelectedProduct(null)}
-        />
-      )}
-
     </div>
   );
 }

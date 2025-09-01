@@ -1,17 +1,20 @@
 import '../css/MiniCart.css'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { sortCartItems } from "../utils/sortHelpers";
 import MiniCartItem from '../components/MiniCartItem';
-import CartItem from '../models/CartItem';
+import Product from '../models/Product';
+import { CartDetail } from '../models/CartDetail';
 
 interface MiniCartProps {
-  userCart: CartItem[];
+  userCart: CartDetail[];
   getCartTotal: () => number;
   updateQty: (code: string, qty: number) => void;
   removeFromCart: (code: string) => void;
+  onOpen: (product: Product) => void;
 }
 
-function MiniCart({ userCart, getCartTotal, updateQty, removeFromCart }: MiniCartProps) {
+function MiniCart({ userCart, getCartTotal, updateQty, removeFromCart, onOpen }: MiniCartProps) {
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
   return (
@@ -29,16 +32,17 @@ function MiniCart({ userCart, getCartTotal, updateQty, removeFromCart }: MiniCar
           {userCart.length === 0 ? (
             <p className="empty-cart-message">Chưa có sản phẩm nào</p>
           ) : (
-            <ul>
-              {userCart.map((cartItem) => (
+            <div>
+              {sortCartItems(userCart).map((item) => (
                 <MiniCartItem
-                  key={cartItem.code}
-                  cartItem={cartItem}
-                  updateQty={(qty) => updateQty(cartItem.code, qty)}
-                  removeFromCart={() => removeFromCart(cartItem.code)}
+                  key={item.code}
+                  cartItem={item}
+                  updateQty={(qty) => updateQty(item.code, qty)}
+                  removeFromCart={() => removeFromCart(item.code)}
+                  onOpen={(product) => onOpen(product)}
                 />
               ))}
-            </ul>
+            </div>
           )}
         </div>
 

@@ -1,21 +1,23 @@
 import '../css/UserCartPage.css';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { sortCartItems, filterRecommend } from "../utils/sortHelpers";
 import RecommendItem from '../components/RecommendItem';
 import UserCartCard from '../components/UserCartCard';
-import CartItem from '../models/CartItem';
+import { CartDetail } from '../models/CartDetail';
 import Product from '../models/Product';
 
 interface UserCartPageProps {
   products: Product[];
-  userCart: CartItem[];
-  getCartTotal: () => number;
+  userCart: CartDetail[];
+  getItemTotal: (item: CartDetail) => number;
   addToCart: (product: Product, qty: number) => void;
   updateQty: (code: string, qty: number) => void;
   removeFromCart: (code: string) => void;
+  onOpen: (product: Product) => void;
 }
 
-function UserCartPage({ products, userCart, getCartTotal, addToCart, updateQty, removeFromCart }: UserCartPageProps) {
+function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, removeFromCart, onOpen }: UserCartPageProps) {
   const navigate = useNavigate();
   const recommendListRef = useRef<HTMLDivElement>(null);
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
@@ -23,9 +25,28 @@ function UserCartPage({ products, userCart, getCartTotal, addToCart, updateQty, 
 
   const scrollDistance = 750;
 
-  const recommendItems: Product[] = products.filter(
-    product => !userCart.some(cartItem => cartItem.code === product.code)
+  const recommendItems: Product[] = filterRecommend(products, userCart);
+  const [checkedItems, setCheckedItems] = useState<string[]>(
+    userCart.map(item => item.code)
   );
+
+  useEffect(() => {
+    setCheckedItems(userCart.map(item => item.code));
+  }, [userCart]);
+
+  const handleCheck = (code: string) => {
+    setCheckedItems(prev =>
+      prev.includes(code)
+        ? prev.filter(c => c !== code)
+        : [...prev, code]
+    );
+  };
+
+  const getCheckedTotal = () => {
+    return userCart
+      .filter(item => checkedItems.includes(item.code))
+      .reduce((total, item) => total + getItemTotal(item), 0);
+  };
 
   const handleScrollLeft = () => {
     if (recommendListRef.current) {
@@ -91,6 +112,7 @@ function UserCartPage({ products, userCart, getCartTotal, addToCart, updateQty, 
                   key={idx}
                   recommendItem={item}
                   addToCart={(qty) => void addToCart(item, qty)}
+                  onOpen={onOpen}
                 />
               ))}
             </div>
@@ -113,17 +135,21 @@ function UserCartPage({ products, userCart, getCartTotal, addToCart, updateQty, 
         <div className="main-cart">
           <p className="main-cart-title">GIỎ HÀNG</p>
           <div className="list-cart">
-            {userCart.map((item, idx) => (
+            {sortCartItems(userCart).map(item => (
               <UserCartCard
-                key={idx}
+                key={item.code}
                 cartItem={item}
+                getItemTotal={getItemTotal}
                 updateQty={qty => updateQty(item.code, qty)}
                 removeFromCart={() => removeFromCart(item.code)}
+                onOpen={onOpen}
+                checked={checkedItems.includes(item.code)}
+                onCheck={() => handleCheck(item.code)}
               />
             ))}
           </div>
           <div className="cart-nav">
-            <button className="remove-all-btn">XOÁ HẾT</button>
+            <button className="remove-all-btn" onClick={() => userCart.forEach(item => removeFromCart(item.code))}>XOÁ HẾT</button>
             <button className="continue-shopping-btn" onClick={() => navigate('/products')}>QUAY LẠI MUA HÀNG</button>
           </div>
         </div>
@@ -142,7 +168,7 @@ function UserCartPage({ products, userCart, getCartTotal, addToCart, updateQty, 
         <ul className="bill-detail">
           <li>
             <span>Đơn hàng</span>
-            <span className="bill-price bill-total">{getCartTotal().toLocaleString('vi-VN')} VND</span>
+            <span className="bill-price bill-total">{getCheckedTotal().toLocaleString('vi-VN')} VND</span>
           </li>
           <li>
             <span>Giảm</span>
@@ -151,7 +177,7 @@ function UserCartPage({ products, userCart, getCartTotal, addToCart, updateQty, 
         </ul>
         <div className="bill-tmp">
           <span>TẠM TÍNH</span>
-          <span className="bill-price tmp-price">{getCartTotal().toLocaleString('vi-VN')} VND</span>
+          <span className="bill-price tmp-price">{getCheckedTotal().toLocaleString('vi-VN')} VND</span>
         </div>
         <button className="checkout-btn" onClick={() => navigate('/shipping-information')}>TIẾP TỤC THANH TOÁN</button>
       </div>
