@@ -8,7 +8,7 @@ export function useCart(products: Product[]) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   // chi tiết cart (gắn product cho từng CartItem)
-  const cartDetails : CartDetail[] = useMemo(() => {
+  const cartDetails: CartDetail[] = useMemo(() => {
     const productMap = new Map(products.map(p => [p.code, p]));
     return cart
       .map(item => {
@@ -38,8 +38,12 @@ export function useCart(products: Product[]) {
           else alert("Sản phẩm đã đạt số lượng tối đa trong giỏ hàng");
           return prev;
         }
+      } else if (product.stock > 0) {
+        return [new CartItem(product.code, Math.min(qty, product.stock)), ...prev];
+      } else {
+        alert("Sản phẩm đã hết hàng");
+        return prev;
       }
-      return [new CartItem(product.code, Math.min(qty, product.stock)), ...prev];
     });
   };
 
@@ -63,10 +67,5 @@ export function useCart(products: Product[]) {
     return product ? product.price * item.qty : 0;
   };
 
-  // tính tổng giỏ hàng
-  const getCartTotal = () => {
-    return cart.reduce((total, item) => total + getItemTotal(item), 0);
-  };
-
-  return { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, getCartTotal };
+  return { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal };
 }

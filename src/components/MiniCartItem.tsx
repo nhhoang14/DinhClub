@@ -65,7 +65,7 @@ function MiniCartItem({ cartItem, updateQty, removeFromCart, onOpen }: MiniCartI
             </span>
           </button>
           <input
-            id="qty"
+            id="item-qty-input"
             type="text"
             min={0}
             value={inputQty}

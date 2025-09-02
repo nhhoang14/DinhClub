@@ -32,6 +32,7 @@
 
 .product-info .product-title {
     font-family: 'BagelFatOne';
+    text-transform: uppercase;
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;

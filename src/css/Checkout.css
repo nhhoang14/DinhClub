@@ -1,0 +1,208 @@
+.checkout-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    margin: 60px auto;
+    font-family: 'DFVN Bagel Fat One', sans-serif;
+    border: none;
+    justify-content: center;
+}
+
+.checkout-container .order-price {
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: bold;
+}
+
+/* ==================== checkout-main ==================== */
+.checkout-main {
+    width: 100%;
+    max-width: 670px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.checkout-main p{
+    background-color: #F1F1F1;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 12px;
+    padding: 12px 24px;
+}
+
+.shipping-info label {
+    display: flex;
+    align-items: center;
+    margin: 16px 0;
+    padding: 0 8px;
+    gap: 8px;
+}
+
+/* ======== shipping-method ======== */
+.shipping-method {
+    display: flex;
+    flex-direction: column;
+}
+
+.shipping-method label {
+    margin: 16px 0;
+    padding: 0 8px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ======== payment-method ======== */
+.payment-method {
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-method label {
+    margin: 16px 0;
+    padding: 0 8px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.payment-method .payment-icon {
+    font-size: 24px;
+    margin-left: 12px;
+    color: #0B70FE;
+}
+
+/* ==================== order-summary ==================== */
+.order-summary {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    min-height: 500px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.order-summary h2 {
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #000;
+}
+
+/* ======== order-items ======== */
+.order-items {
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 24px;
+    border-bottom: 2px dashed #808080;
+    line-height: 1;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    color: #555555;
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-item .order-item-details{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.order-item-details .order-item-quantity{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ======== order-overview-price ======== */
+.order-overview-price {
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 24px;
+    color: #808080;
+    border-bottom: 2px dashed #808080;
+    line-height: 1;
+}
+
+.order-overview-price li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.order-overview-price .order-shipping {
+    color: #000;
+}
+
+/* ======== order-total ======== */
+.order-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 1;
+    margin-top: 4px;
+}
+
+.order-summary .order-btn {
+    height: 80px;
+    background-color: #0B70FE;
+    color: #fff;
+    padding: 12px 16px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+}
+
+.order-summary .order-btn:hover {
+    background-color: #1B4AB4;
+}
+
+.order-summary .order-btn:active {
+    background-color: rgba(11, 112, 254, 0.5);
+}
+
+/* ==================== custom input ==================== */
+input[type="radio"].custom-radio,
+input[type="checkbox"].custom-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 1px solid rgb(204, 204, 204);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-right: 8px;
+}
+
+input[type="checkbox"].custom-checkbox:checked::after,
+input[type="radio"].custom-radio:checked::after {
+    content: "";
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 4px;
+    height: 10px;
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+    display: block;
+}

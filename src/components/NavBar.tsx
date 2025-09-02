@@ -7,13 +7,13 @@ import { CartDetail } from '../models/CartDetail';
 
 interface NavBarProps {
   userCart: CartDetail[];
-  getCartTotal: () => number;
+  getItemTotal: (item: CartDetail) => number;
   updateQty: (code: string, qty: number) => void;
   removeFromCart: (code: string) => void;
   onOpen: (product: Product) => void;
 }
 
-function NavBar({ userCart, getCartTotal, updateQty, removeFromCart, onOpen }: NavBarProps) {
+function NavBar({ userCart, getItemTotal, updateQty, removeFromCart, onOpen }: NavBarProps) {
   const location = useLocation();
 
   const handleTopClick = () => {
@@ -46,7 +46,7 @@ function NavBar({ userCart, getCartTotal, updateQty, removeFromCart, onOpen }: N
       <div className="nav-cart">
         <MiniCart
           userCart={userCart}
-          getCartTotal={getCartTotal}
+          getItemTotal={getItemTotal}
           updateQty={updateQty}
           removeFromCart={removeFromCart}
           onOpen={onOpen}

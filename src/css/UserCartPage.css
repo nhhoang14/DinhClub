@@ -1,11 +1,11 @@
 .user-cart {
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     gap: 32px;
+    margin: 60px auto;
     font-family: 'DFVN Bagel Fat One', sans-serif;
     border: none;
-    margin: 60px auto;
     justify-content: center;
 }
 
@@ -125,7 +125,7 @@
 
 /* ==================== bill-cart ==================== */
 .bill-cart {
-    width: 40%;
+    width: 100%;
     max-width: 400px;
     height: auto;
     max-height: 466px;
@@ -225,6 +225,7 @@
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
+    font-size: 16px;
     line-height: 1;
     margin-top: 4px;
 }

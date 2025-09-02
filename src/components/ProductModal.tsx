@@ -50,14 +50,14 @@ function ProductModal({ isOpen, product, addToCart, onClose }: ProductModalProps
                         <p className="modal-code">Mã sản phẩm: <strong>{product.code}</strong></p>
                         <p className="modal-price">{product.price.toLocaleString('vi-VN')} VND</p>
                         <div className="modal-quantity">
-                            <label htmlFor="qty">SỐ LƯỢNG</label>
+                            <label htmlFor="modal-qty-input">SỐ LƯỢNG</label>
                             <div className="quantity">
                                 <button type="button" className="qty-btn" onClick={decrease}>
                                     <span className="material-symbols-outlined qty-icon">
                                         remove
                                     </span>
                                 </button>
-                                <input id="qty" type="text" value={qty} onChange={e => setQty(Number(e.target.value) || 1)} />
+                                <input id="modal-qty-input" type="text" value={qty} onChange={e => setQty(Number(e.target.value) || 1)} />
                                 <button type="button" className="qty-btn" onClick={increase}>
                                     <span className="material-symbols-outlined qty-icon">
                                         add_2

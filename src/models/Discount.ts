@@ -2,6 +2,7 @@ export default class Discount {
   code: string;
   type: 'fixed' | 'percentage';
   value: number;
+  apply: string;
   minSubtotal: number;
   maxDiscount: number;
 
@@ -9,12 +10,14 @@ export default class Discount {
     code: string,
     type: 'fixed' | 'percentage',
     value: number,
+    apply: string,
     minSubtotal: number,
     maxDiscount: number
   ) {
     this.code = code;
     this.type = type;
     this.value = value;
+    this.apply = apply;
     this.minSubtotal = minSubtotal;
     this.maxDiscount = maxDiscount;
   }

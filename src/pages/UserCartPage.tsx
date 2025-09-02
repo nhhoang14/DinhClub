@@ -15,9 +15,12 @@ interface UserCartPageProps {
   updateQty: (code: string, qty: number) => void;
   removeFromCart: (code: string) => void;
   onOpen: (product: Product) => void;
+  checkedItems: string[];
+  setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
+  getCheckedTotal: () => number;
 }
 
-function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, removeFromCart, onOpen }: UserCartPageProps) {
+function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal }: UserCartPageProps) {
   const navigate = useNavigate();
   const recommendListRef = useRef<HTMLDivElement>(null);
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
@@ -26,12 +29,12 @@ function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, 
   const scrollDistance = 750;
 
   const recommendItems: Product[] = filterRecommend(products, userCart);
-  const [checkedItems, setCheckedItems] = useState<string[]>(
-    userCart.map(item => item.code)
-  );
 
   useEffect(() => {
-    setCheckedItems(userCart.map(item => item.code));
+    setCheckedItems(userCart
+      .filter(item => item.product && item.product.stock > 0)
+      .map(item => item.code)
+    );
   }, [userCart]);
 
   const handleCheck = (code: string) => {
@@ -42,11 +45,9 @@ function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, 
     );
   };
 
-  const getCheckedTotal = () => {
-    return userCart
-      .filter(item => checkedItems.includes(item.code))
-      .reduce((total, item) => total + getItemTotal(item), 0);
-  };
+  const discount = 100000;
+  const checkedTotal = getCheckedTotal();
+  const tmpPrice = checkedTotal - discount;
 
   const handleScrollLeft = () => {
     if (recommendListRef.current) {
@@ -168,16 +169,16 @@ function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, 
         <ul className="bill-detail">
           <li>
             <span>Đơn hàng</span>
-            <span className="bill-price bill-total">{getCheckedTotal().toLocaleString('vi-VN')} VND</span>
+            <span className="bill-price">{checkedTotal.toLocaleString('vi-VN')} VND</span>
           </li>
           <li>
             <span>Giảm</span>
-            <span className="bill-price discount-price">0 VND</span>
+            <span className="bill-price">{discount.toLocaleString('vi-VN')} VND</span>
           </li>
         </ul>
         <div className="bill-tmp">
           <span>TẠM TÍNH</span>
-          <span className="bill-price tmp-price">{getCheckedTotal().toLocaleString('vi-VN')} VND</span>
+          <span className="bill-price tmp-price">{tmpPrice.toLocaleString('vi-VN')} VND</span>
         </div>
         <button className="checkout-btn" onClick={() => navigate('/shipping-information')}>TIẾP TỤC THANH TOÁN</button>
       </div>

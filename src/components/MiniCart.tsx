@@ -8,15 +8,22 @@ import { CartDetail } from '../models/CartDetail';
 
 interface MiniCartProps {
   userCart: CartDetail[];
-  getCartTotal: () => number;
+  getItemTotal: (item: CartDetail) => number;
   updateQty: (code: string, qty: number) => void;
   removeFromCart: (code: string) => void;
   onOpen: (product: Product) => void;
 }
 
-function MiniCart({ userCart, getCartTotal, updateQty, removeFromCart, onOpen }: MiniCartProps) {
+function MiniCart({ userCart, getItemTotal, updateQty, removeFromCart, onOpen }: MiniCartProps) {
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
+
+  const getAvailableCartTotal = () => {
+  return userCart
+    .filter(item => item.product && item.product.stock > 0)
+    .reduce((total, item) => total + getItemTotal(item), 0);
+};
+
   return (
     <div className="cart-wrapper">
       <button className="cart-btn" onClick={() => setShowCart(!showCart)}>
@@ -50,7 +57,7 @@ function MiniCart({ userCart, getCartTotal, updateQty, removeFromCart, onOpen }:
           <div className="price-detail">
             <span>Tổng tiền:</span>
             <span className="total-price">
-              {getCartTotal().toLocaleString('vi-VN')} VND
+              {getAvailableCartTotal().toLocaleString('vi-VN')} VND
             </span>
           </div>
           <button className="checkout-btn" onClick={() => navigate('/your-cart')}>THANH TOÁN</button>

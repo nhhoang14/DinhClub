@@ -27,7 +27,7 @@ function UserCartCard({ cartItem, getItemTotal, updateQty, removeFromCart, onOpe
 
     const check = (val: number) => {
         if (val > cartItem.product.stock) {
-            setError("Đạt số lượng tối đa trong kho");
+            setError("Sản phẩm đã đạt số lượng tối đa của cửa hàng!");
             setInputQty(cartItem.product.stock);
             updateQty(cartItem.product.stock);
         } else {
@@ -62,14 +62,14 @@ function UserCartCard({ cartItem, getItemTotal, updateQty, removeFromCart, onOpe
                             <span>Giá: </span>
                             <span>{cartItem.product.price.toLocaleString('vi-VN')} VND</span>
                         </p>
-                        <div className="card-qty">
+                        <div className="user-card-qty">
                             <button type="button" className="qty-btn" onClick={decrease}>
                                 <span className="material-symbols-outlined qty-icon">
                                     remove
                                 </span>
                             </button>
                             <input
-                                id="qty"
+                                id="user-card-input"
                                 type="text"
                                 min={1}
                                 value={inputQty}
@@ -98,9 +98,15 @@ function UserCartCard({ cartItem, getItemTotal, updateQty, removeFromCart, onOpe
                         className={`card-status-btn card-check-btn${checked ? " active" : ""}`}
                         onClick={onCheck}
                     >
-                        <span className="material-symbols-outlined card-check-icon">
-                            check_small
-                        </span>
+                        {checked ? (
+                            <span className="material-symbols-outlined card-check-icon">
+                                check_small
+                            </span>
+                        ) : (
+                            <span className="material-symbols-outlined card-uncheck-icon">
+                                check_indeterminate_small
+                            </span>
+                        )}
                     </button>
                     <button className="card-status-btn card-remove-btn" onClick={removeFromCart}>
                         <span className="material-symbols-outlined card-remove-icon">

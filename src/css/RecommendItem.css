@@ -29,6 +29,7 @@
     line-height: 1.2;
     transition: background-color 0.3s;
     cursor: pointer;
+    text-transform: uppercase;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;

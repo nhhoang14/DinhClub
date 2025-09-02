@@ -47,7 +47,7 @@
 .card-detail-info {
     width: 100%;
     min-width: 0;
-    margin-left: 24px;
+    margin-left: 32px;
     display: flex;
     flex-direction: column;
 }
@@ -56,6 +56,8 @@
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
+    text-transform: uppercase;
+    line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -84,8 +86,40 @@
     margin-top: 8px;
 }
 
-.card-detail-info .card-qty {
-    margin-top: auto;
+.card-detail-info .user-card-qty{
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-card-qty #user-card-input {
+    width: 80px;
+    text-align: center;
+    padding: 8px;
+    font-size: 16px;
+    font-family: "Noto Sans JP", sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.user-card-qty .qty-btn {
+    background-color: #F0F0F0;
+    display: flex;
+    border-radius: 50%;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-card-qty .qty-btn:hover {
+    background-color: #E0E0E0;
+}
+
+.user-card-qty .qty-btn:active {
+    background-color: #D0D0D0;
 }
 
 .card-overall-info {
@@ -120,29 +154,25 @@
     color: #007bff;
 }
 
-.card-overall-info .card-check-btn.active:hover {
-    background-color: rgba(241, 241, 241, 0.664);
-    color: #007bff;
-}
-
-.card-overall-info .card-check-btn.active:active {
-    background-color: rgba(48, 48, 48, 0.664);
-    color: white;
-}
-
 .card-overall-info .card-check-btn {
-    background-color: #303030;
-    color: white;
+    background-color: #f1f1f1;
+    color: #000;
 }
 
 .card-overall-info .card-check-btn:hover {
-    background-color: rgba(48, 48, 48, 0.664);
-    color: white;
-}
-
-.card-overall-info .card-check-btn:active {
     background-color: rgba(241, 241, 241, 0.664);
     color: #007bff;
+}
+
+
+.card-overall-info .card-check-icon {
+    font-size: 38px;
+    vertical-align: middle;
+}
+
+.card-overall-info .card-uncheck-icon {
+    font-size: 32px;
+    vertical-align: middle;
 }
 
 .card-overall-info .card-remove-btn {
@@ -156,11 +186,6 @@
 
 .card-overall-info .card-remove-btn:active {
     background-color: rgba(255, 77, 77, 0.5);
-}
-
-.card-overall-info .card-check-icon {
-    font-size: 32px;
-    vertical-align: middle;
 }
 
 .card-overall-info .card-remove-icon {

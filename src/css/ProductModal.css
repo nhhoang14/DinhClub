@@ -97,6 +97,7 @@
     font-size: 48px;
     font-family: 'BagelFatOne';
     color: var(--product-color);
+    text-transform: uppercase;
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -138,7 +139,7 @@
     margin-top: 12px;
 }
 
-.quantity #qty {
+.quantity #modal-qty-input {
     width: 80px;
     text-align: center;
     padding: 8px;
