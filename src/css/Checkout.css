@@ -31,6 +31,56 @@
     padding: 12px 24px;
 }
 
+/* ======== shipping-info ======== */
+.shipping-info {
+    display: flex;
+    flex-direction: column;
+    /* gap: 24px; */
+}
+
+.shipping-info input:required {
+    position: relative;
+}
+/* 
+.shipping-info input:required:valid:after {
+    /* border: red; */
+    /* content: "";
+    position: absolute;
+    right: 0;
+    width: 4px;
+    height: 10px;
+    border: solid #0B70FE;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+    display: block;
+} */
+
+.shipping-info input:required:valid{
+    border: 1px solid #0B70FE;
+}
+
+.shipping-info .form-control {
+    max-width: 550px;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin: 12px 8px;
+}
+
+.shipping-info .address-detail-city {
+    max-width: 550px;
+    margin: 12px 8px;
+    display: flex;
+    gap: 16px
+}
+
+.address-detail-city .detail-city-item{
+    width: 100%;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
 .shipping-info label {
     display: flex;
     align-items: center;
@@ -77,10 +127,9 @@
 
 /* ==================== order-summary ==================== */
 .order-summary {
+    align-self: flex-start;
     width: 100%;
     max-width: 480px;
-    height: auto;
-    min-height: 500px;
     background-color: #f1f1f1;
     padding: 20px;
     display: flex;

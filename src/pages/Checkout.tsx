@@ -22,24 +22,47 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
         {/* shipping-info */}
         <div className="shipping-info">
           <p>THÔNG TIN GIAO HÀNG</p>
-          <input type="text" placeholder="Họ và tên" required />
-          <input type="text" placeholder="Số điện thoại" required />
-          <input type="email" placeholder="Email" required />
-          <div className="address-info">
-            <input type="text" placeholder="Địa chỉ" required />
-            <select required>
-              <option value="">tỉnh/thành phố</option>
-              <option value="Hà Nội">Hà Nội</option>
-              <option value="TP.HCM">TP.HCM</option>
-              <option value="Đà Nẵng">Đà Nẵng</option>
-            </select>
-            <select required>
+          <input className="form-control"
+            type="text"
+            name="name"
+            placeholder="Họ và tên"
+            onInput={(e) => e.currentTarget.value = e.currentTarget.value.replace(/[^\p{L}' ]/gu, '')}
+            required
+          />
+          <input className="form-control"
+            type="text"
+            name="phone"
+            placeholder="Số điện thoại"
+            onInput={(e) => e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '')}
+            required
+          />
+          <input className="form-control"
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <input className="form-control"
+            type="text"
+            name="address"
+            placeholder="Địa chỉ"
+            onInput={(e) => e.currentTarget.value = e.currentTarget.value.replace(/[^\p{L}' ]/gu, '')}
+            required
+          />
+          <select className="form-control" name="city" required>
+            <option value="">tỉnh/thành phố</option>
+            <option value="Hà Nội">Hà Nội</option>
+            <option value="TP.HCM">TP.HCM</option>
+            <option value="Đà Nẵng">Đà Nẵng</option>
+          </select>
+          <div className="address-detail-city">
+            <select className="detail-city-item" name="district" required>
               <option value="">Quận/Huyện</option>
               <option value="Hà Nội">Hà Nội</option>
               <option value="TP.HCM">TP.HCM</option>
               <option value="Đà Nẵng">Đà Nẵng</option>
             </select>
-            <select required>
+            <select className="detail-city-item" name="ward" required>
               <option value="">Phường/Xã</option>
               <option value="Hà Nội">Hà Nội</option>
               <option value="TP.HCM">TP.HCM</option>
