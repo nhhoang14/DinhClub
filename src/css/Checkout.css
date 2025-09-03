@@ -23,7 +23,7 @@
     gap: 16px;
 }
 
-.checkout-main p{
+.checkout-main p {
     background-color: #F1F1F1;
     font-weight: bold;
     font-size: 20px;
@@ -35,50 +35,76 @@
 .shipping-info {
     display: flex;
     flex-direction: column;
-    /* gap: 24px; */
 }
 
-.shipping-info input:required {
+.shipping-info .field-wrapper {
     position: relative;
-}
-/* 
-.shipping-info input:required:valid:after {
-    /* border: red; */
-    /* content: "";
-    position: absolute;
-    right: 0;
-    width: 4px;
-    height: 10px;
-    border: solid #0B70FE;
-    border-width: 0 2px 2px 0;
-    transform: translate(-50%, -50%) rotate(45deg);
-    display: block;
-} */
-
-.shipping-info input:required:valid{
-    border: 1px solid #0B70FE;
-}
-
-.shipping-info .form-control {
-    max-width: 550px;
-    padding: 8px 16px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    margin: 12px 8px;
-}
-
-.shipping-info .address-detail-city {
     max-width: 550px;
     margin: 12px 8px;
     display: flex;
-    gap: 16px
 }
 
-.address-detail-city .detail-city-item{
+.shipping-info .form-control {
     width: 100%;
-    padding: 8px 16px;
+    padding: 4px 16px;
     border: 1px solid #ccc;
     font-size: 16px;
+    line-height: 1.5;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-sizing: border-box;
+    outline: none;
+    font-family: "DFVN Bagel Fat One", sans-serif;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
+.field-wrapper input::placeholder {
+    color: #888;
+}
+
+.field-wrapper:not(.untouched):has(input:valid)::after {
+    content: "";
+    position: absolute;
+    top: 45%;
+    right: 12px;
+    width: 4px;
+    height: 10px;
+    border: solid #0B70FE;
+    border-width: 0 3px 3px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.field-wrapper:not(.untouched) input:invalid,
+select.form-control:invalid:not(.untouched) {
+    border-color: #0B70FE;
+    color: #0B70FE;
+}
+
+.field-wrapper:not(.untouched):has(input:invalid)::after {
+    content: attr(data-error);
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0B70FE;
+    font-family: "DFVN Bagel Fat One", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    max-width: 300px;
+    white-space: nowrap;
+}
+
+.shipping-info .address-detail-city {
+    display: flex;
+    gap: 16px;
+}
+
+.shipping-info select {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='gray' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 16px center;
+    background-size: 20px;
 }
 
 .shipping-info label {
@@ -162,13 +188,13 @@
     border-bottom: 1px solid #eee;
 }
 
-.order-item .order-item-details{
+.order-item .order-item-details {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.order-item-details .order-item-quantity{
+.order-item-details .order-item-quantity {
     font-size: 14px;
     font-weight: 500;
 }
@@ -240,6 +266,11 @@ input[type="checkbox"].custom-checkbox {
     outline: none;
     transition: border-color 0.2s;
     margin-right: 8px;
+}
+
+input[type="radio"].custom-radio:hover,
+input[type="checkbox"].custom-checkbox:hover {
+    border-color: #888;
 }
 
 input[type="checkbox"].custom-checkbox:checked::after,

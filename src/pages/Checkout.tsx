@@ -1,6 +1,6 @@
 import '../css/Checkout.css';
+import { useState } from "react";
 import { CartDetail } from '../models/CartDetail';
-// import Discount from '../models/Discount';
 
 interface CheckoutProps {
   getCheckedTotal: () => number;
@@ -10,60 +10,167 @@ interface CheckoutProps {
 }
 
 function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: CheckoutProps) {
-
   const shippingFee = 50000;
   const discount = 100000;
   const finalTotal = getCheckedTotal() - discount + shippingFee;
 
+  const [data, setData] = useState<Record<string, string>>({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+    city: "",
+    district: "",
+    ward: "",
+  });
+
+  const [touched, setTouched] = useState<Record<string, boolean>>({
+    name: false,
+    phone: false,
+    email: false,
+    address: false,
+    city: false,
+    district: false,
+    ward: false,
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTouched(
+      Object.fromEntries(Object.keys(touched).map((field) => [field, true])) as Record<string, boolean>
+    );
+
+    console.log("Submit data:", data);
+  };
+  const markTouched = (field: keyof typeof touched) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+  };
+
   return (
-    <form className="checkout-container" action="">
+    <form className="checkout-container" onSubmit={handleSubmit} noValidate>
       {/* checkout-main */}
       <div className="checkout-main">
         {/* shipping-info */}
         <div className="shipping-info">
           <p>THÔNG TIN GIAO HÀNG</p>
-          <input className="form-control"
-            type="text"
-            name="name"
-            placeholder="Họ và tên"
-            onInput={(e) => e.currentTarget.value = e.currentTarget.value.replace(/[^\p{L}' ]/gu, '')}
-            required
-          />
-          <input className="form-control"
-            type="text"
-            name="phone"
-            placeholder="Số điện thoại"
-            onInput={(e) => e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '')}
-            required
-          />
-          <input className="form-control"
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-          />
-          <input className="form-control"
-            type="text"
-            name="address"
-            placeholder="Địa chỉ"
-            onInput={(e) => e.currentTarget.value = e.currentTarget.value.replace(/[^\p{L}' ]/gu, '')}
-            required
-          />
-          <select className="form-control" name="city" required>
-            <option value="">tỉnh/thành phố</option>
-            <option value="Hà Nội">Hà Nội</option>
-            <option value="TP.HCM">TP.HCM</option>
-            <option value="Đà Nẵng">Đà Nẵng</option>
-          </select>
-          <div className="address-detail-city">
-            <select className="detail-city-item" name="district" required>
-              <option value="">Quận/Huyện</option>
+          <div
+            className={`field-wrapper ${touched["name"] ? "" : "untouched"}`}
+            data-error="Vui lòng nhập họ tên"
+          >
+            <input className="form-control"
+              style={{ textTransform: 'capitalize' }}
+              type="text"
+              name="name"
+              placeholder="Họ và tên"
+              value={data.name || ""}
+              onInput={
+                (e) => {
+                  const value = e.currentTarget.value.replace(/[^\p{L}'\s]/gu, "");
+                  setData((prev) => ({ ...prev, name: value.trimStart() }));
+                  markTouched("name");
+                }
+              }
+              required
+            />
+          </div>
+          <div
+            className={`field-wrapper ${touched["phone"] ? "" : "untouched"}`}
+            data-error="Vui lòng nhập số điện thoại"
+          >
+            <input className="form-control"
+              type="tel"
+              name="phone"
+              placeholder="Số điện thoại"
+              value={data.phone || ""}
+              onInput={
+                (e) => {
+                  const value = e.currentTarget.value.replace(/[^0-9]/g, "");
+                  setData((prev) => ({ ...prev, phone: value }));
+                  markTouched("phone");
+                }
+              }
+              pattern="[0]+[35789]+[0-9]{8}"
+              required
+            />
+          </div>
+          <div
+            className={`field-wrapper ${touched["email"] ? "" : "untouched"}`}
+            data-error="Vui lòng nhập email"
+          >
+            <input className="form-control"
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={data.email || ""}
+              onInput={(e) => {
+                const value = e.currentTarget.value;
+                setData((prev) => ({ ...prev, email: value.trimStart() }));
+                markTouched("email");
+              }}
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,})+$"
+              required
+            />
+          </div>
+          <div
+            className={`field-wrapper ${touched["address"] ? "" : "untouched"}`}
+            data-error="Vui lòng nhập địa chỉ"
+          >
+            <input className="form-control"
+              type="text"
+              name="address"
+              placeholder="Địa chỉ"
+              value={data.address || ""}
+              onInput={
+                (e) => {
+                  const value = e.currentTarget.value.replace(/[^\p{L}0-9,./\s]/gu, "");
+                  setData((prev) => ({ ...prev, address: value.trimStart() }));
+                  markTouched("address");
+                }
+              }
+              required
+            />
+          </div>
+          <div className="field-wrapper">
+            <select className={`form-control city-select ${touched["city"] ? "" : "untouched"}`}
+              name="city"
+              value={data.city || ""}
+              onChange={(e) => {
+                const value = e.currentTarget.value;
+                setData((prev) => ({ ...prev, city: value }));
+                markTouched("city");
+              }}
+              required>
+              <option value="">Tỉnh / Thành phố</option>
               <option value="Hà Nội">Hà Nội</option>
               <option value="TP.HCM">TP.HCM</option>
               <option value="Đà Nẵng">Đà Nẵng</option>
             </select>
-            <select className="detail-city-item" name="ward" required>
-              <option value="">Phường/Xã</option>
+          </div>
+          <div className="field-wrapper address-detail-city">
+            <select className={`form-control district-select ${touched["district"] ? "" : "untouched"}`}
+              name="district"
+              value={data.district || ""}
+              onChange={(e) => {
+                const value = e.currentTarget.value;
+                setData((prev) => ({ ...prev, district: value }));
+                markTouched("district");
+              }}
+              required>
+              <option value="">Quận / Huyện</option>
+              <option value="Hà Nội">Hà Nội</option>
+              <option value="TP.HCM">TP.HCM</option>
+              <option value="Đà Nẵng">Đà Nẵng</option>
+            </select>
+            <select className={`form-control ward-select ${touched["ward"] ? "" : "untouched"}`}
+              name="ward"
+              value={data.ward || ""}
+              onChange={(e) => {
+                const value = e.currentTarget.value;
+                setData((prev) => ({ ...prev, ward: value }));
+                markTouched("ward");
+              }}
+              required>
+              <option value="">Phường / Xã</option>
               <option value="Hà Nội">Hà Nội</option>
               <option value="TP.HCM">TP.HCM</option>
               <option value="Đà Nẵng">Đà Nẵng</option>
@@ -80,18 +187,18 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
           <p>PHƯƠNG THỨC VẬN CHUYỂN</p>
           <div className="shipping-method">
             <label>
-              <input type="radio" className="custom-radio" name="shipping-method" value="ghht" defaultChecked />
-              <span>Hỏa tốc (từ 1 - 3 ngày làm việc)</span>
-              <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
-            </label>
-            <label>
-              <input type="radio" className="custom-radio" name="shipping-method" value="ghn" />
+              <input type="radio" className="custom-radio" name="shipping-method" value="ghn" defaultChecked />
               <span>Tốc độ tiêu chuẩn (từ 2 - 5 ngày làm việc)</span>
               <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
             </label>
             <label>
               <input type="radio" className="custom-radio" name="shipping-method" value="ghtk" />
               <span>Giao hàng tiết kiệm (từ 3 - 7 ngày làm việc)</span>
+              <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
+            </label>
+            <label>
+              <input type="radio" className="custom-radio" name="shipping-method" value="ghht" />
+              <span>Hỏa tốc (từ 1 - 3 ngày làm việc)</span>
               <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
             </label>
           </div>
