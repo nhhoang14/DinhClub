@@ -76,7 +76,7 @@ function App() {
   return (
     <div className="App">
       {consent === null && (
-        <div className="fixed top-0 left-0 right-0 bg-gray-800 text-white p-4 flex justify-between">
+        <div className="absolute bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex justify-between">
           <span>Chúng tôi sử dụng cookies để cải thiện trải nghiệm. Bạn có đồng ý không?</span>
           <div className="flex gap-2">
             <button onClick={accept} className="bg-green-500 px-3 py-1 rounded">Đồng ý</button>
