@@ -76,7 +76,7 @@ function App() {
   return (
     <div className="App">
       {consent === null && (
-        <div className="absolute bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex justify-between">
+        <div className=" banner-cookies" style={{ backgroundColor: "#000", borderRadius: "25px", padding: "10px", position: "absolute", bottom: 0, width: "500px", height: "400px", boxShadow: "0 -2px 5px rgba(0,0,0,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center", zIndex: 2000 }}>
           <span>Chúng tôi sử dụng cookies để cải thiện trải nghiệm. Bạn có đồng ý không?</span>
           <div className="flex gap-2">
             <button onClick={accept} className="bg-green-500 px-3 py-1 rounded">Đồng ý</button>

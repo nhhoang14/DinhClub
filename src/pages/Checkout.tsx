@@ -1,6 +1,8 @@
 import '../css/Checkout.css';
 import { useState } from "react";
 import { CartDetail } from '../models/CartDetail';
+import { useNotify } from "../utils/useNotify";
+import QRCode from "react-qr-code";
 
 interface CheckoutProps {
   getCheckedTotal: () => number;
@@ -14,6 +16,9 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
   const discount = 100000;
   const finalTotal = getCheckedTotal() - discount + shippingFee;
 
+  const notify = useNotify();
+  const paymentCode = "00020101021138570010A000000727012700069704220113VQRQACUZG42300208QRIBFTTA53037045802VN62150107NPS6869080063043993";
+  const [cardCode, setCardCode] = useState<string | null>(null);
   const [touched, setTouched] = useState<Record<string, boolean>>({
     name: false,
     phone: false,
@@ -30,6 +35,9 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
       Object.fromEntries(Object.keys(touched).map((field) => [field, true])) as Record<string, boolean>
     );
 
+    const formData = new FormData(e.currentTarget);
+    const paymentOption = formData.get("paymentOption")?.toString() || "";
+
     const isValid = e.currentTarget.checkValidity();
     if (!isValid) {
       const firstInvalid = e.currentTarget.querySelector(
@@ -39,11 +47,20 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
       return;
     } else {
       if (checkedItems.length === 0) {
-        alert("Vui lòng chọn ít nhất một sản phẩm để đặt hàng");
+        notify("warning", "Vui lòng chọn ít nhất một sản phẩm để đặt hàng");
+        return;
+      } else if (paymentOption === "card") {
+        const code = "DC" + Math.random().toString(36).substring(2, 8).toUpperCase();
+        setCardCode(code);
+        notify("info", `Vui lòng quét mã QR để thanh toán. Mã giao dịch: ${code}`);
         return;
       } else {
-        alert("Đặt hàng thành công! Cảm ơn bạn đã mua hàng tại Dính Club.");
-        window.location.reload();
+        notify("success", "Đặt hàng thành công! Cảm ơn bạn đã mua hàng tại Dính Club.");
+        setTouched(
+          Object.fromEntries(Object.keys(touched).map((field) => [field, false])) as Record<string, boolean>
+        );
+        e.currentTarget.reset();
+        setCardCode(null);
       }
     }
   };
@@ -186,17 +203,17 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
           <p>PHƯƠNG THỨC VẬN CHUYỂN</p>
           <div className="shipping-method">
             <label>
-              <input type="radio" className="custom-radio" name="shipping-method" value="ghn" defaultChecked />
+              <input type="radio" className="custom-radio" name="shippingMethod" value="ghn" defaultChecked />
               <span>Tốc độ tiêu chuẩn (từ 2 - 5 ngày làm việc)</span>
               <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
             </label>
             <label>
-              <input type="radio" className="custom-radio" name="shipping-method" value="ghtk" />
+              <input type="radio" className="custom-radio" name="shippingMethod" value="ghtk" />
               <span>Giao hàng tiết kiệm (từ 3 - 7 ngày làm việc)</span>
               <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
             </label>
             <label>
-              <input type="radio" className="custom-radio" name="shipping-method" value="ghht" />
+              <input type="radio" className="custom-radio" name="shippingMethod" value="ghht" />
               <span>Hỏa tốc (từ 1 - 3 ngày làm việc)</span>
               <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
             </label>
@@ -208,14 +225,14 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
           <p>PHƯƠNG THỨC THANH TOÁN</p>
           <div className="payment-method">
             <label>
-              <input type="radio" className="custom-radio" name="payment-option" value="cod" defaultChecked />
+              <input type="radio" className="custom-radio" name="paymentOption" value="cod" defaultChecked />
               <span>Thanh toán trực tiếp khi nhận hàng</span>
               <span className="material-symbols-outlined payment-icon">
                 delivery_truck_speed
               </span>
             </label>
             <label>
-              <input type="radio" className="custom-radio" name="payment-option" value="card" />
+              <input type="radio" className="custom-radio" name="paymentOption" value="card" />
               <span>Thanh toán bằng Thẻ quốc tế / Thẻ nội địa / QR Code</span>
               <span className="material-symbols-outlined payment-icon">
                 credit_card
@@ -266,8 +283,18 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
           <span>TỔNG CỘNG</span>
           <span className="order-price final-total">{finalTotal.toLocaleString('vi-VN')} VND</span>
         </div>
-        <button className="order-btn">HOÀN TẤT ĐẶT HÀNG</button>
-      </div>
+        {cardCode && (
+          <div className="card-code-box">
+            <span>Mã giao dịch của bạn: <b>{cardCode}</b></span>
+            <div style={{ margin: "16px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", backgroundColor: "white", padding: "16px", borderRadius: "8px" }}>
+              <QRCode value={paymentCode} size={160} bgColor="#fff" fgColor="#0B70FE" />
+              <span>Quét mã QR để thanh toán qua thẻ hoặc ví điện tử</span>
+              <span>Nhập mã giao dịch <b>{cardCode}</b> vào nội dung thanh toán</span>
+            </div>
+          </div>
+        )}
+            <button className="order-btn">HOÀN TẤT ĐẶT HÀNG</button>
+          </div>
     </form>
   );
 }
