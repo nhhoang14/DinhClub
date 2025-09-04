@@ -1,11 +1,25 @@
 // src/hooks/useCart.ts
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Product from "../models/Product";
 import CartItem from "../models/CartItem";
 import { CartDetail } from "../models/CartDetail";
+import Cookies from 'js-cookie'
 
 export function useCart(products: Product[]) {
   const [cart, setCart] = useState<CartItem[]>([]);
+
+  const CART_COOKIE_KEY = 'user_cart';
+  useEffect(() => {
+    const savedCart = Cookies.get(CART_COOKIE_KEY);
+    if (savedCart) {
+      const parsed = JSON.parse(savedCart) as { code: string; qty: number }[];
+      setCart(parsed.map(item => new CartItem(item.code, item.qty)));
+    }
+  }, []);
+
+  useEffect(() => {
+    Cookies.set(CART_COOKIE_KEY, JSON.stringify(cart), { expires: 7, path: "/" });
+  }, [cart]);
 
   // chi tiết cart (gắn product cho từng CartItem)
   const cartDetails: CartDetail[] = useMemo(() => {
