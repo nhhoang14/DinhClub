@@ -2,6 +2,8 @@ import './css/App.css'
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { useCart } from './utils/useCart'
+import { useCookieConsent } from './utils/useCookieConsent'
+import { ToastContainer, Bounce } from "react-toastify";
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
@@ -38,7 +40,7 @@ import dbblack_st from './images/dbblack_st.jpg';
 const Products: Product[] = [
   new Product(1, bedao, bedao_hover, "Bé Đào", "Keychain", "KC01", 10, 150000, "#FA6AA1"),
   new Product(2, bemai, bemai_hover, "Bé Mai", "Keychain", "KC02", 5, 150000, "#C4A8EF"),
-  new Product(3, bequat, bequat_hover, "Bé Quất", "Keychain", "KC03", 8, 150000, "#228F4C"),
+  new Product(3, bequat, bequat_hover, "Bé Quất", "Keychain", "KC03", 0, 150000, "#228F4C"),
   new Product(4, bety, bety_hover, "Bé Tỵ", "Keychain", "KC04", 6, 150000, "#FE8CE4"),
   new Product(5, begung, null, "Bé Gừng", "Keychain", "KC05", 8, 145000, "#C8AE9D"),
   new Product(6, belong, null, "Bé Long", "Keychain", "KC06", 5, 145000, "#D3031B"),
@@ -58,7 +60,8 @@ const Products: Product[] = [
 ];
 
 function App() {
-  const { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal } = useCart(Products);
+  const { consent, accept, decline } = useCookieConsent();
+  const { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode } = useCart(Products);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [checkedItems, setCheckedItems] = useState<string[]>(
     cartDetails.map(item => item.code)
@@ -72,6 +75,15 @@ function App() {
 
   return (
     <div className="App">
+      {consent === null && (
+        <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex justify-between">
+          <span>Chúng tôi sử dụng cookies để cải thiện trải nghiệm. Bạn có đồng ý không?</span>
+          <div className="flex gap-2">
+            <button onClick={accept} className="bg-green-500 px-3 py-1 rounded">Đồng ý</button>
+            <button onClick={decline} className="bg-red-500 px-3 py-1 rounded">Từ chối</button>
+          </div>
+        </div>
+      )}
       <NavBar
         userCart={cartDetails}
         getItemTotal={getItemTotal}
@@ -119,9 +131,27 @@ function App() {
           isOpen={true}
           product={selectedProduct}
           addToCart={addToCart}
-          onClose={() => setSelectedProduct(null)}
+          onClose={
+            () => {
+              setSelectedProduct(null);
+              resetLastCode();
+            }
+          }
         />
       )}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Bounce}
+      />
     </div>
   );
 }

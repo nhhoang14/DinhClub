@@ -77,13 +77,13 @@
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.field-wrapper:not(.untouched) input:invalid,
+.field-wrapper:not(.untouched) input:invalid:not(:focus),
 select.form-control:invalid:not(.untouched) {
     border-color: #0B70FE;
     color: #0B70FE;
 }
 
-.field-wrapper:not(.untouched):has(input:invalid)::after {
+.field-wrapper:not(.untouched):has(input:invalid:not(:focus))::after {
     content: attr(data-error);
     position: absolute;
     right: 12px;

@@ -1,12 +1,55 @@
-// src/hooks/useCart.ts
-import { useState, useMemo, useEffect } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import Product from "../models/Product";
 import CartItem from "../models/CartItem";
 import { CartDetail } from "../models/CartDetail";
+import { useNotify } from "./useNotify";
 import Cookies from 'js-cookie'
 
 export function useCart(products: Product[]) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const notify = useNotify();
+  const activeToastRef = useRef<{ type: "success" | "error" | "warning" } | null>(null);
+  const currentCodeRef = useRef<string | null>(null);
+
+  const resetLastCode = () => {
+    currentCodeRef.current = null;
+  }
+
+  const enqueueMsg = (
+    msg: { type: "success" | "error" | "warning"; text: string },
+    productCode?: string
+  ) => {
+    if (msg.type === "success") {
+      // chỉ hiện khi khác product
+      if (!currentCodeRef.current) {
+        currentCodeRef.current = productCode || "";
+        notify("success", msg.text, {
+          onClose: () => {
+            activeToastRef.current = null;
+          },
+        });
+      }
+      return;
+    }
+
+    if (!activeToastRef.current) {
+      // chưa có toast nào → hiện luôn
+      notify(msg.type, msg.text, {
+        onClose: () => {
+          activeToastRef.current = null;
+        },
+      });
+      activeToastRef.current = { type: msg.type };
+    } else if (activeToastRef.current.type !== msg.type) {
+      // đang có nhưng khác loại → vẫn hiện
+      notify(msg.type, msg.text, {
+        onClose: () => {
+          activeToastRef.current = null;
+        },
+      });
+      activeToastRef.current = { type: msg.type };
+    }
+  };
 
   const CART_COOKIE_KEY = 'user_cart';
   useEffect(() => {
@@ -38,28 +81,42 @@ export function useCart(products: Product[]) {
 
   // thêm sản phẩm
   const addToCart = (product: Product, qty: number) => {
-    setCart(prev => {
-      const idx = prev.findIndex(item => item.code === product.code);
+    setCart((prev) => {
+      const idx = prev.findIndex((item) => item.code === product.code);
+      let updated = [...prev];
+      //sản phẩm có trong giỏ
       if (idx >= 0) {
-        const updated = [...prev];
         const newQty = updated[idx].qty + qty;
-        if (newQty <= product.stock) {
-          updated[idx] = new CartItem(product.code, newQty);
-          return updated;
+        updated[idx] = new CartItem(product.code, Math.min(newQty, product.stock));
+
+        if (newQty > product.stock) {
+          enqueueMsg(
+            product.stock > 0
+              ? { type: "warning", text: "Sản phẩm đã đạt số lượng tối đa trong giỏ hàng" }
+              : { type: "error", text: "Sản phẩm đã hết hàng" },
+            product.code
+          );
         } else {
-          const max = product.stock - updated[idx].qty;
-          if (max > 0) alert(`Bạn chỉ có thể thêm tối đa ${max} sản phẩm nữa`);
-          else alert("Sản phẩm đã đạt số lượng tối đa trong giỏ hàng");
-          return prev;
+          enqueueMsg({ type: "success", text: "Đã thêm vào giỏ hàng" }, product.code);
         }
-      } else if (product.stock > 0) {
-        return [new CartItem(product.code, Math.min(qty, product.stock)), ...prev];
-      } else {
-        alert("Sản phẩm đã hết hàng");
-        return prev;
+        return updated;
       }
+      // sản phẩm chưa có trong giỏ
+      if (product.stock > 0) {
+        enqueueMsg(
+          qty > product.stock
+            ? { type: "warning", text: "Sản phẩm đã đạt số lượng tối đa trong giỏ hàng" }
+            : { type: "success", text: "Đã thêm vào giỏ hàng" }
+          , product.code
+        );
+        return [new CartItem(product.code, Math.min(qty, product.stock)), ...prev];
+      }
+      // sản phẩm đã hết hàng
+      enqueueMsg({ type: "error", text: "Sản phẩm đã hết hàng" }, product.code);
+      return prev;
     });
   };
+
 
   // xoá sản phẩm
   const removeFromCart = (code: string) => {
@@ -81,5 +138,5 @@ export function useCart(products: Product[]) {
     return product ? product.price * item.qty : 0;
   };
 
-  return { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal };
+  return { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode };
 }

@@ -14,16 +14,6 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
   const discount = 100000;
   const finalTotal = getCheckedTotal() - discount + shippingFee;
 
-  const [data, setData] = useState<Record<string, string>>({
-    name: "",
-    phone: "",
-    email: "",
-    address: "",
-    city: "",
-    district: "",
-    ward: "",
-  });
-
   const [touched, setTouched] = useState<Record<string, boolean>>({
     name: false,
     phone: false,
@@ -34,16 +24,41 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
     ward: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTouched(
       Object.fromEntries(Object.keys(touched).map((field) => [field, true])) as Record<string, boolean>
     );
 
-    console.log("Submit data:", data);
+    const isValid = e.currentTarget.checkValidity();
+    if (!isValid) {
+      const firstInvalid = e.currentTarget.querySelector(
+        'input:invalid, select:invalid'
+      ) as HTMLElement | null;
+      firstInvalid?.focus();
+      return;
+    } else {
+      if (checkedItems.length === 0) {
+        alert("Vui lòng chọn ít nhất một sản phẩm để đặt hàng");
+        return;
+      } else {
+        alert("Đặt hàng thành công! Cảm ơn bạn đã mua hàng tại Dính Club.");
+        window.location.reload();
+      }
+    }
   };
+
   const markTouched = (field: keyof typeof touched) => {
     setTouched(prev => ({ ...prev, [field]: true }));
+  };
+
+  const keyboardHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const input = e.target as HTMLInputElement;
+      input.value = input.value.trim().replace(/\s+/g, " ");
+      input.blur();
+    }
   };
 
   return (
@@ -62,11 +77,10 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
               type="text"
               name="name"
               placeholder="Họ và tên"
-              value={data.name || ""}
+              onKeyDown={keyboardHandler}
               onInput={
                 (e) => {
-                  const value = e.currentTarget.value.replace(/[^\p{L}'\s]/gu, "");
-                  setData((prev) => ({ ...prev, name: value.trimStart() }));
+                  e.currentTarget.value = e.currentTarget.value.replace(/[^a-zA-ZÀ-ỹ' \s]/g, "");
                   markTouched("name");
                 }
               }
@@ -81,11 +95,10 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
               type="tel"
               name="phone"
               placeholder="Số điện thoại"
-              value={data.phone || ""}
+              onKeyDown={keyboardHandler}
               onInput={
                 (e) => {
-                  const value = e.currentTarget.value.replace(/[^0-9]/g, "");
-                  setData((prev) => ({ ...prev, phone: value }));
+                  e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, "");
                   markTouched("phone");
                 }
               }
@@ -101,10 +114,9 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
               type="email"
               name="email"
               placeholder="Email"
-              value={data.email || ""}
+              onKeyDown={keyboardHandler}
               onInput={(e) => {
-                const value = e.currentTarget.value;
-                setData((prev) => ({ ...prev, email: value.trimStart() }));
+                e.currentTarget.value = e.currentTarget.value.replace(/[^a-zA-Z0-9@._%+-]/g, "");
                 markTouched("email");
               }}
               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,})+$"
@@ -119,11 +131,10 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
               type="text"
               name="address"
               placeholder="Địa chỉ"
-              value={data.address || ""}
+              onKeyDown={keyboardHandler}
               onInput={
                 (e) => {
-                  const value = e.currentTarget.value.replace(/[^\p{L}0-9,./\s]/gu, "");
-                  setData((prev) => ({ ...prev, address: value.trimStart() }));
+                  e.currentTarget.value = e.currentTarget.value.replace(/[^\p{L}0-9,./\s]/gu, "");
                   markTouched("address");
                 }
               }
@@ -133,13 +144,9 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
           <div className="field-wrapper">
             <select className={`form-control city-select ${touched["city"] ? "" : "untouched"}`}
               name="city"
-              value={data.city || ""}
-              onChange={(e) => {
-                const value = e.currentTarget.value;
-                setData((prev) => ({ ...prev, city: value }));
-                markTouched("city");
-              }}
-              required>
+              onChange={() => markTouched("city")}
+              required
+            >
               <option value="">Tỉnh / Thành phố</option>
               <option value="Hà Nội">Hà Nội</option>
               <option value="TP.HCM">TP.HCM</option>
@@ -149,13 +156,9 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
           <div className="field-wrapper address-detail-city">
             <select className={`form-control district-select ${touched["district"] ? "" : "untouched"}`}
               name="district"
-              value={data.district || ""}
-              onChange={(e) => {
-                const value = e.currentTarget.value;
-                setData((prev) => ({ ...prev, district: value }));
-                markTouched("district");
-              }}
-              required>
+              onChange={() => markTouched("district")}
+              required
+            >
               <option value="">Quận / Huyện</option>
               <option value="Hà Nội">Hà Nội</option>
               <option value="TP.HCM">TP.HCM</option>
@@ -163,13 +166,9 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
             </select>
             <select className={`form-control ward-select ${touched["ward"] ? "" : "untouched"}`}
               name="ward"
-              value={data.ward || ""}
-              onChange={(e) => {
-                const value = e.currentTarget.value;
-                setData((prev) => ({ ...prev, ward: value }));
-                markTouched("ward");
-              }}
-              required>
+              onChange={() => markTouched("ward")}
+              required
+            >
               <option value="">Phường / Xã</option>
               <option value="Hà Nội">Hà Nội</option>
               <option value="TP.HCM">TP.HCM</option>
