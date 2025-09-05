@@ -63,7 +63,7 @@ const Products: Product[] = [
 
 function App() {
   const { consent } = useCookieConsent();
-  const { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode } = useCart(Products);
+  const { setCart, cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode } = useCart(Products);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems } = useCheckedItems({cartDetails, getItemTotal});
   const [closeCookieBanner, setCloseCookieBanner] = useState(false);
@@ -108,6 +108,7 @@ function App() {
           <Route path="/shipping-information" element={
             <Checkout
               getCheckedTotal={getCheckedTotal}
+              setCart={setCart}
               userCart={cartDetails}
               getItemTotal={getItemTotal}
               checkedItems={checkedItems}

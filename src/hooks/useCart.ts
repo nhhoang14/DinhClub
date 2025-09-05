@@ -137,5 +137,5 @@ export function useCart(products: Product[]) {
     return product ? product.price * item.qty : 0;
   };
 
-  return { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode };
+  return { setCart, cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode };
 }

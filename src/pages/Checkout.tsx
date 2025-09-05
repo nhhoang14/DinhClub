@@ -1,19 +1,20 @@
 import '../css/Checkout.css';
 import { useRef, useState } from "react";
 import { CartDetail } from '../models/CartDetail';
-// import { useShowToast } from "./useShowToast";
+import CartItem from '../models/CartItem';
 import { toast } from "react-toastify";
 import QRCode from "react-qr-code";
 
 interface CheckoutProps {
   getCheckedTotal: () => number;
+    setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
   userCart: CartDetail[];
   getItemTotal: (item: CartDetail) => number;
   checkedItems: string[];
   notifyCheckedItems: () => boolean;
 }
 
-function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems, notifyCheckedItems }: CheckoutProps) {
+function Checkout({ getCheckedTotal, setCart, userCart, getItemTotal, checkedItems, notifyCheckedItems }: CheckoutProps) {
   const shippingFee = 50000;
   const discount = 100000;
   const finalTotal = getCheckedTotal() - discount + shippingFee;
@@ -57,7 +58,7 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems, notif
     const isValid = e.currentTarget.checkValidity();
     if (!isValid) return;
 
-     // Kiểm tra sản phẩm đã chọn và số lượng
+    // Kiểm tra sản phẩm đã chọn và số lượng
     if (!notifyCheckedItems()) return;
 
     // Xử lý thanh toán
@@ -75,6 +76,9 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems, notif
     );
     e.currentTarget.reset();
     setCardCode(null);
+
+    // Loại các sản phẩm trùng checkedItems khỏi cart
+    setCart(prev => prev.filter(item => !checkedItems.includes(item.code)));
   };
 
   const markTouched = (field: keyof typeof touched) => {
