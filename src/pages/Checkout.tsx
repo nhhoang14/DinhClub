@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { CartDetail } from '../models/CartDetail';
 import CartItem from '../models/CartItem';
 import { toast } from "react-toastify";
+import { useVietnamAddress } from "../hooks/useVietnamAddress";
 import QRCode from "react-qr-code";
 
 interface CheckoutProps {
@@ -15,6 +16,7 @@ interface CheckoutProps {
 }
 
 function Checkout({ getCheckedTotal, setCart, userCart, getItemTotal, checkedItems, notifyCheckedItems }: CheckoutProps) {
+  const { provinces, districts, wards, handleCityChange, handleDistrictChange } = useVietnamAddress();
   const shippingFee = 50000;
   const discount = 100000;
   const finalTotal = getCheckedTotal() - discount + shippingFee;
@@ -101,6 +103,7 @@ function Checkout({ getCheckedTotal, setCart, userCart, getItemTotal, checkedIte
         {/* shipping-info */}
         <div className="shipping-info">
           <p>THÔNG TIN GIAO HÀNG</p>
+          {/* input-info */}
           <div
             className={`field-wrapper ${touched["name"] ? "" : "untouched"}`}
             data-error="Vui lòng nhập họ tên"
@@ -174,28 +177,36 @@ function Checkout({ getCheckedTotal, setCart, userCart, getItemTotal, checkedIte
               required
             />
           </div>
+
+          {/* address-select */}
           <div className="field-wrapper">
             <select className={`form-control city-select ${touched["city"] ? "" : "untouched"}`}
               name="city"
-              onChange={() => markTouched("city")}
+              onChange={(e) => {
+                markTouched("city");
+                handleCityChange(e);
+              }}
               required
             >
               <option value="">Tỉnh / Thành phố</option>
-              <option value="Hà Nội">Hà Nội</option>
-              <option value="TP.HCM">TP.HCM</option>
-              <option value="Đà Nẵng">Đà Nẵng</option>
+              {provinces.map(p => (
+                <option key={p.code} value={p.code}>{p.name}</option>
+              ))}
             </select>
           </div>
           <div className="field-wrapper address-detail-city">
             <select className={`form-control district-select ${touched["district"] ? "" : "untouched"}`}
               name="district"
-              onChange={() => markTouched("district")}
+              onChange={(e) => {
+                markTouched("district");
+                handleDistrictChange(e);
+              }}
               required
             >
               <option value="">Quận / Huyện</option>
-              <option value="Hà Nội">Hà Nội</option>
-              <option value="TP.HCM">TP.HCM</option>
-              <option value="Đà Nẵng">Đà Nẵng</option>
+              {districts.map(d => (
+                <option key={d.code} value={d.code}>{d.name}</option>
+              ))}
             </select>
             <select className={`form-control ward-select ${touched["ward"] ? "" : "untouched"}`}
               name="ward"
@@ -203,11 +214,13 @@ function Checkout({ getCheckedTotal, setCart, userCart, getItemTotal, checkedIte
               required
             >
               <option value="">Phường / Xã</option>
-              <option value="Hà Nội">Hà Nội</option>
-              <option value="TP.HCM">TP.HCM</option>
-              <option value="Đà Nẵng">Đà Nẵng</option>
+              {wards.map(w => (
+                <option key={w.code} value={w.code}>{w.name}</option>
+              ))}
             </select>
           </div>
+
+          {/* subscribe-checkbox */}
           <label>
             <input type="checkbox" className="custom-checkbox" name="agree" value="yes" />
             <span>Cập nhật các thông tin mới nhất về chương trình từ Dính Club</span>
