@@ -1,7 +1,7 @@
 import '../css/UserCartPage.css';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sortCartItems, filterRecommend } from "../utils/sortHelpers";
+import { sortCartItems, filterRecommend } from "../hooks/sortHelpers";
 import RecommendItem from '../components/RecommendItem';
 import UserCartCard from '../components/UserCartCard';
 import { CartDetail } from '../models/CartDetail';
@@ -18,9 +18,10 @@ interface UserCartPageProps {
   checkedItems: string[];
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   getCheckedTotal: () => number;
+  notifyCheckedItems: () => boolean;
 }
 
-function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal }: UserCartPageProps) {
+function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems }: UserCartPageProps) {
   const navigate = useNavigate();
   const recommendListRef = useRef<HTMLDivElement>(null);
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
@@ -180,7 +181,11 @@ function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, 
           <span>TẠM TÍNH</span>
           <span className="bill-price tmp-price">{tmpPrice.toLocaleString('vi-VN')} VND</span>
         </div>
-        <button className="checkout-btn" onClick={() => navigate('/shipping-information')}>TIẾP TỤC THANH TOÁN</button>
+        <button className="checkout-btn" onClick={
+          () => {
+            notifyCheckedItems() ? navigate('/shipping-information') : null;
+          }
+        }>TIẾP TỤC THANH TOÁN</button>
       </div>
     </div>
   );

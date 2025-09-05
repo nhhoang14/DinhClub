@@ -1,7 +1,8 @@
 import '../css/Checkout.css';
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CartDetail } from '../models/CartDetail';
-import { useNotify } from "../utils/useNotify";
+// import { useShowToast } from "./useShowToast";
+import { toast } from "react-toastify";
 import QRCode from "react-qr-code";
 
 interface CheckoutProps {
@@ -9,14 +10,28 @@ interface CheckoutProps {
   userCart: CartDetail[];
   getItemTotal: (item: CartDetail) => number;
   checkedItems: string[];
+  notifyCheckedItems: () => boolean;
 }
 
-function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: CheckoutProps) {
+function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems, notifyCheckedItems }: CheckoutProps) {
   const shippingFee = 50000;
   const discount = 100000;
   const finalTotal = getCheckedTotal() - discount + shippingFee;
 
-  const notify = useNotify();
+  const isToastActiveRef = useRef(false);
+
+  function showToast(type: "success" | "warning" | "error" | "info", text: string) {
+    if (isToastActiveRef.current) {
+      return;
+    }
+    isToastActiveRef.current = true;
+    toast[type](text, {
+      onClose: () => {
+        isToastActiveRef.current = false;
+      }
+    });
+  }
+
   const paymentCode = "00020101021138570010A000000727012700069704220113VQRQACUZG42300208QRIBFTTA53037045802VN62150107NPS6869080063043993";
   const [cardCode, setCardCode] = useState<string | null>(null);
   const [touched, setTouched] = useState<Record<string, boolean>>({
@@ -38,31 +53,28 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
     const formData = new FormData(e.currentTarget);
     const paymentOption = formData.get("paymentOption")?.toString() || "";
 
+    // Kiểm tra tính hợp lệ của form
     const isValid = e.currentTarget.checkValidity();
-    if (!isValid) {
-      const firstInvalid = e.currentTarget.querySelector(
-        'input:invalid, select:invalid'
-      ) as HTMLElement | null;
-      firstInvalid?.focus();
+    if (!isValid) return;
+
+     // Kiểm tra sản phẩm đã chọn và số lượng
+    if (!notifyCheckedItems()) return;
+
+    // Xử lý thanh toán
+    if (paymentOption === "card") {
+      const code = "DC" + Math.random().toString(36).substring(2, 8).toUpperCase();
+      setCardCode(code);
+      showToast("info", `Vui lòng quét mã QR để thanh toán. Mã giao dịch: ${code}`);
       return;
-    } else {
-      if (checkedItems.length === 0) {
-        notify("warning", "Vui lòng chọn ít nhất một sản phẩm để đặt hàng");
-        return;
-      } else if (paymentOption === "card") {
-        const code = "DC" + Math.random().toString(36).substring(2, 8).toUpperCase();
-        setCardCode(code);
-        notify("info", `Vui lòng quét mã QR để thanh toán. Mã giao dịch: ${code}`);
-        return;
-      } else {
-        notify("success", "Đặt hàng thành công! Cảm ơn bạn đã mua hàng tại Dính Club.");
-        setTouched(
-          Object.fromEntries(Object.keys(touched).map((field) => [field, false])) as Record<string, boolean>
-        );
-        e.currentTarget.reset();
-        setCardCode(null);
-      }
     }
+
+    // Thành công
+    showToast("success", "Đặt hàng thành công! Cảm ơn bạn đã mua hàng tại Dính Club.");
+    setTouched(
+      Object.fromEntries(Object.keys(touched).map((field) => [field, false])) as Record<string, boolean>
+    );
+    e.currentTarget.reset();
+    setCardCode(null);
   };
 
   const markTouched = (field: keyof typeof touched) => {
@@ -293,8 +305,8 @@ function Checkout({ getCheckedTotal, userCart, getItemTotal, checkedItems }: Che
             </div>
           </div>
         )}
-            <button className="order-btn">HOÀN TẤT ĐẶT HÀNG</button>
-          </div>
+        <button className="order-btn">HOÀN TẤT ĐẶT HÀNG</button>
+      </div>
     </form>
   );
 }

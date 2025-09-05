@@ -1,8 +1,9 @@
 import './css/App.css'
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { useCart } from './utils/useCart'
-import { useCookieConsent } from './utils/useCookieConsent'
+import { useCart } from './hooks/useCart'
+import { useCookieConsent } from './hooks/useCookieConsent'
+import { useCheckedItems } from './hooks/useCheckedItems'
 import { ToastContainer, Bounce } from "react-toastify";
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
@@ -38,9 +39,9 @@ import vuive_st from './images/vuive_st.jpg';
 import dbblack_st from './images/dbblack_st.jpg';
 
 const Products: Product[] = [
-  new Product(1, bedao, bedao_hover, "Bé Đào", "Keychain", "KC01", 10, 150000, "#FA6AA1"),
+  new Product(1, bedao, bedao_hover, "Bé Đào", "Keychain", "KC01", 0, 150000, "#FA6AA1"),
   new Product(2, bemai, bemai_hover, "Bé Mai", "Keychain", "KC02", 5, 150000, "#C4A8EF"),
-  new Product(3, bequat, bequat_hover, "Bé Quất", "Keychain", "KC03", 0, 150000, "#228F4C"),
+  new Product(3, bequat, bequat_hover, "Bé Quất", "Keychain", "KC03", 8, 150000, "#228F4C"),
   new Product(4, bety, bety_hover, "Bé Tỵ", "Keychain", "KC04", 6, 150000, "#FE8CE4"),
   new Product(5, begung, null, "Bé Gừng", "Keychain", "KC05", 8, 145000, "#C8AE9D"),
   new Product(6, belong, null, "Bé Long", "Keychain", "KC06", 5, 145000, "#D3031B"),
@@ -63,15 +64,7 @@ function App() {
   const { consent, accept, decline } = useCookieConsent();
   const { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode } = useCart(Products);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [checkedItems, setCheckedItems] = useState<string[]>(
-    cartDetails.map(item => item.code)
-  );
-
-  const getCheckedTotal = () => {
-    return cartDetails
-      .filter(item => checkedItems.includes(item.code))
-      .reduce((total, item) => total + getItemTotal(item), 0);
-  };
+  const { checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems } = useCheckedItems({cartDetails, getItemTotal});
 
   return (
     <div className="App">
@@ -113,6 +106,7 @@ function App() {
               checkedItems={checkedItems}
               setCheckedItems={setCheckedItems}
               getCheckedTotal={getCheckedTotal}
+              notifyCheckedItems={notifyCheckedItems}
             />
           } />
           <Route path="/shipping-information" element={
@@ -121,6 +115,7 @@ function App() {
               userCart={cartDetails}
               getItemTotal={getItemTotal}
               checkedItems={checkedItems}
+              notifyCheckedItems={notifyCheckedItems}
             />
           } />
         </Routes>

@@ -2,12 +2,11 @@ import { useRef, useState, useMemo, useEffect } from "react";
 import Product from "../models/Product";
 import CartItem from "../models/CartItem";
 import { CartDetail } from "../models/CartDetail";
-import { useNotify } from "./useNotify";
 import Cookies from 'js-cookie'
+import { toast } from "react-toastify";
 
 export function useCart(products: Product[]) {
   const [cart, setCart] = useState<CartItem[]>([]);
-  const notify = useNotify();
   const activeToastRef = useRef<{ type: "success" | "error" | "warning" } | null>(null);
   const currentCodeRef = useRef<string | null>(null);
 
@@ -23,7 +22,7 @@ export function useCart(products: Product[]) {
       // chỉ hiện khi khác product
       if (!currentCodeRef.current) {
         currentCodeRef.current = productCode || "";
-        notify("success", msg.text, {
+        toast.success(msg.text, {
           onClose: () => {
             activeToastRef.current = null;
           },
@@ -34,7 +33,7 @@ export function useCart(products: Product[]) {
 
     if (!activeToastRef.current) {
       // chưa có toast nào → hiện luôn
-      notify(msg.type, msg.text, {
+      toast[msg.type](msg.text, {
         onClose: () => {
           activeToastRef.current = null;
         },
@@ -42,7 +41,7 @@ export function useCart(products: Product[]) {
       activeToastRef.current = { type: msg.type };
     } else if (activeToastRef.current.type !== msg.type) {
       // đang có nhưng khác loại → vẫn hiện
-      notify(msg.type, msg.text, {
+      toast[msg.type](msg.text, {
         onClose: () => {
           activeToastRef.current = null;
         },

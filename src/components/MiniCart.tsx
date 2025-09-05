@@ -1,7 +1,7 @@
 import '../css/MiniCart.css'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sortCartItems } from "../utils/sortHelpers";
+import { sortCartItems } from "../hooks/sortHelpers";
 import MiniCartItem from '../components/MiniCartItem';
 import Product from '../models/Product';
 import { CartDetail } from '../models/CartDetail';
