@@ -14,8 +14,18 @@ function BannerCookies({ onClose }: BannerCookiesProps) {
         <div className="cookie-content">
           <span>Chúng tôi sử dụng cookies để lưu giỏ hàng, cải thiện trải nghiệm mua sắm và cá nhân hóa nội dung. Bạn có đồng ý không?</span>
           <div className="cookie-actions">
-            <button onClick={accept} className="cookie-btn accept-btn">Đồng ý</button>
-            <button onClick={decline} className="cookie-btn decline-btn">Từ chối</button>
+            <button onClick={
+              () => {
+                accept();
+                onClose();
+              }
+            } className="cookie-btn accept-btn">Đồng ý</button>
+            <button onClick={
+              () => {
+                decline();
+                onClose();
+              }
+            } className="cookie-btn decline-btn">Từ chối</button>
           </div>
         </div>
       </div>
