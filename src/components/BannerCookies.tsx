@@ -1,4 +1,4 @@
-import { useCookieConsent } from '../utils/useCookieConsent'
+import { useCookieConsent } from '../hooks/useCookieConsent'
 import '../css/BannerCookies.css'
 
 type BannerCookiesProps = {
