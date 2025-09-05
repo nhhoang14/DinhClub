@@ -7,7 +7,7 @@ import QRCode from "react-qr-code";
 
 interface CheckoutProps {
   getCheckedTotal: () => number;
-    setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
   userCart: CartDetail[];
   getItemTotal: (item: CartDetail) => number;
   checkedItems: string[];
