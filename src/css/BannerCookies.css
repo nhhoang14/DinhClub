@@ -1,0 +1,98 @@
+.banner-cookies-container {
+    position: fixed;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    width: 90vw;
+    height: 10vh;
+    margin: 0 auto;
+    z-index: 2000;
+    justify-items: center;
+}
+
+.cookie-main {
+    background-color: #5865f2ff;
+    border-radius: 15px;
+    padding: 10px 20px;
+    width: 80vw;
+    height: 100%;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.cookie-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-family: "DFVN Bagel Fat One", sans-serif;
+}
+
+.cookie-actions .cookie-btn {
+    margin-left: 12px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #fff;
+    outline: none;
+}
+
+.cookie-actions .cookie-btn:hover {
+    opacity: 0.5;
+}
+
+.cookie-actions .cookie-btn:active {
+    opacity: 0.3;
+}
+
+.cookie-actions .accept-btn {
+    background-color: #fff;
+    color: #5865f2ff;
+}
+
+.cookie-actions .decline-btn {
+    background-color: transparent;
+    color: #fff;
+}
+
+.banner-cookies-container .banner-cookies-close {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translate(0, -50%);
+    padding: 8px 8px;
+    border-radius: 50%;
+    background-color: #5865f2ff;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    cursor: pointer;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 2000;
+}
+
+.banner-cookies-container:hover .banner-cookies-close {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.banner-cookies-container:hover .banner-cookies-close:hover {
+    background-color: rgb(60, 66, 134);
+}
+
+.banner-cookies-container:hover .banner-cookies-close:active {
+    opacity: 0.5;
+}
+
+.banner-cookies-close .cookies-close-icon {
+    font-size: 18px;
+}

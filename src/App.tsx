@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import { useCart } from './utils/useCart'
 import { useCookieConsent } from './utils/useCookieConsent'
 import { ToastContainer, Bounce } from "react-toastify";
+import BannerCookies from './components/BannerCookies'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
@@ -60,29 +61,25 @@ const Products: Product[] = [
 ];
 
 function App() {
-  const { consent, accept, decline } = useCookieConsent();
+  const { consent } = useCookieConsent();
   const { cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode } = useCart(Products);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [checkedItems, setCheckedItems] = useState<string[]>(
     cartDetails.map(item => item.code)
   );
-
+  
   const getCheckedTotal = () => {
     return cartDetails
       .filter(item => checkedItems.includes(item.code))
       .reduce((total, item) => total + getItemTotal(item), 0);
   };
 
+  const [closeCookieBanner, setCloseCookieBanner] = useState(false);
+
   return (
     <div className="App">
-      {consent === null && (
-        <div className=" banner-cookies" style={{ backgroundColor: "#000", borderRadius: "25px", padding: "10px", position: "absolute", bottom: 0, width: "500px", height: "400px", boxShadow: "0 -2px 5px rgba(0,0,0,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center", zIndex: 2000 }}>
-          <span>Chúng tôi sử dụng cookies để cải thiện trải nghiệm. Bạn có đồng ý không?</span>
-          <div className="flex gap-2">
-            <button onClick={accept} className="bg-green-500 px-3 py-1 rounded">Đồng ý</button>
-            <button onClick={decline} className="bg-red-500 px-3 py-1 rounded">Từ chối</button>
-          </div>
-        </div>
+      {consent === null && !closeCookieBanner && (
+        <BannerCookies onClose={() => setCloseCookieBanner(true)} />
       )}
       <NavBar
         userCart={cartDetails}
