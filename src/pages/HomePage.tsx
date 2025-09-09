@@ -15,16 +15,17 @@ import overall from '../images/overall.jpg';
 export interface Feedback {
   text: string;
   author: string;
+  image: string;
   bgColor: string;
   textColor: string;
 }
 
 function HomePage() {
   const feedbacks: Feedback[] = [
-    { text: "Sản phẩm tuyệt vời, tôi rất hài lòng!", author: "Khách hàng A", bgColor: "#D4C9FF", textColor: "#7A7198" },
-    { text: "Dịch vụ chăm sóc khách hàng rất tốt!", author: "Khách hàng B", bgColor: "#D7F46E", textColor: "#148A4D" },
-    { text: "Tôi sẽ quay lại mua sắm tiếp!", author: "Khách hàng C", bgColor: "#FF9BE3", textColor: "#4F81FA" },
-    { text: "Các Pé nhà mình bên ngoài trông cưng cáaa!", author: "Khách hàng D", bgColor: "#5182F9", textColor: "#F1E28D" }
+    { text: "Sản phẩm tuyệt vời, tôi rất hài lòng!", author: "Khách hàng A", image: feedback, bgColor: "#D4C9FF", textColor: "#7A7198" },
+    { text: "Dịch vụ chăm sóc khách hàng rất tốt!", author: "Khách hàng B", image: feedback, bgColor: "#D7F46E", textColor: "#148A4D" },
+    { text: "Tôi sẽ quay lại mua sắm tiếp!", author: "Khách hàng C", image: feedback, bgColor: "#FF9BE3", textColor: "#4F81FA" },
+    { text: "Các Pé nhà mình bên ngoài trông cưng cáaa!", author: "Khách hàng D", image: feedback, bgColor: "#5182F9", textColor: "#F1E28D" }
   ];
 
   const navigate = useNavigate();

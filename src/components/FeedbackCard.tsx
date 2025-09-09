@@ -1,6 +1,18 @@
 import '../css/FeedbackCard.css';
 
-function FeedbackCard({ feedback }) {
+interface Feedback {
+  author: string;
+  text: string;
+  image: string;
+  bgColor?: string;
+  textColor?: string;
+}
+
+interface FeedbackCardProps {
+  feedback: Feedback;
+}
+
+function FeedbackCard({ feedback }: FeedbackCardProps) {
   return (
     <div className="feedback-card" style={{ backgroundColor: feedback.bgColor, color: feedback.textColor }}>
       <div className="fbcard-content">

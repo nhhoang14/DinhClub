@@ -1,6 +1,6 @@
 import '../css/ProductsPage.css';
 import { useState } from 'react';
-import { sortProducts } from '../hooks/sortHelpers';
+import { sortProducts } from '../utils/sortHelpers';
 import banner from '../images/overall.jpg';
 import ProductCard from '../components/ProductCard';
 import Product from '../models/Product';

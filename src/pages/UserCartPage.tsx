@@ -1,7 +1,7 @@
 import '../css/UserCartPage.css';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sortCartItems, filterRecommend } from "../hooks/sortHelpers";
+import { sortCartItems, filterRecommend } from "../utils/sortHelpers";
 import RecommendItem from '../components/RecommendItem';
 import UserCartCard from '../components/UserCartCard';
 import { CartDetail } from '../models/CartDetail';
