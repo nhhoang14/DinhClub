@@ -75,7 +75,7 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { checkedCart, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems } = useCheckedItems(cartDetails);
   const [closeCookieBanner, setCloseCookieBanner] = useState(false);
-  const { getDiscountByCode, setLastVoucher, discount } = useDiscount(Discounts, checkedCart);
+  const { discountValue, setVoucherCode, getDiscountByCode } = useDiscount(Discounts, checkedCart);
 
   return (
     <div className="App">
@@ -110,8 +110,8 @@ function App() {
               setCheckedItems={setCheckedItems}
               getCheckedTotal={getCheckedTotal}
               notifyCheckedItems={notifyCheckedItems}
-              discount={discount}
-              setLastVoucher={setLastVoucher}
+              discountValue={discountValue}
+              setVoucherCode={setVoucherCode}
               getDiscountByCode={getDiscountByCode}
             />
           } />
@@ -121,7 +121,7 @@ function App() {
               setCart={setCart}
               checkedItems={checkedItems}
               checkedCart={checkedCart}
-              discount={discount}
+              discountValue={discountValue}
               notifyCheckedItems={notifyCheckedItems}
             />
           } />

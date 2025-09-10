@@ -11,14 +11,14 @@ interface CheckoutProps {
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
   checkedItems: string[];
   checkedCart: CartDetail[];
-  discount: number;
+  discountValue: number;
   notifyCheckedItems: () => boolean;
 }
 
-function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discount, notifyCheckedItems }: CheckoutProps) {
+function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discountValue, notifyCheckedItems }: CheckoutProps) {
   const { provinces, districts, wards, handleCityChange, handleDistrictChange } = useVietnamAddress();
   const shippingFee = 50000;
-  const finalTotal = getCheckedTotal() - discount + shippingFee;
+  const finalTotal = getCheckedTotal() - discountValue + shippingFee;
 
   const isToastActiveRef = useRef(false);
 
@@ -297,7 +297,7 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
           </li>
           <li>
             <span>Giảm </span>
-            <span className="order-price">{discount.toLocaleString('vi-VN')} VND</span>
+            <span className="order-price">{discountValue.toLocaleString('vi-VN')} VND</span>
           </li>
           <li className="order-shipping">
             <span>Phí vận chuyển </span>

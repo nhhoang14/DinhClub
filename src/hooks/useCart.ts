@@ -5,6 +5,10 @@ import CartDetail from "../models/CartDetail";
 import Cookies from 'js-cookie'
 import { toast } from "react-toastify";
 
+const CART_COOKIE_KEY = 'user_cart';
+
+type MsgType = "success" | "error" | "warning";
+
 export function useCart(products: Product[]) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const activeToastRef = useRef<{ type: "success" | "error" | "warning" } | null>(null);
@@ -14,10 +18,7 @@ export function useCart(products: Product[]) {
     currentCodeRef.current = null;
   }
 
-  const enqueueMsg = (
-    msg: { type: "success" | "error" | "warning"; text: string },
-    productCode?: string
-  ) => {
+  const enqueueMsg = (msg: { type: MsgType; text: string }, productCode?: string) => {
     if (msg.type === "success") {
       // chỉ hiện khi khác product
       if (!currentCodeRef.current) {
@@ -31,16 +32,7 @@ export function useCart(products: Product[]) {
       return;
     }
 
-    if (!activeToastRef.current) {
-      // chưa có toast nào → hiện luôn
-      toast[msg.type](msg.text, {
-        onClose: () => {
-          activeToastRef.current = null;
-        },
-      });
-      activeToastRef.current = { type: msg.type };
-    } else if (activeToastRef.current.type !== msg.type) {
-      // đang có nhưng khác loại → vẫn hiện
+    if (!activeToastRef.current || activeToastRef.current.type !== msg.type) {
       toast[msg.type](msg.text, {
         onClose: () => {
           activeToastRef.current = null;
@@ -51,13 +43,16 @@ export function useCart(products: Product[]) {
   };
 
   // lưu cart vào cookie
-  const CART_COOKIE_KEY = 'user_cart';
-
   useEffect(() => {
     const savedCart = Cookies.get(CART_COOKIE_KEY);
     if (savedCart) {
-      const parsed = JSON.parse(savedCart) as { code: string; qty: number }[];
-      setCart(parsed.map(item => new CartItem(item.code, item.qty)));
+      try {
+        const parsed = JSON.parse(savedCart) as { code: string; qty: number }[];
+        setCart(parsed.map((item) => new CartItem(item.code, item.qty)));
+      } catch {
+        // nếu parse lỗi thì clear cookie
+        Cookies.remove(CART_COOKIE_KEY);
+      }
     }
   }, []);
 
@@ -71,8 +66,7 @@ export function useCart(products: Product[]) {
     return cart
       .map(item => {
         const product = productMap.get(item.code);
-        if (!product) return null;
-        return new CartDetail(item.code, item.qty, product);
+        return product ? new CartDetail(item.code, item.qty, product) : null;
       })
       .filter((item): item is CartDetail => item !== null);
   }, [cart, products]);
@@ -132,5 +126,12 @@ export function useCart(products: Product[]) {
     );
   };
 
-  return { setCart, cartDetails, addToCart, removeFromCart, updateQty, resetLastCode };
+  return {
+    setCart,
+    cartDetails,
+    addToCart,
+    removeFromCart,
+    updateQty,
+    resetLastCode,
+  };
 }

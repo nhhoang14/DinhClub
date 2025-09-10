@@ -21,5 +21,9 @@ export function useCookieConsent() {
     setConsent(false);
   };
 
-  return { consent, accept, decline };
+  return { 
+    consent, 
+    accept, 
+    decline 
+  };
 }

@@ -41,5 +41,11 @@ export function useCheckedItems(cartDetails: CartDetail[]) {
     [cartDetails, checkedItems]
   );
 
-  return { checkedCart, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems };
+  return { 
+    checkedCart, 
+    checkedItems, 
+    setCheckedItems, 
+    getCheckedTotal, 
+    notifyCheckedItems 
+  };
 }

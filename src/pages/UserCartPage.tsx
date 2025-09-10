@@ -19,12 +19,12 @@ interface UserCartPageProps {
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   getCheckedTotal: () => number;
   notifyCheckedItems: () => boolean;
-  discount: number;
-  setLastVoucher: React.Dispatch<React.SetStateAction<string | null>>;
+  discountValue: number;
+  setVoucherCode: React.Dispatch<React.SetStateAction<string | null>>;
   getDiscountByCode: (code: string | null) => Discount | null;
 }
 
-function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems, discount, setLastVoucher, getDiscountByCode }: UserCartPageProps) {
+function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems, discountValue, setVoucherCode, getDiscountByCode }: UserCartPageProps) {
   const navigate = useNavigate();
 
   // CheckedItems Handlers
@@ -48,16 +48,16 @@ function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart
   const [voucherData, setVoucherData] = useState<string | null>(null);
   const handleVoucherApply = () => {
     if (getDiscountByCode(voucherData)) {
-      setLastVoucher(voucherData);
+      setVoucherCode(voucherData);
       setError(false);
     } else {
-      setLastVoucher(null);
+      setVoucherCode(null);
       setError(true);
     }
   };
 
   const checkedTotal = getCheckedTotal();
-  const tmpPrice = checkedTotal - discount;
+  const tmpPrice = checkedTotal - discountValue;
 
   // Scroll Handlers
   const recommendListRef = useRef<HTMLDivElement>(null);
@@ -184,7 +184,7 @@ function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart
                 setVoucherData(value);
                 if (!value) {
                   setError(false);
-                  setLastVoucher(null);
+                  setVoucherCode(null);
                 }
               }}
             />
@@ -201,7 +201,7 @@ function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart
           </li>
           <li>
             <span>Giảm</span>
-            <span className="bill-price">{discount.toLocaleString('vi-VN')} VND</span>
+            <span className="bill-price">{discountValue.toLocaleString('vi-VN')} VND</span>
           </li>
         </ul>
         <div className="bill-tmp">
