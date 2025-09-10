@@ -75,8 +75,8 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { checkedCart, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems } = useCheckedItems(cartDetails);
   const [closeCookieBanner, setCloseCookieBanner] = useState(false);
-  const { getDiscountByCode, applyDiscount } = useDiscount(Discounts, checkedCart);
-  const [discount, setDiscount] = useState<number>(0);
+  const { getDiscountByCode, setLastVoucher, discount } = useDiscount(Discounts, checkedCart);
+
   return (
     <div className="App">
       {consent === null && !closeCookieBanner && (
@@ -111,9 +111,8 @@ function App() {
               getCheckedTotal={getCheckedTotal}
               notifyCheckedItems={notifyCheckedItems}
               discount={discount}
-              setDiscount={setDiscount}
+              setLastVoucher={setLastVoucher}
               getDiscountByCode={getDiscountByCode}
-              applyDiscount={applyDiscount}
             />
           } />
           <Route path="/shipping-information" element={

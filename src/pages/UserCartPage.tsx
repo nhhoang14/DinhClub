@@ -20,21 +20,14 @@ interface UserCartPageProps {
   getCheckedTotal: () => number;
   notifyCheckedItems: () => boolean;
   discount: number;
-  setDiscount: React.Dispatch<React.SetStateAction<number>>;
+  setLastVoucher: React.Dispatch<React.SetStateAction<string | null>>;
   getDiscountByCode: (code: string | null) => Discount | null;
-  applyDiscount: (discount: Discount | null) => number;
 }
 
-function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems, discount, setDiscount, getDiscountByCode, applyDiscount }: UserCartPageProps) {
+function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems, discount, setLastVoucher, getDiscountByCode }: UserCartPageProps) {
   const navigate = useNavigate();
-  const recommendListRef = useRef<HTMLDivElement>(null);
-  const [activeBtn, setActiveBtn] = useState<string | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const scrollDistance = 750;
-
-  const recommendItems: Product[] = filterRecommend(products, userCart);
-
+  
+  // CheckedItems Handlers
   useEffect(() => {
     setCheckedItems(userCart
       .filter(item => item.product && item.product.stock > 0)
@@ -50,26 +43,25 @@ function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart
     );
   };
 
-  const [lastVoucher, setLastVoucher] = useState<string | null>(null);
+  // Voucher Handlers
+  const [voucherData, setVoucherData] = useState<string | null>(null);
   const handleVoucherApply = () => {
-    const curVoucher = lastVoucher;
-    if (getDiscountByCode(curVoucher)) {
-      setDiscount(applyDiscount(getDiscountByCode(curVoucher)));
+    if (getDiscountByCode(voucherData)) {
+      setLastVoucher(voucherData);
     } else {
-      setDiscount(0);
+      setLastVoucher(null);
     }
   };
 
-  useEffect(() => {
-    if (lastVoucher && getDiscountByCode(lastVoucher)) {
-      setDiscount(applyDiscount(getDiscountByCode(lastVoucher)));
-    } else {
-      setDiscount(0);
-    }
-  }, [checkedItems, userCart]);
-
   const checkedTotal = getCheckedTotal();
   const tmpPrice = checkedTotal - discount;
+
+  // Scroll Handlers
+  const recommendListRef = useRef<HTMLDivElement>(null);
+  const recommendItems: Product[] = filterRecommend(products, userCart);
+  const [activeBtn, setActiveBtn] = useState<string | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollDistance = 750;
 
   const handleScrollLeft = () => {
     if (recommendListRef.current) {
@@ -91,7 +83,7 @@ function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart
     const list = recommendListRef.current;
     if (!list) return;
 
-    if (list.scrollWidth - list.scrollLeft === list.clientWidth) {
+    if (Math.abs(list.scrollWidth - list.clientWidth - list.scrollLeft) < 2) {
       list.scrollTo({
         left: 0,
         behavior: "smooth",
@@ -183,10 +175,15 @@ function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart
         <div className="voucher-bill">
           <p className="voucher-title">NHẬP MÃ KHUYẾN MÃI</p>
           <div className="voucher-input">
-            <input type="text" value={lastVoucher || ""} onChange={e => setLastVoucher(e.target.value.toUpperCase())} />
+            <input type="text"
+              onBlur={e => {
+                setVoucherData(e.target.value.trim().toUpperCase());
+                handleVoucherApply();
+              }}
+            />
             <button className="apply-voucher-btn" onClick={handleVoucherApply}>ÁP DỤNG</button>
           </div>
-          {getDiscountByCode(lastVoucher) === null && lastVoucher?.length!==0 &&
+          {getDiscountByCode(voucherData) === null && voucherData?.length !== 0 &&
             <p className="voucher-note">*Vui lòng nhập đúng mã khuyến mãi để được giảm giá</p>
           }
         </div>
