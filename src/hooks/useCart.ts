@@ -1,7 +1,7 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 import Product from "../models/Product";
 import CartItem from "../models/CartItem";
-import { CartDetail } from "../types/CartDetail";
+import CartDetail from "../models/CartDetail";
 import Cookies from 'js-cookie'
 import { toast } from "react-toastify";
 
@@ -50,7 +50,9 @@ export function useCart(products: Product[]) {
     }
   };
 
+  // lưu cart vào cookie
   const CART_COOKIE_KEY = 'user_cart';
+
   useEffect(() => {
     const savedCart = Cookies.get(CART_COOKIE_KEY);
     if (savedCart) {
@@ -63,17 +65,14 @@ export function useCart(products: Product[]) {
     Cookies.set(CART_COOKIE_KEY, JSON.stringify(cart), { expires: 7, path: "/" });
   }, [cart]);
 
-  // chi tiết cart (gắn product cho từng CartItem)
+  // gắn Product cho từng CartItem → CartDetail
   const cartDetails: CartDetail[] = useMemo(() => {
     const productMap = new Map(products.map(p => [p.code, p]));
     return cart
       .map(item => {
         const product = productMap.get(item.code);
         if (!product) return null;
-        return {
-          ...item,
-          product: product,
-        } as CartDetail;
+        return new CartDetail(item.code, item.qty, product);
       })
       .filter((item): item is CartDetail => item !== null);
   }, [cart, products]);
@@ -83,7 +82,8 @@ export function useCart(products: Product[]) {
     setCart((prev) => {
       const idx = prev.findIndex((item) => item.code === product.code);
       let updated = [...prev];
-      //sản phẩm có trong giỏ
+
+      // sản phẩm có trong giỏ
       if (idx >= 0) {
         const newQty = updated[idx].qty + qty;
         updated[idx] = new CartItem(product.code, Math.min(newQty, product.stock));
@@ -100,6 +100,7 @@ export function useCart(products: Product[]) {
         }
         return updated;
       }
+
       // sản phẩm chưa có trong giỏ
       if (product.stock > 0) {
         enqueueMsg(
@@ -110,12 +111,12 @@ export function useCart(products: Product[]) {
         );
         return [new CartItem(product.code, Math.min(qty, product.stock)), ...prev];
       }
+
       // sản phẩm đã hết hàng
       enqueueMsg({ type: "error", text: "Sản phẩm đã hết hàng" }, product.code);
       return prev;
     });
   };
-
 
   // xoá sản phẩm
   const removeFromCart = (code: string) => {
@@ -125,17 +126,11 @@ export function useCart(products: Product[]) {
   // cập nhật số lượng
   const updateQty = (code: string, qty: number) => {
     setCart(prev =>
-      prev.map(item =>
-        item.code === code ? new CartItem(item.code, qty) : item
-      ).filter(item => item.qty > 0)
+      prev
+        .map(item => (item.code === code ? new CartItem(item.code, qty) : item))
+        .filter(item => item.qty > 0)
     );
   };
 
-  // tính tổng tiền 1 item
-  const getItemTotal = (item: CartItem) => {
-    const product = products.find(p => p.code === item.code);
-    return product ? product.price * item.qty : 0;
-  };
-
-  return { setCart, cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode };
+  return { setCart, cartDetails, addToCart, removeFromCart, updateQty, resetLastCode };
 }

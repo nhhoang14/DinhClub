@@ -1,7 +1,5 @@
 import Product from "../models/Product";
-import CartItem from "../models/CartItem";
-
-export type CartDetail = CartItem & { product: Product };
+import CartDetail from "../models/CartDetail";
 
 // Sắp xếp các mặt hàng trong giỏ hàng
 export function sortCartItems(cart: CartDetail[]): CartDetail[] {

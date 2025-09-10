@@ -4,14 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { sortCartItems, filterRecommend } from "../utils/sortHelpers";
 import RecommendItem from '../components/RecommendItem';
 import UserCartCard from '../components/UserCartCard';
-import { CartDetail } from '../types/CartDetail';
+import CartDetail from '../models/CartDetail';
 import Product from '../models/Product';
 import Discount from '../models/Discount';
 
 interface UserCartPageProps {
   products: Product[];
   userCart: CartDetail[];
-  getItemTotal: (item: CartDetail) => number;
   addToCart: (product: Product, qty: number) => void;
   updateQty: (code: string, qty: number) => void;
   removeFromCart: (code: string) => void;
@@ -20,10 +19,13 @@ interface UserCartPageProps {
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   getCheckedTotal: () => number;
   notifyCheckedItems: () => boolean;
-  applyDiscount: (CartDetails: CartDetail[], discount: Discount) => number;
+  discount: number;
+  setDiscount: React.Dispatch<React.SetStateAction<number>>;
+  getDiscountByCode: (code: string | null) => Discount | null;
+  applyDiscount: (discount: Discount | null) => number;
 }
 
-function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems, applyDiscount }: UserCartPageProps) {
+function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems, discount, setDiscount, getDiscountByCode, applyDiscount }: UserCartPageProps) {
   const navigate = useNavigate();
   const recommendListRef = useRef<HTMLDivElement>(null);
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
@@ -48,7 +50,24 @@ function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, 
     );
   };
 
-  const discount = 100000;
+  const [lastVoucher, setLastVoucher] = useState<string | null>(null);
+  const handleVoucherApply = () => {
+    const curVoucher = lastVoucher;
+    if (getDiscountByCode(curVoucher)) {
+      setDiscount(applyDiscount(getDiscountByCode(curVoucher)));
+    } else {
+      setDiscount(0);
+    }
+  };
+
+  useEffect(() => {
+    if (lastVoucher && getDiscountByCode(lastVoucher)) {
+      setDiscount(applyDiscount(getDiscountByCode(lastVoucher)));
+    } else {
+      setDiscount(0);
+    }
+  }, [checkedItems, userCart]);
+
   const checkedTotal = getCheckedTotal();
   const tmpPrice = checkedTotal - discount;
 
@@ -143,7 +162,6 @@ function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, 
               <UserCartCard
                 key={item.code}
                 cartItem={item}
-                getItemTotal={getItemTotal}
                 updateQty={qty => updateQty(item.code, qty)}
                 removeFromCart={() => removeFromCart(item.code)}
                 onOpen={onOpen}
@@ -165,9 +183,12 @@ function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, 
         <div className="voucher-bill">
           <p className="voucher-title">NHẬP MÃ KHUYẾN MÃI</p>
           <div className="voucher-input">
-            <input type="text" />
-            <button className="apply-voucher-btn">ÁP DỤNG</button>
+            <input type="text" value={lastVoucher || ""} onChange={e => setLastVoucher(e.target.value.toUpperCase())} />
+            <button className="apply-voucher-btn" onClick={handleVoucherApply}>ÁP DỤNG</button>
           </div>
+          {getDiscountByCode(lastVoucher) === null && lastVoucher?.length!==0 &&
+            <p className="voucher-note">*Vui lòng nhập đúng mã khuyến mãi để được giảm giá</p>
+          }
         </div>
         <ul className="bill-detail">
           <li>

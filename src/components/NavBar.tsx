@@ -3,17 +3,16 @@ import logo from '../images/logo.png';
 import { Link, useLocation } from 'react-router-dom';
 import MiniCart from './MiniCart';
 import Product from '../models/Product';
-import { CartDetail } from '../types/CartDetail';
+import CartDetail from '../models/CartDetail';
 
 interface NavBarProps {
   userCart: CartDetail[];
-  getItemTotal: (item: CartDetail) => number;
   updateQty: (code: string, qty: number) => void;
   removeFromCart: (code: string) => void;
   onOpen: (product: Product) => void;
 }
 
-function NavBar({ userCart, getItemTotal, updateQty, removeFromCart, onOpen }: NavBarProps) {
+function NavBar({ userCart, updateQty, removeFromCart, onOpen }: NavBarProps) {
   const location = useLocation();
 
   const handleTopClick = () => {
@@ -46,7 +45,6 @@ function NavBar({ userCart, getItemTotal, updateQty, removeFromCart, onOpen }: N
       <div className="nav-cart">
         <MiniCart
           userCart={userCart}
-          getItemTotal={getItemTotal}
           updateQty={updateQty}
           removeFromCart={removeFromCart}
           onOpen={onOpen}

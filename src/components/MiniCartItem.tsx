@@ -1,7 +1,7 @@
 import '../css/MiniCartItem.css'
 import { useState, useEffect } from 'react';
 import Product from '../models/Product';
-import { CartDetail } from '../types/CartDetail';
+import CartDetail from '../models/CartDetail';
 
 interface MiniCartItemProps {
   cartItem: CartDetail;

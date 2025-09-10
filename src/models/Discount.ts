@@ -1,27 +1,29 @@
-export default class Discount {
-  id: number;
-  code: string;
-  type: 'fixed' | 'percentage';
-  value: number;
-  apply: string;
-  minSubtotal: number;
-  maxDiscount: number;
+import CartDetail from './CartDetail';
 
+export default class Discount {
   constructor(
-    id: number,
-    code: string,
-    type: 'fixed' | 'percentage',
-    value: number,
-    apply: string,
-    minSubtotal: number,
-    maxDiscount: number
-  ) {
-    this.id = id;
-    this.code = code;
-    this.type = type;
-    this.value = value;
-    this.apply = apply;
-    this.minSubtotal = minSubtotal;
-    this.maxDiscount = maxDiscount;
+    public id: number,
+    public code: string,
+    public type: 'fixed' | 'percentage',
+    public value: number,
+    public apply: string,
+    public minSubtotal: number,
+    public maxDiscount: number
+  ) { }
+
+  calculate(cart: CartDetail[]): number {
+    const filteredCart = this.apply === "all"
+      ? cart
+      : cart.filter(item => item.product.type === this.apply);
+    const subtotal = filteredCart.reduce((acc, item) => acc + item.totalPrice, 0);
+
+    if (subtotal < this.minSubtotal) return 0;
+
+    const discountAmount =
+      this.type === 'fixed'
+        ? this.value
+        : (subtotal * this.value) / 100;
+
+    return Math.min(discountAmount, this.maxDiscount);
   }
 }

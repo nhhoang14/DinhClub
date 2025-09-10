@@ -71,12 +71,12 @@ const Discounts = [
 
 function App() {
   const { consent } = useCookieConsent();
-  const { setCart, cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode } = useCart(Products);
+  const { setCart, cartDetails, addToCart, removeFromCart, updateQty, resetLastCode } = useCart(Products);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const { checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems } = useCheckedItems({cartDetails, getItemTotal});
+  const { checkedCart, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems } = useCheckedItems(cartDetails);
   const [closeCookieBanner, setCloseCookieBanner] = useState(false);
-  const { applyDiscount } = useDiscount(Discounts);
-
+  const { getDiscountByCode, applyDiscount } = useDiscount(Discounts, checkedCart);
+  const [discount, setDiscount] = useState<number>(0);
   return (
     <div className="App">
       {consent === null && !closeCookieBanner && (
@@ -84,7 +84,6 @@ function App() {
       )}
       <NavBar
         userCart={cartDetails}
-        getItemTotal={getItemTotal}
         updateQty={updateQty}
         removeFromCart={removeFromCart}
         onOpen={setSelectedProduct}
@@ -103,7 +102,6 @@ function App() {
             <UserCartPage
               products={Products}
               userCart={cartDetails}
-              getItemTotal={getItemTotal}
               addToCart={addToCart}
               updateQty={updateQty}
               removeFromCart={removeFromCart}
@@ -112,6 +110,9 @@ function App() {
               setCheckedItems={setCheckedItems}
               getCheckedTotal={getCheckedTotal}
               notifyCheckedItems={notifyCheckedItems}
+              discount={discount}
+              setDiscount={setDiscount}
+              getDiscountByCode={getDiscountByCode}
               applyDiscount={applyDiscount}
             />
           } />
@@ -119,9 +120,9 @@ function App() {
             <Checkout
               getCheckedTotal={getCheckedTotal}
               setCart={setCart}
-              userCart={cartDetails}
-              getItemTotal={getItemTotal}
               checkedItems={checkedItems}
+              checkedCart={checkedCart}
+              discount={discount}
               notifyCheckedItems={notifyCheckedItems}
             />
           } />

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import '../css/UserCartCard.css';
 import Product from '../models/Product';
-import { CartDetail } from '../types/CartDetail';
+import CartDetail from '../models/CartDetail';
 
 interface UserCartCardProps {
     cartItem: CartDetail;
-    getItemTotal: (item: CartDetail) => number;
     updateQty: (qty: number) => void;
     removeFromCart: () => void;
     onOpen: (product: Product) => void;
@@ -13,13 +12,12 @@ interface UserCartCardProps {
     onCheck: () => void;
 }
 
-function UserCartCard({ cartItem, getItemTotal, updateQty, removeFromCart, onOpen, checked, onCheck }: UserCartCardProps) {
+function UserCartCard({ cartItem, updateQty, removeFromCart, onOpen, checked, onCheck }: UserCartCardProps) {
     const [error, setError] = useState<string>('');
     const [inputQty, setInputQty] = useState<number>(cartItem.qty);
     if (!cartItem.product) {
         return <div className="user-cart-card error">Sản phẩm không tồn tại</div>;
     }
-
 
     useEffect(() => {
         setInputQty(cartItem.qty);
@@ -92,7 +90,7 @@ function UserCartCard({ cartItem, getItemTotal, updateQty, removeFromCart, onOpe
                     </div>
                 </div>
                 <div className="card-overall-info">
-                    <p className="card-total-price">{getItemTotal(cartItem).toLocaleString('vi-VN')} VND</p>
+                    <p className="card-total-price">{cartItem.totalPrice.toLocaleString('vi-VN')} VND</p>
                     <p className="card-status">{cartItem.product && cartItem.product.stock > 0 ? "Còn hàng" : "Hết hàng"}</p>
                     <button
                         className={`card-status-btn card-check-btn${checked ? " active" : ""}`}

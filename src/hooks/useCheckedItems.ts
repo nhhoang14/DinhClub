@@ -1,13 +1,8 @@
-import { useEffect, useState } from "react";
-import { CartDetail } from "../types/CartDetail";
+import { useEffect, useState, useMemo } from "react";
+import CartDetail from "../models/CartDetail";
 import { useShowToast } from "./useShowToast";
 
-type UseCheckedItemsResult = {
-  cartDetails: CartDetail[];
-  getItemTotal: (item: CartDetail) => number;
-};
-
-export function useCheckedItems({ cartDetails, getItemTotal }: UseCheckedItemsResult) {
+export function useCheckedItems(cartDetails: CartDetail[]) {
   const [checkedItems, setCheckedItems] = useState<string[]>(
     cartDetails.map(item => item.code)
   );
@@ -23,7 +18,7 @@ export function useCheckedItems({ cartDetails, getItemTotal }: UseCheckedItemsRe
   const getCheckedTotal = () => {
     return cartDetails
       .filter(item => checkedItems.includes(item.code))
-      .reduce((total, item) => total + getItemTotal(item), 0);
+      .reduce((total, item) => total + item.totalPrice, 0);
   };
 
   const notifyCheckedItems = (): boolean => {
@@ -41,5 +36,10 @@ export function useCheckedItems({ cartDetails, getItemTotal }: UseCheckedItemsRe
     return true;
   };
 
-  return { checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems };
+  const checkedCart = useMemo(
+    () => cartDetails.filter(item => checkedItems.includes(item.code)),
+    [cartDetails, checkedItems]
+  );
+
+  return { checkedCart, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems };
 }

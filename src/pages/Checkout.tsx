@@ -1,6 +1,6 @@
 import '../css/Checkout.css';
 import { useRef, useState } from "react";
-import { CartDetail } from '../types/CartDetail';
+import CartDetail from '../models/CartDetail';
 import CartItem from '../models/CartItem';
 import { toast } from "react-toastify";
 import { useVietnamAddress } from "../hooks/useVietnamAddress";
@@ -9,16 +9,15 @@ import QRCode from "react-qr-code";
 interface CheckoutProps {
   getCheckedTotal: () => number;
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
-  userCart: CartDetail[];
-  getItemTotal: (item: CartDetail) => number;
   checkedItems: string[];
+  checkedCart: CartDetail[];
+  discount: number;
   notifyCheckedItems: () => boolean;
 }
 
-function Checkout({ getCheckedTotal, setCart, userCart, getItemTotal, checkedItems, notifyCheckedItems }: CheckoutProps) {
+function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discount, notifyCheckedItems }: CheckoutProps) {
   const { provinces, districts, wards, handleCityChange, handleDistrictChange } = useVietnamAddress();
   const shippingFee = 50000;
-  const discount = 100000;
   const finalTotal = getCheckedTotal() - discount + shippingFee;
 
   const isToastActiveRef = useRef(false);
@@ -277,15 +276,14 @@ function Checkout({ getCheckedTotal, setCart, userCart, getItemTotal, checkedIte
 
         {/* order-items */}
         <div className="order-items">
-          {checkedItems.map(code => {
-            const item = userCart.find(item => item.product.code === code);
+          {checkedCart.map(item => {
             return item ? (
               <div key={item.product.id} className="order-item">
                 <span className="order-item-details">
                   <span className="order-item-name">{item.product.name}</span>
                   <span className="order-price order-item-quantity">{item.product.price.toLocaleString('vi-VN')} x {item.qty}</span>
                 </span>
-                <span className="order-price order-item-total">{getItemTotal(item).toLocaleString('vi-VN')} VND</span>
+                <span className="order-price order-item-total">{item.totalPrice.toLocaleString('vi-VN')} VND</span>
               </div>
             ) : null;
           })}
