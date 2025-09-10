@@ -1,7 +1,7 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 import Product from "../models/Product";
 import CartItem from "../models/CartItem";
-import { CartDetail } from "../models/CartDetail";
+import { CartDetail } from "../types/CartDetail";
 import Cookies from 'js-cookie'
 import { toast } from "react-toastify";
 

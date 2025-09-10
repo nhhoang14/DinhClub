@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CartDetail } from "../models/CartDetail";
+import { CartDetail } from "../types/CartDetail";
 import { useShowToast } from "./useShowToast";
 
 type UseCheckedItemsResult = {

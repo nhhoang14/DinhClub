@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { sortCartItems } from "../utils/sortHelpers";
 import MiniCartItem from '../components/MiniCartItem';
 import Product from '../models/Product';
-import { CartDetail } from '../models/CartDetail';
+import { CartDetail } from '../types/CartDetail';
 
 interface MiniCartProps {
   userCart: CartDetail[];

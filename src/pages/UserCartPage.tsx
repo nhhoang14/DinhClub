@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { sortCartItems, filterRecommend } from "../utils/sortHelpers";
 import RecommendItem from '../components/RecommendItem';
 import UserCartCard from '../components/UserCartCard';
-import { CartDetail } from '../models/CartDetail';
+import { CartDetail } from '../types/CartDetail';
 import Product from '../models/Product';
+import Discount from '../models/Discount';
 
 interface UserCartPageProps {
   products: Product[];
@@ -19,9 +20,10 @@ interface UserCartPageProps {
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   getCheckedTotal: () => number;
   notifyCheckedItems: () => boolean;
+  applyDiscount: (CartDetails: CartDetail[], discount: Discount) => number;
 }
 
-function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems }: UserCartPageProps) {
+function UserCartPage({ products, userCart, getItemTotal, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems, applyDiscount }: UserCartPageProps) {
   const navigate = useNavigate();
   const recommendListRef = useRef<HTMLDivElement>(null);
   const [activeBtn, setActiveBtn] = useState<string | null>(null);

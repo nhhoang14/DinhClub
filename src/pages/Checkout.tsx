@@ -1,6 +1,6 @@
 import '../css/Checkout.css';
 import { useRef, useState } from "react";
-import { CartDetail } from '../models/CartDetail';
+import { CartDetail } from '../types/CartDetail';
 import CartItem from '../models/CartItem';
 import { toast } from "react-toastify";
 import { useVietnamAddress } from "../hooks/useVietnamAddress";

@@ -3,7 +3,7 @@ import logo from '../images/logo.png';
 import { Link, useLocation } from 'react-router-dom';
 import MiniCart from './MiniCart';
 import Product from '../models/Product';
-import { CartDetail } from '../models/CartDetail';
+import { CartDetail } from '../types/CartDetail';
 
 interface NavBarProps {
   userCart: CartDetail[];

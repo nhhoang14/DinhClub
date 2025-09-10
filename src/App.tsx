@@ -5,6 +5,8 @@ import { useCart } from './hooks/useCart'
 import { useCookieConsent } from './hooks/useCookieConsent'
 import { useCheckedItems } from './hooks/useCheckedItems'
 import { ToastContainer, Bounce } from "react-toastify";
+import { useDiscount } from './hooks/useDiscount'
+import Discount from './models/Discount'
 import BannerCookies from './components/BannerCookies'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
@@ -61,12 +63,19 @@ const Products: Product[] = [
   new Product(19, dbblueblack_st, null, "Dính Blue Black", "Sticker", "ST09", 3, 59000, "#050706"),
 ];
 
+const Discounts = [
+  new Discount(1, "SUMMER10", "percentage", 10, "Sticker", 100000, 30000),
+  new Discount(2, "KEYCHAIN20", "percentage", 20, "Keychain", 200000, 50000),
+  new Discount(3, "WELCOME50K", "fixed", 50000, "all", 300000, 50000),
+];
+
 function App() {
   const { consent } = useCookieConsent();
   const { setCart, cartDetails, addToCart, removeFromCart, updateQty, getItemTotal, resetLastCode } = useCart(Products);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems } = useCheckedItems({cartDetails, getItemTotal});
   const [closeCookieBanner, setCloseCookieBanner] = useState(false);
+  const { applyDiscount } = useDiscount(Discounts);
 
   return (
     <div className="App">
@@ -103,6 +112,7 @@ function App() {
               setCheckedItems={setCheckedItems}
               getCheckedTotal={getCheckedTotal}
               notifyCheckedItems={notifyCheckedItems}
+              applyDiscount={applyDiscount}
             />
           } />
           <Route path="/shipping-information" element={

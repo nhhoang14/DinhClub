@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../css/UserCartCard.css';
 import Product from '../models/Product';
-import { CartDetail } from '../models/CartDetail';
+import { CartDetail } from '../types/CartDetail';
 
 interface UserCartCardProps {
     cartItem: CartDetail;
