@@ -26,7 +26,7 @@ interface UserCartPageProps {
 
 function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart, onOpen, checkedItems, setCheckedItems, getCheckedTotal, notifyCheckedItems, discount, setLastVoucher, getDiscountByCode }: UserCartPageProps) {
   const navigate = useNavigate();
-  
+
   // CheckedItems Handlers
   useEffect(() => {
     setCheckedItems(userCart
@@ -44,12 +44,15 @@ function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart
   };
 
   // Voucher Handlers
+  const [error, setError] = useState<boolean>(false);
   const [voucherData, setVoucherData] = useState<string | null>(null);
   const handleVoucherApply = () => {
     if (getDiscountByCode(voucherData)) {
       setLastVoucher(voucherData);
+      setError(false);
     } else {
       setLastVoucher(null);
+      setError(true);
     }
   };
 
@@ -177,13 +180,17 @@ function UserCartPage({ products, userCart, addToCart, updateQty, removeFromCart
           <div className="voucher-input">
             <input type="text"
               onBlur={e => {
-                setVoucherData(e.target.value.trim().toUpperCase());
-                handleVoucherApply();
+                const value = e.target.value.trim().toUpperCase();
+                setVoucherData(value);
+                if (!value) {
+                  setError(false);
+                  setLastVoucher(null);
+                }
               }}
             />
             <button className="apply-voucher-btn" onClick={handleVoucherApply}>ÁP DỤNG</button>
           </div>
-          {getDiscountByCode(voucherData) === null && voucherData?.length !== 0 &&
+          {error &&
             <p className="voucher-note">*Vui lòng nhập đúng mã khuyến mãi để được giảm giá</p>
           }
         </div>
