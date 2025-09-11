@@ -4,6 +4,8 @@ import CartDetail from '../models/CartDetail';
 import CartItem from '../models/CartItem';
 import { toast } from "react-toastify";
 import { useVietnamAddress } from "../hooks/useVietnamAddress";
+import { useShippingFee } from "../hooks/useShippingFee";
+import { ShippingFee, ShippingMethod } from "../types/typeShippingFee";
 import QRCode from "react-qr-code";
 
 interface CheckoutProps {
@@ -17,9 +19,8 @@ interface CheckoutProps {
 
 function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discountValue, notifyCheckedItems }: CheckoutProps) {
   const { provinces, districts, wards, handleCityChange, handleDistrictChange } = useVietnamAddress();
-  const shippingFee = 50000;
-  const finalTotal = getCheckedTotal() - discountValue + shippingFee;
 
+  // Quản lý toast
   const isToastActiveRef = useRef(false);
 
   function showToast(type: "success" | "warning" | "error" | "info", text: string) {
@@ -34,8 +35,11 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
     });
   }
 
+  // Mã QR tĩnh để test
   const paymentCode = "00020101021138570010A000000727012700069704220113VQRQACUZG42300208QRIBFTTA53037045802VN62150107NPS6869080063043993";
   const [cardCode, setCardCode] = useState<string | null>(null);
+
+  // Đánh dấu đã tương tác với các trường
   const [touched, setTouched] = useState<Record<string, boolean>>({
     name: false,
     phone: false,
@@ -46,24 +50,67 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
     ward: false,
   });
 
+  // Đánh dấu đã tương tác
+  const markTouched = (field: keyof typeof touched) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+  };
+
+  // State cho các trường thông tin giao hàng
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+    city: "",
+    district: "",
+    ward: "",
+    agree: false,
+    paymentOption: "cod",
+    shippingMethod: "ghn",
+  });
+
+  // Hàm cập nhật state khi thay đổi input
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const target = e.target as HTMLInputElement | HTMLSelectElement;
+    const { name, value, type } = target;
+    const checked = (type === "checkbox") ? (target as HTMLInputElement).checked : undefined;
+    setForm(prev => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
+    }));
+  };
+
+  // Xử lý khi nhấn Enter
+  const keyboardHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const input = e.target as HTMLInputElement;
+      input.value = input.value.trim().replace(/\s+/g, " ");
+      input.blur();
+    }
+  };
+
+  // Tinh toán đơn hàng
+  const shippingPrice: ShippingFee = useShippingFee(form.city);
+  const shippingFee = shippingPrice[form.shippingMethod as ShippingMethod];
+  const finalTotal = getCheckedTotal() - discountValue + shippingFee;
+
+  // Xử lý submit form
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTouched(
       Object.fromEntries(Object.keys(touched).map((field) => [field, true])) as Record<string, boolean>
     );
 
-    const formData = new FormData(e.currentTarget);
-    const paymentOption = formData.get("paymentOption")?.toString() || "";
-
-    // Kiểm tra tính hợp lệ của form
-    const isValid = e.currentTarget.checkValidity();
-    if (!isValid) return;
-
-    // Kiểm tra sản phẩm đã chọn và số lượng
+    // Validate và xử lý logic với form state
+    if (!form.name || !form.phone || !form.email || !form.address || !form.city || !form.district || !form.ward) {
+      showToast("warning", "Vui lòng nhập đầy đủ thông tin giao hàng");
+      return;
+    }
     if (!notifyCheckedItems()) return;
 
     // Xử lý thanh toán
-    if (paymentOption === "card") {
+    if (form.paymentOption === "card") {
       const code = "DC" + Math.random().toString(36).substring(2, 8).toUpperCase();
       setCardCode(code);
       showToast("info", `Vui lòng quét mã QR để thanh toán. Mã giao dịch: ${code}`);
@@ -72,27 +119,20 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
 
     // Thành công
     showToast("success", "Đặt hàng thành công! Cảm ơn bạn đã mua hàng tại Dính Club.");
-    setTouched(
-      Object.fromEntries(Object.keys(touched).map((field) => [field, false])) as Record<string, boolean>
-    );
-    e.currentTarget.reset();
-    setCardCode(null);
-
-    // Loại các sản phẩm trùng checkedItems khỏi cart
     setCart(prev => prev.filter(item => !checkedItems.includes(item.code)));
-  };
-
-  const markTouched = (field: keyof typeof touched) => {
-    setTouched(prev => ({ ...prev, [field]: true }));
-  };
-
-  const keyboardHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const input = e.target as HTMLInputElement;
-      input.value = input.value.trim().replace(/\s+/g, " ");
-      input.blur();
-    }
+    setCardCode(null);
+    setForm({
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
+      city: "",
+      district: "",
+      ward: "",
+      agree: false,
+      paymentOption: "cod",
+      shippingMethod: "ghn",
+    });
   };
 
   return (
@@ -111,6 +151,8 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
               style={{ textTransform: 'capitalize' }}
               type="text"
               name="name"
+              value={form.name}
+              onChange={handleChange}
               placeholder="Họ và tên"
               onKeyDown={keyboardHandler}
               onInput={
@@ -129,6 +171,8 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
             <input className="form-control"
               type="tel"
               name="phone"
+              value={form.phone}
+              onChange={handleChange}
               placeholder="Số điện thoại"
               onKeyDown={keyboardHandler}
               onInput={
@@ -148,6 +192,8 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
             <input className="form-control"
               type="email"
               name="email"
+              value={form.email}
+              onChange={handleChange}
               placeholder="Email"
               onKeyDown={keyboardHandler}
               onInput={(e) => {
@@ -165,6 +211,8 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
             <input className="form-control"
               type="text"
               name="address"
+              value={form.address}
+              onChange={handleChange}
               placeholder="Địa chỉ"
               onKeyDown={keyboardHandler}
               onInput={
@@ -181,10 +229,14 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
           <div className="field-wrapper">
             <select className={`form-control city-select ${touched["city"] ? "" : "untouched"}`}
               name="city"
-              onChange={(e) => {
-                markTouched("city");
-                handleCityChange(e);
-              }}
+              value={form.city}
+              onChange={
+                (e) => {
+                  handleCityChange(e);
+                  setForm(prev => ({ ...prev, city: e.target.value, district: "", ward: "" }));
+                  markTouched("city");
+                }
+              }
               required
             >
               <option value="">Tỉnh / Thành phố</option>
@@ -196,10 +248,14 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
           <div className="field-wrapper address-detail-city">
             <select className={`form-control district-select ${touched["district"] ? "" : "untouched"}`}
               name="district"
-              onChange={(e) => {
-                markTouched("district");
-                handleDistrictChange(e);
-              }}
+              value={form.district}
+              onChange={
+                (e) => {
+                  handleDistrictChange(e);
+                  setForm(prev => ({ ...prev, district: e.target.value, ward: "" }));
+                  markTouched("district");
+                }
+              }
               required
             >
               <option value="">Quận / Huyện</option>
@@ -209,7 +265,13 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
             </select>
             <select className={`form-control ward-select ${touched["ward"] ? "" : "untouched"}`}
               name="ward"
-              onChange={() => markTouched("ward")}
+              value={form.ward}
+              onChange={
+                (e) => {
+                  setForm(prev => ({ ...prev, ward: e.target.value }));
+                  markTouched("ward");
+                }
+              }
               required
             >
               <option value="">Phường / Xã</option>
@@ -221,7 +283,7 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
 
           {/* subscribe-checkbox */}
           <label>
-            <input type="checkbox" className="custom-checkbox" name="agree" value="yes" />
+            <input type="checkbox" className="custom-checkbox" name="agree" checked={form.agree} onChange={handleChange} value="yes" />
             <span>Cập nhật các thông tin mới nhất về chương trình từ Dính Club</span>
           </label>
         </div>
@@ -231,19 +293,19 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
           <p>PHƯƠNG THỨC VẬN CHUYỂN</p>
           <div className="shipping-method">
             <label>
-              <input type="radio" className="custom-radio" name="shippingMethod" value="ghn" defaultChecked />
+              <input type="radio" className="custom-radio" name="shippingMethod" value="ghn" checked={form.shippingMethod === "ghn"} onChange={handleChange} />
               <span>Tốc độ tiêu chuẩn (từ 2 - 5 ngày làm việc)</span>
-              <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
+              <span className="order-price">{shippingPrice.ghn.toLocaleString('vi-VN')} VND</span>
             </label>
             <label>
-              <input type="radio" className="custom-radio" name="shippingMethod" value="ghtk" />
-              <span>Giao hàng tiết kiệm (từ 3 - 7 ngày làm việc)</span>
-              <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
+              <input type="radio" className="custom-radio" name="shippingMethod" value="ghtk" checked={form.shippingMethod === "ghtk"} onChange={handleChange} />
+              <span>Giao hàng tiết kiệm (từ 4 - 7 ngày làm việc)</span>
+              <span className="order-price">{shippingPrice.ghtk.toLocaleString('vi-VN')} VND</span>
             </label>
             <label>
-              <input type="radio" className="custom-radio" name="shippingMethod" value="ghht" />
+              <input type="radio" className="custom-radio" name="shippingMethod" value="ghht" checked={form.shippingMethod === "ghht"} onChange={handleChange} />
               <span>Hỏa tốc (từ 1 - 3 ngày làm việc)</span>
-              <span className="order-price">{shippingFee.toLocaleString('vi-VN')} VND</span>
+              <span className="order-price">{shippingPrice.ghht.toLocaleString('vi-VN')} VND</span>
             </label>
           </div>
         </div>
@@ -253,14 +315,14 @@ function Checkout({ getCheckedTotal, setCart, checkedItems, checkedCart, discoun
           <p>PHƯƠNG THỨC THANH TOÁN</p>
           <div className="payment-method">
             <label>
-              <input type="radio" className="custom-radio" name="paymentOption" value="cod" defaultChecked />
+              <input type="radio" className="custom-radio" name="paymentOption" value="cod" checked={form.paymentOption === "cod"} onChange={handleChange} />
               <span>Thanh toán trực tiếp khi nhận hàng</span>
               <span className="material-symbols-outlined payment-icon">
                 delivery_truck_speed
               </span>
             </label>
             <label>
-              <input type="radio" className="custom-radio" name="paymentOption" value="card" />
+              <input type="radio" className="custom-radio" name="paymentOption" value="card" checked={form.paymentOption === "card"} onChange={handleChange} />
               <span>Thanh toán bằng Thẻ quốc tế / Thẻ nội địa / QR Code</span>
               <span className="material-symbols-outlined payment-icon">
                 credit_card
